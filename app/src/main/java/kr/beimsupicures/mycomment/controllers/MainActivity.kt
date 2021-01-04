@@ -44,7 +44,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity() {
 
-    //앗츄
     val navController: NavController by lazy {
         Navigation.findNavController(
             this,
