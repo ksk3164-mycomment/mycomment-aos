@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/nicknameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="@font/gyeonggi_batang_r"
+        android:lineSpacingMultiplier="1.5"
+        android:text="닉네임"
+        android:textColor="@color/colorTextContent"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/nicknameWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_input_single"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameLabel">
+
+        <EditText
+            android:id="@+id/nicknameField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorWhite"
+            android:ems="10"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:hint="닉네임을 입력해주세요."
+            android:inputType="textPersonName"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/birthLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/gyeonggi_batang_r"
+        android:lineSpacingMultiplier="1.5"
+        android:text="생년월일 (선택)"
+        android:textColor="@color/colorTextContent"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameWrapperView" />
+
+    <RelativeLayout
+        android:id="@+id/birthWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_input_single"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthLabel">
+
+        <EditText
+            android:id="@+id/birthField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorWhite"
+            android:clickable="true"
+            android:editable="false"
+            android:ems="10"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:hint="생년월일을 선택해주세요."
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/genderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/gyeonggi_batang_r"
+        android:lineSpacingMultiplier="1.5"
+        android:text="성별 (선택)"
+        android:textColor="@color/colorTextContent"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthWrapperView" />
+
+    <RelativeLayout
+        android:id="@+id/genderWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_input_single"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderLabel">
+
+        <EditText
+            android:id="@+id/genderField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorWhite"
+            android:clickable="true"
+            android:editable="false"
+            android:ems="10"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:hint="성별을 선택해주세요."
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottomWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_button_enable"
+        app:layout_constraintTop_toBottomOf="@+id/genderWrapperView">
+
+        <TextView
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="다음"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

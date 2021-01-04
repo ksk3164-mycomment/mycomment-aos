@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/titleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/gyeonggi_batang_r"
+                android:lineSpacingMultiplier="1.5"
+                android:text="방제목"
+                android:textColor="@color/colorTextContent"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/titleWrapperView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_input_single"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleLabel">
+
+                <EditText
+                    android:id="@+id/titleField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:fontFamily="@font/gyeonggi_batang_r"
+                    android:hint="제목을 입력해주세요."
+                    android:inputType="text"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/contentLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/gyeonggi_batang_r"
+                android:lineSpacingMultiplier="1.5"
+                android:text="공지글"
+                android:textColor="@color/colorTextContent"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleWrapperView" />
+
+            <RelativeLayout
+                android:id="@+id/contentWrapperView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_input_single"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contentLabel">
+
+                <EditText
+                    android:id="@+id/contentField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:fontFamily="@font/gyeonggi_batang_r"
+                    android:hint="공지내용을 입력해주세요."
+                    android:inputType="text"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/categoryLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/gyeonggi_batang_r"
+                android:lineSpacingMultiplier="1.5"
+                android:text="카테고리"
+                android:textColor="@color/colorTextContent"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contentWrapperView" />
+
+            <RelativeLayout
+                android:id="@+id/categoryWrapperView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_input_single"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoryLabel">
+
+                <EditText
+                    android:id="@+id/categoryField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/colorWhite"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:ems="10"
+                    android:fontFamily="@font/gyeonggi_batang_r"
+                    android:hint="카테고리를 선택해주세요."
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/imageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/gyeonggi_batang_r"
+                android:lineSpacingMultiplier="1.5"
+                android:text="타이틀사진"
+                android:textColor="@color/colorTextContent"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoryWrapperView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/gyeonggi_batang_r"
+                android:lineSpacingMultiplier="1.5"
+                android:text="75*35mm"
+                android:textColor="@color/colorTextSegment"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageLabel"
+                app:layout_constraintLeft_toRightOf="@+id/imageLabel" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorBorder"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="2.14:1"
+                app:layout_constraintTop_toBottomOf="@+id/imageLabel" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/camera"
+                app:layout_constraintBottom_toBottomOf="@id/imageView"
+                app:layout_constraintRight_toRightOf="@id/imageView" />
+
+            <RelativeLayout
+                android:id="@+id/bottomWrapperView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_button_disable"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                <TextView
+                    android:id="@+id/btnConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/gyeonggi_batang_r"
+                    android:gravity="center"
+                    android:text="방만들기"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

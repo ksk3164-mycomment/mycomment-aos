@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0D4043</color>
+    <color name="colorPrimaryDark">#0D4043</color>
+    <color name="colorAccent">#0D4043</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBorder">#F0F0F0</color>
+    <color name="colorGrey">#E0E0E0</color>
+    <color name="colorSnsEmail">#C1CFD2</color>
+    <color name="colorSnsFacebook">#3A5A98</color>
+    <color name="colorSnsGoogle">#DC4E41</color>
+    <color name="colorSnsKakao">#F2DE48</color>
+    <color name="colorSnsNaver">#78D04E</color>
+    <color name="colorTextAddress">#A9A9A9</color>
+    <color name="colorTextAlert">#212121</color>
+    <color name="colorTextContent">#212121</color>
+    <color name="colorTextHeader1">#7E7E7E</color>
+    <color name="colorTextHeader2">#787878</color>
+    <color name="colorTextIntro">#404040</color>
+    <color name="colorTextName">#000000</color>
+    <color name="colorTextNone">#A8A8A8</color>
+    <color name="colorTextSegment">#505050</color>
+    <color name="colorTextTimestamp">#A9A9A9</color>
+    <color name="colorTextTitle">#000000</color>
+    <color name="paleGrey">#f2f7fa</color>
+    <color name="lightBlueGrey">#cfe4f0</color>
+    <color name="dullTeal">#5ba2a8</color>
+    <color name="lightGreyBlue">#a1bfd1</color>
+</resources>

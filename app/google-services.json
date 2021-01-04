@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "770979227345",
+    "firebase_url": "https://mycomment-6f024.firebaseio.com",
+    "project_id": "mycomment-6f024",
+    "storage_bucket": "mycomment-6f024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770979227345:android:f0ebd85c45f3ce39c787f0",
+        "android_client_info": {
+          "package_name": "kr.beimsupicures.mycomment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770979227345-8uk356tf6uosdghh9ba3fr856mcbbhbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-AlDIkU4Ru0FxF-_8rYoC9KtnOcZ57dY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770979227345-8uk356tf6uosdghh9ba3fr856mcbbhbf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "770979227345-bsb5q1g43q015hrv1b1upo0d2ia7ilfs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kr.beimsupicures.mycomment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gyeonggi_batang_b"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="신고하는 이유를 선택해주세요"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/check1View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="성적인 것과 관련된 콘텐츠"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/check2View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="흉기, 폭행, 욕설 등이 관련된 콘텐츠"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/check3View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="약물, 음주, 흡연과 관련된 콘텐츠"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/check4View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="자살, 살인, 잔인함, 따돌림과 관련된 콘텐츠"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/option5View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="기타"
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:fontFamily="@font/gyeonggi_batang_b"
+            android:gravity="center"
+            android:text="취소"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

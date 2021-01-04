@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+      IMP.init('imp31119766'); // 아임포트 관리자 페이지의 "시스템 설정" > "내 정보" 에서 확인 가능
+      IMP.certification({
+        merchant_uid : 'merchant_' + new Date().getTime() //본인인증과 연관된 가맹점 내부 주문번호가 있다면 넘겨주세요
+      }, function(rsp) {
+        if ( rsp.success ) {
+          // 인증성공
+          window.AndroidBridge.resultAuth(rsp.imp_uid);
+
+        } else {
+          // 인증취소 또는 인증실패
+          var msg = '인증에 실패하였습니다.';
+          msg += '에러내용 : ' + rsp.error_msg;
+
+          alert(msg);
+        }
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.splash.SplashFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_splashFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_talkFragment"
+            app:destination="@id/talkFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.signs.SignInFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_signInFragment_to_certificationFragment"
+            app:destination="@id/certificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_signInFragment_to_termFragment"
+            app:destination="@id/termFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_signInFragment_to_signStep1Fragment"
+            app:destination="@id/signStep1Fragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_signInFragment"
+        app:destination="@id/signInFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:popExitAnim="@anim/slide_out_bottom" />
+    <fragment
+        android:id="@+id/certificationFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment"
+        android:label="" >
+        <argument
+            android:name="category"
+            app:argType="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment$Category"
+            android:defaultValue="signup" />
+        <action
+            android:id="@+id/action_certificationFragment_to_forgotNicknameFragment"
+            app:destination="@id/forgotNicknameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="nickname"
+            app:argType="string"
+            android:defaultValue='""' />
+        <action
+            android:id="@+id/action_certificationFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.signs.forgot.ForgotPasswordFragment"
+        android:label="" >
+        <argument
+            android:name="category"
+            app:argType="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment$Category"
+            android:defaultValue="password" />
+    </fragment>
+    <fragment
+        android:id="@+id/todayFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.today.TodayFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_todayFragment_to_searchCalendarFragment"
+            app:destination="@id/searchCalendarFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_todayFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_todayFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_todayFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_todayFragment_to_suggestFragment"
+            app:destination="@id/suggestFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchCalendarFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.search.SearchCalendarFragment" />
+    <action
+        android:id="@+id/action_global_searchCalendarFragment"
+        app:destination="@id/searchCalendarFragment" />
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.bookmark.BookmarkFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.profile.ProfileFragment" >
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <action
+            android:id="@+id/action_profileFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.detail.DetailFragment">
+        <argument
+            android:name="agendaId"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_detailFragment_to_bestUserFragment"
+            app:destination="@id/bestUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_detailFragment_to_replyFragment"
+            app:destination="@id/replyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_detailFragment"
+        app:destination="@id/detailFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/bestUserFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.detail.users.BestUserFragment">
+        <argument
+            android:name="agendaId"
+            android:defaultValue="1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/replyFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.detail.reply.ReplyFragment" >
+        <argument
+            android:name="opinionId"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_replyFragment"
+        app:destination="@id/replyFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_bookmarkFragment"
+        app:destination="@id/bookmarkFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_splashFragment"
+        app:destination="@id/splashFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.detail.history.HistoryFragment" >
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_historyFragment"
+        app:destination="@id/historyFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.profile.password.ChangePasswordFragment" >
+        <argument
+            android:name="nickname"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="category"
+            app:argType="kr.beimsupicures.mycomment.controllers.main.profile.password.ChangePasswordFragment$Category"
+            android:defaultValue="change" />
+    </fragment>
+    <fragment
+        android:id="@+id/termFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.general.TermFragment" >
+        <argument
+            android:name="category"
+            app:argType="kr.beimsupicures.mycomment.api.models.TermModel$Category"
+            android:defaultValue="guide" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_termFragment"
+        app:destination="@id/termFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_certificationFragment"
+        app:destination="@id/certificationFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/forgotNicknameFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.signs.forgot.ForgotNicknameFragment" >
+        <argument
+            android:name="uniqueKey"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
+    <action
+        android:id="@+id/action_global_changePasswordFragment"
+        app:destination="@id/changePasswordFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.signs.SignUpFragment" >
+        <argument
+            android:name="uniqueKey"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="birth"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="gender"
+            app:argType="kr.beimsupicures.mycomment.common.iamport.IAMPortCertificationResult$Gender"
+            android:defaultValue="male" />
+    </fragment>
+    <fragment
+        android:id="@+id/talkFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkFragment" >
+        <action
+            android:id="@+id/action_talkFragment_to_searchTalkFragment"
+            app:destination="@id/searchTalkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/suggestFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.suggest.SuggestFragment"
+        android:label="SuggestFragment" />
+    <fragment
+        android:id="@+id/searchTalkFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment" />
+    <fragment
+        android:id="@+id/talkDetailFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkDetailFragment"
+        android:label="TalkDetailFragment" >
+        <argument
+            android:name="talk"
+            app:argType="kr.beimsupicures.mycomment.api.models.TalkModel" />
+        <argument
+            android:name="selectedCommentId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_talkDetailFragment"
+        app:destination="@id/talkDetailFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/watchFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.watch.WatchFragment" >
+        <action
+            android:id="@+id/action_watchFragment_to_searchWatchFragment"
+            app:destination="@id/searchWatchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createWatchFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.watch.CreateWatchFragment"
+        android:label="CreateWatchFragment" >
+        <argument
+            android:name="viewType"
+            app:argType="kr.beimsupicures.mycomment.controllers.main.watch.CreateWatchFragment$ViewType" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_createWatchFragment"
+        app:destination="@id/createWatchFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/watchDetailFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.watch.WatchDetailFragment"
+        android:label="WatchDetailFragment" >
+        <argument
+            android:name="watch"
+            app:argType="kr.beimsupicures.mycomment.api.models.WatchModel" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_watchDetailFragment"
+        app:destination="@id/watchDetailFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/signStep1Fragment"
+        android:name="kr.beimsupicures.mycomment.controllers.signs.SignStep1Fragment" >
+        <argument
+            android:name="viewmodel"
+            app:argType="kr.beimsupicures.mycomment.viewmodels.signs.SignStep1ViewModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchWatchFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.search.SearchWatchFragment"
+        android:label="SearchWatchFragment" />
+    <fragment
+        android:id="@+id/agreeDialog"
+        android:name="kr.beimsupicures.mycomment.components.dialogs.AgreeDialog" />
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.detail.webview.WebViewFragment"
+        android:label="WebViewFragment" >
+        <argument
+            android:name="talk"
+            app:argType="kr.beimsupicures.mycomment.api.models.TalkModel"
+            app:nullable="true" />
+        <argument
+            android:name="watch"
+            app:argType="kr.beimsupicures.mycomment.api.models.WatchModel"
+            app:nullable="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_webViewFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right"
+        app:destination="@id/webViewFragment" />
+</navigation>

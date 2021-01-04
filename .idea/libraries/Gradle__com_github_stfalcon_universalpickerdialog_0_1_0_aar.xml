@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.stfalcon:universalpickerdialog:0.1.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6bcd1e3c882c88bd676db3243e89a597/jetified-universalpickerdialog-0.1.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6bcd1e3c882c88bd676db3243e89a597/jetified-universalpickerdialog-0.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6bcd1e3c882c88bd676db3243e89a597/jetified-universalpickerdialog-0.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/44a18819ecf4c017c75c8efe24fd1e25/jetified-universalpickerdialog-0.1.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/44a18819ecf4c017c75c8efe24fd1e25/jetified-universalpickerdialog-0.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/44a18819ecf4c017c75c8efe24fd1e25/jetified-universalpickerdialog-0.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/11257759818b52be8cb49bc466f19e54/jetified-universalpickerdialog-0.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4c7ff3ab8dfc8fe05adbe471bda785a2/jetified-universalpickerdialog-0.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4c7ff3ab8dfc8fe05adbe471bda785a2/jetified-universalpickerdialog-0.1.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4c7ff3ab8dfc8fe05adbe471bda785a2/jetified-universalpickerdialog-0.1.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.stfalcon/universalpickerdialog/0.1.0/6409f74192fa84f8b8023ea1253816c50e637a63/universalpickerdialog-0.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.stfalcon/universalpickerdialog/0.1.0/76b72cfafbf07fc69e36c93d405549a45c549b97/universalpickerdialog-0.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

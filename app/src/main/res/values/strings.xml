@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">마이코멘트</string>
+    // IAMPort
+    <string name="impKey">2639551839513046</string>
+    <string name="impSecret">xneuKxb29v1H58xr45yn913sbdB7XhMvE00pxcrGHtoMBWeG1M4bN7EYlf6jxTOcTPBr128Iwwv7tJOv</string>
+    // Kakao
+    <string name="kakao_app_key">33fd4a8e6936248e2f94f8d91b6bc084</string>
+    // Facebook
+    <string name="facebook_app_id">558950375021094</string>
+    <string name="fb_login_protocol_scheme">fb558950375021094</string>
+</resources>

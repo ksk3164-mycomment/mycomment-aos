@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/categoryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/gyeonggi_batang_b"
+        android:text="category"
+        android:textColor="@color/colorTextTitle"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/titleLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/gyeonggi_batang_r"
+        android:lineSpacingMultiplier="1.5"
+        android:text="title"
+        android:textColor="@color/colorTextContent"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categoryLabel" />
+
+    <TextView
+        android:id="@+id/viewCountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/gyeonggi_batang_r"
+        android:lineSpacingMultiplier="1.5"
+        android:text="views"
+        android:textColor="@color/colorTextContent"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/titleLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <TextView
+            android:id="@+id/bookmarkCountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:fontFamily="@font/gyeonggi_batang_r"
+            android:gravity="center"
+            android:paddingRight="4dp"
+            android:text="0"
+            android:textColor="@color/colorTextContent"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/bookmarkView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/bookmark" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorBorder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

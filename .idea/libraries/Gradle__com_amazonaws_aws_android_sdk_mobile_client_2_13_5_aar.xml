@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-android-sdk-mobile-client:2.13.5@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3eab53185e6f58d86fc661b1fe770efe/jetified-aws-android-sdk-mobile-client-2.13.5/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3eab53185e6f58d86fc661b1fe770efe/jetified-aws-android-sdk-mobile-client-2.13.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3eab53185e6f58d86fc661b1fe770efe/jetified-aws-android-sdk-mobile-client-2.13.5/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/483fb23641905dadb9a9069c650c402e/jetified-aws-android-sdk-mobile-client-2.13.5/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/483fb23641905dadb9a9069c650c402e/jetified-aws-android-sdk-mobile-client-2.13.5/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/483fb23641905dadb9a9069c650c402e/jetified-aws-android-sdk-mobile-client-2.13.5/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/13e8a42ec6b0492d45f6eff588d74218/jetified-aws-android-sdk-mobile-client-2.13.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/13e8a42ec6b0492d45f6eff588d74218/jetified-aws-android-sdk-mobile-client-2.13.5/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/13e8a42ec6b0492d45f6eff588d74218/jetified-aws-android-sdk-mobile-client-2.13.5/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-mobile-client/2.13.5/fa8d930afc67ea701da50d9c2902388ac04093c4/aws-android-sdk-mobile-client-2.13.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-mobile-client/2.13.5/878cc2268981bf7e0d3db862e9f926c183e7fee3/aws-android-sdk-mobile-client-2.13.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

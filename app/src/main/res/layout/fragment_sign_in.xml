@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="176dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="32dp"
+        android:src="@drawable/logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/descLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/gyeonggi_batang_r"
+        android:text="실시간으로\n드라마 보면서\n이야기 나누자!"
+
+        android:textColor="@color/colorTextTitle"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/logoView"
+        app:layout_constraintTop_toBottomOf="@id/logoView" />
+
+    <LinearLayout
+        android:id="@+id/signInWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/descLabel">
+
+        <TextView
+            android:id="@+id/btnFacebook"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorSnsFacebook"
+            android:gravity="center"
+            android:text="Facebook으로 로그인"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <TextView
+            android:id="@+id/btnGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorSnsGoogle"
+            android:gravity="center"
+            android:text="Google로 로그인"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <TextView
+            android:id="@+id/btnKakao"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorSnsKakao"
+            android:gravity="center"
+            android:text="카카오톡 로그인"
+            android:textColor="#382323"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
