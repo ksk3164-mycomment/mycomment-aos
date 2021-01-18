@@ -14,26 +14,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/titleLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gyeonggi_batang_r"
-                android:gravity="center_horizontal"
-                android:paddingBottom="24dp"
-                android:text="본방사수"
-                android:textColor="@color/colorTextTitle" />
+<!--            <TextView-->
+<!--                android:id="@+id/titleLabel"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/gyeonggi_batang_r"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:paddingBottom="24dp"-->
+<!--                android:text="본방사수"-->
+<!--                android:textColor="@color/colorTextTitle" />-->
 
-            <com.github.islamkhsh.CardSliderViewPager
-                android:id="@+id/noticeView"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="#EFF6FA"
-                app:auto_slide_time="5"
-                app:cardSlider_baseShadow="0dp"
-                app:cardSlider_otherPagesWidth="0dp"
-                app:cardSlider_pageMargin="0dp"
-                app:cardSlider_smallScaleFactor="1.0" />
+<!--            <com.github.islamkhsh.CardSliderViewPager-->
+<!--                android:id="@+id/noticeView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="44dp"-->
+<!--                android:background="#EFF6FA"-->
+<!--                app:auto_slide_time="5"-->
+<!--                app:cardSlider_baseShadow="0dp"-->
+<!--                app:cardSlider_otherPagesWidth="0dp"-->
+<!--                app:cardSlider_pageMargin="0dp"-->
+<!--                app:cardSlider_smallScaleFactor="1.0" />-->
 
             <Space
                 android:layout_width="match_parent"

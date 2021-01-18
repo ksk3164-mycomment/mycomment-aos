@@ -1,10 +1,12 @@
 package kr.beimsupicures.mycomment.controllers
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -18,6 +20,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.kakao.auth.Session
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
@@ -54,9 +57,15 @@ class MainActivity : BaseActivity() {
         findViewById<Toolbar>(R.id.toolbar)
     }
 
+//    val searchViewConst: ConstraintLayout by lazy {
+//        findViewById<ConstraintLayout>(R.id.searchViewConst)
+//    }
+
     val navView: BottomNavigationView by lazy {
         findViewById<BottomNavigationView>(R.id.nav_view)
     }
+
+    var isSearchFragment = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +85,7 @@ class MainActivity : BaseActivity() {
             })
     }
 
+    @SuppressLint("CheckResult")
     override fun loadUI() {
         super.loadUI()
         setContentView(R.layout.activity_main)
@@ -96,14 +106,14 @@ class MainActivity : BaseActivity() {
                 R.id.splashFragment -> {
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.todayFragment -> {
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.VISIBLE
-                    toolbar.btnBookmark.visibility = View.VISIBLE
+//                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                     navView.visibility = View.VISIBLE
@@ -116,61 +126,61 @@ class MainActivity : BaseActivity() {
                 R.id.searchCalendarFragment -> {
                     toolbar.titleLabel.text = "날짜 검색"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
-                R.id.bookmarkFragment -> {
-                    toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
-                }
+//                R.id.bookmarkFragment -> {
+//                    toolbar.btnCalendarSearch.visibility = View.GONE
+////                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnProfile.visibility = View.GONE
+//                    toolbar.btnClose.visibility = View.GONE
+//                }
                 R.id.profileFragment -> {
                     toolbar.titleLabel.text = "프로필 보기"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.detailFragment -> {
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.VISIBLE
+//                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.bestUserFragment -> {
                     toolbar.titleLabel.text = "Key Opinion Leader"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.signInFragment -> {
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.VISIBLE
                 }
                 R.id.replyFragment -> {
                     toolbar.titleLabel.text = "댓글 보기"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.historyFragment -> {
                     toolbar.titleLabel.text = "히스토리"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.changePasswordFragment -> {
                     toolbar.titleLabel.text = "비밀번호 변경"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -190,57 +200,62 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.certificationFragment -> {
                     toolbar.titleLabel.text = "본인인증"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.forgotNicknameFragment -> {
                     toolbar.titleLabel.text = "아이디 찾기"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.forgotPasswordFragment -> {
                     toolbar.titleLabel.text = "비밀번호 찾기"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.signUpFragment -> {
                     toolbar.titleLabel.text = "회원가입"
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
+                //메인 화면
                 R.id.talkFragment -> {
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.VISIBLE
+//                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                     navView.visibility = View.VISIBLE
-                    toolbar.btnTalkSearch.visibility = View.VISIBLE
+//                    toolbar.btnTalkSearch.visibility = View.VISIBLE
+                    toolbar.searchView.visibility = View.VISIBLE
+                    toolbar.searchField.isEnabled = false
+                    toolbar.searchField.isClickable = false
+                    isSearchFragment = false
                 }
                 R.id.talkDetailFragment -> {
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.watchFragment -> {
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.VISIBLE
+//                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                     navView.visibility = View.VISIBLE
@@ -267,7 +282,7 @@ class MainActivity : BaseActivity() {
                     }
 
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -287,7 +302,7 @@ class MainActivity : BaseActivity() {
                     }
                     toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -295,31 +310,35 @@ class MainActivity : BaseActivity() {
                     toolbar.titleLabel.text = "주제 제안하기"
                     toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
+                //검색하기
                 R.id.searchTalkFragment -> {
-                    toolbar.searchView.visibility = View.VISIBLE
-                    toolbar.btnBack.visibility = View.VISIBLE
+                    isSearchFragment = true
+//                    toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
-                    toolbar.btnProfile.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
-                }
-                R.id.searchWatchFragment -> {
                     toolbar.searchView.visibility = View.VISIBLE
-                    toolbar.btnBack.visibility = View.VISIBLE
-                    toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
+                    toolbar.searchField.isEnabled = true
+                    toolbar.searchField.isClickable = true
                 }
+//                R.id.searchWatchFragment -> {
+//                    toolbar.searchView.visibility = View.VISIBLE
+//                    toolbar.btnBack.visibility = View.VISIBLE
+//                    toolbar.btnCalendarSearch.visibility = View.GONE
+////                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnProfile.visibility = View.GONE
+//                    toolbar.btnClose.visibility = View.GONE
+//                }
                 R.id.signStep1Fragment -> {
                     toolbar.titleLabel.text = "프로필 입력"
                     toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    toolbar.btnBookmark.visibility = View.GONE
+//                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -330,28 +349,34 @@ class MainActivity : BaseActivity() {
             Navigation.findNavController(this, R.id.nav_host_fragment)
                 .navigate(R.id.action_todayFragment_to_searchCalendarFragment)
         }
-        toolbar.btnTalkSearch.setOnClickListener {
-            Navigation.findNavController(this, R.id.nav_host_fragment)
-                .navigate(R.id.action_talkFragment_to_searchTalkFragment)
+        //드라마 검색하기
+        toolbar.searchView.setOnClickListener {
+            Log.e("성국",""+isSearchFragment)
+            if (!isSearchFragment){
+
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                    .navigate(R.id.action_talkFragment_to_searchTalkFragment)
+
+            }
         }
         toolbar.btnWatchSearch.setOnClickListener {
             Navigation.findNavController(this, R.id.nav_host_fragment)
                 .navigate(R.id.action_watchFragment_to_searchWatchFragment)
         }
-        toolbar.btnBookmark.setOnClickListener { view ->
-
-            BaseApplication.shared.getSharedPreferences().getUser()?.let {
-                Navigation.findNavController(this, R.id.nav_host_fragment)
-                    .navigate(R.id.action_global_bookmarkFragment)
-
-            } ?: run {
-
-                popup("로그인하시겠습니까?", "로그인") {
-                    Navigation.findNavController(this, R.id.nav_host_fragment)
-                        .navigate(R.id.action_global_signInFragment)
-                }
-            }
-        }
+//        toolbar.btnBookmark.setOnClickListener { view ->
+//
+//            BaseApplication.shared.getSharedPreferences().getUser()?.let {
+//                Navigation.findNavController(this, R.id.nav_host_fragment)
+//                    .navigate(R.id.action_global_bookmarkFragment)
+//
+//            } ?: run {
+//
+//                popup("로그인하시겠습니까?", "로그인") {
+//                    Navigation.findNavController(this, R.id.nav_host_fragment)
+//                        .navigate(R.id.action_global_signInFragment)
+//                }
+//            }
+//        }
         toolbar.btnProfile.setOnClickListener {
 
             BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
@@ -417,7 +442,7 @@ class MainActivity : BaseActivity() {
             navController.navigate(action)
         }
 
-        toolbar.searchField.textChanges()
+        toolbar.searchView.searchField.textChanges()
             .map(CharSequence::toString)
             .debounce(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())

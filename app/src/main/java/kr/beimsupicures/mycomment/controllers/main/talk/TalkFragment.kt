@@ -92,7 +92,7 @@ class TalkFragment : BaseFragment() {
             }
         }
 
-    var notice: MutableList<NoticeModel> = mutableListOf()
+//    var notice: MutableList<NoticeModel> = mutableListOf()
     var ad: MutableList<AdModel> = mutableListOf()
     var category: MutableList<Pair<Boolean, CategoryModel>> = mutableListOf()
     var provider: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
@@ -137,8 +137,8 @@ class TalkFragment : BaseFragment() {
             talkAdapter.notifyDataSetChanged()
         }
 
-    lateinit var noticeView: CardSliderViewPager
-    lateinit var noticeAdapter: NoticeAdapter
+//    lateinit var noticeView: CardSliderViewPager
+//    lateinit var noticeAdapter: NoticeAdapter
     lateinit var bannerView: CardSliderViewPager
     lateinit var bannerAdapter: BannerAdapter
     lateinit var categoryView: RecyclerView
@@ -217,9 +217,9 @@ class TalkFragment : BaseFragment() {
 
         view?.let { view ->
 
-            noticeView = view.findViewById(R.id.noticeView)
-            noticeAdapter = NoticeAdapter(notice)
-            noticeView.adapter = noticeAdapter
+//            noticeView = view.findViewById(R.id.noticeView)
+//            noticeAdapter = NoticeAdapter(notice)
+//            noticeView.adapter = noticeAdapter
             bannerView = view.findViewById(R.id.bannerView)
             bannerAdapter = BannerAdapter(activity, ad)
             bannerView.adapter = bannerAdapter
@@ -353,12 +353,12 @@ class TalkFragment : BaseFragment() {
     override fun fetchModel() {
         super.fetchModel()
 
-        NoticeLoader.shared.getNoticeList(true) { notice ->
-            this.notice = notice.toMutableList()
-            noticeAdapter.items = this.notice
-            noticeAdapter.notifyDataSetChanged()
-            noticeView.visibility = if (notice.size > 0) View.VISIBLE else View.GONE
-        }
+//        NoticeLoader.shared.getNoticeList(true) { notice ->
+//            this.notice = notice.toMutableList()
+//            noticeAdapter.items = this.notice
+//            noticeAdapter.notifyDataSetChanged()
+//            noticeView.visibility = if (notice.size > 0) View.VISIBLE else View.GONE
+//        }
 
         AdLoader.shared.getAdList(true, AdModel.Location.talk) { ad ->
             this.ad = ad

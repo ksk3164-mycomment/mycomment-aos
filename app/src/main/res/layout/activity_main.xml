@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".controllers.MainActivity">
 
-
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -25,154 +24,183 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         android:theme="@style/BottomNavigationView"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemTextColor="@color/bottom_nav_color"
-        app:itemIconTint="@color/bottom_nav_color"
         app:menu="@menu/menu_bottom_nav" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:theme="@style/AppTheme">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_gravity="left|center"
-            android:layout_marginEnd="12dp">
-
-            <ImageView
-                android:id="@+id/btnExit"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="8dp"
-                android:src="@drawable/close" />
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="10dp"
-                android:src="@drawable/back" />
-
-            <ImageView
-                android:id="@+id/btnCalendarSearch"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
-                android:src="@drawable/search" />
-
-            <ImageView
-                android:id="@+id/btnTalkSearch"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
-                android:src="@drawable/search" />
-
-            <ImageView
-                android:id="@+id/btnWatchSearch"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
-                android:src="@drawable/search" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/titleLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="12dp"
-            android:text="title"
-            android:textColor="@color/colorTextTitle"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:id="@+id/searchView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/bg_input_search"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="4dp"
-                android:src="@drawable/search" />
-
-            <EditText
-                android:id="@+id/searchField"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:background="@null"
-                android:fontFamily="@font/gyeonggi_batang_r"
-                android:hint="검색"
-                android:paddingRight="8dp"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_gravity="right|center"
-            android:layout_marginEnd="12dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="36dp"
-                android:layout_height="36dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/btnBookmark"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:id="@+id/btnExit"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:padding="8dp"
-                    android:src="@drawable/bookmark" />
+                    android:src="@drawable/close" />
 
-                <View
-                    android:id="@+id/circleView"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:background="@drawable/bg_view_circle"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="10dp"
+                    android:src="@drawable/back" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/btnCalendarSearch"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="6dp"
+                    android:src="@drawable/search"
+                    android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/btnProfile"
-                android:layout_width="36dp"
+                <ImageView
+                    android:id="@+id/btnTalkSearch"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="6dp"
+                    android:src="@drawable/search" />
+
+                <ImageView
+                    android:id="@+id/btnWatchSearch"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="6dp"
+                    android:src="@drawable/search"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/titleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="title"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/mainMypageBar"
+                android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:padding="9dp"
-                android:src="@drawable/mypage" />
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/btnClose"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="8dp"
-                android:src="@drawable/close" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="36dp"
+                    android:layout_height="36dp">
 
-            <ImageView
-                android:id="@+id/btnSetting"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
-                android:src="@drawable/setting" />
+                    <ImageView
+                        android:id="@+id/btnBookmark"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:src="@drawable/bookmark"
+                        android:visibility="gone" />
 
-        </LinearLayout>
+                    <View
+                        android:id="@+id/circleView"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_view_circle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/btnProfile"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="9dp"
+                    android:src="@drawable/mypage" />
+
+                <ImageView
+                    android:id="@+id/btnClose"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
+                    android:src="@drawable/close" />
+
+                <ImageView
+                    android:id="@+id/btnSetting"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="6dp"
+                    android:src="@drawable/setting" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_input_search"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainMypageBar">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:padding="4dp"
+                    android:src="@drawable/search" />
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:fontFamily="@font/gyeonggi_batang_r"
+                    android:hint="드라마 검색하기"
+                    android:paddingRight="8dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
