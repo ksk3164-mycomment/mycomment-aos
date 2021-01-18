@@ -65,9 +65,9 @@ fun BaseFragment.signin(completionHandler: (Boolean) -> Unit) {
     accessUser()
     UserLoader.shared.getUser { user ->
         if (user.banned_at != null) {
-            activity?.alert("관리자에 의해 로그인이 차단되었습니다.", "알림", {
+            activity?.alert("관리자에 의해 로그인이 차단되었습니다.", "알림") {
                 completionHandler(false)
-            })
+            }
 
         } else {
             BaseApplication.shared.getSharedPreferences().setUser(user)
