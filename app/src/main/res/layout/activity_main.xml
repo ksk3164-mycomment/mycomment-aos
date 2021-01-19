@@ -56,8 +56,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -146,7 +146,7 @@
                     android:id="@+id/btnProfile"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:padding="9dp"
+                    android:padding="8dp"
                     android:src="@drawable/mypage" />
 
                 <ImageView
@@ -167,16 +167,15 @@
 
             <LinearLayout
                 android:id="@+id/searchView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_margin="12dp"
                 android:background="@drawable/bg_input_search"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/searchCancel"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mainMypageBar">
 
                 <ImageView
@@ -186,19 +185,44 @@
                     android:padding="4dp"
                     android:src="@drawable/search" />
 
+                <TextView
+                    android:id="@+id/searchText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:fontFamily="@font/gyeonggi_batang_r"
+                    android:gravity="center_vertical"
+                    android:text="드라마 검색하기"
+                    android:textSize="15sp" />
+
                 <EditText
                     android:id="@+id/searchField"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
                     android:fontFamily="@font/gyeonggi_batang_r"
                     android:hint="드라마 검색하기"
-                    android:paddingRight="8dp"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/searchCancel"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/gyeonggi_batang_r"
+                android:gravity="center"
+                android:text="취소"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mainMypageBar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>

@@ -234,17 +234,18 @@ class MainActivity : BaseActivity() {
                 }
                 //메인 화면
                 R.id.talkFragment -> {
+                    isSearchFragment = false
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
+                    searchCancel.visibility = View.GONE
+                    searchField.visibility = View.GONE
+//                    toolbar.btnTalkSearch.visibility = View.VISIBLE
 //                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                     navView.visibility = View.VISIBLE
-//                    toolbar.btnTalkSearch.visibility = View.VISIBLE
+                    searchText.visibility = View.VISIBLE
                     toolbar.searchView.visibility = View.VISIBLE
-                    toolbar.searchField.isEnabled = false
-                    toolbar.searchField.isClickable = false
-                    isSearchFragment = false
                 }
                 R.id.talkDetailFragment -> {
                     toolbar.btnCalendarSearch.visibility = View.GONE
@@ -265,7 +266,8 @@ class MainActivity : BaseActivity() {
 
                     arguments?.let { arguments ->
                         (arguments.get("watch") as? WatchModel)?.let { watchModel ->
-                            when ((watchModel.owner?.id == BaseApplication.shared.getSharedPreferences().getUser()?.id)) {
+                            when ((watchModel.owner?.id == BaseApplication.shared.getSharedPreferences()
+                                .getUser()?.id)) {
                                 true -> {
                                     toolbar.btnExit.visibility = View.VISIBLE
                                     toolbar.btnBack.visibility = View.GONE
@@ -317,14 +319,15 @@ class MainActivity : BaseActivity() {
                 //검색하기
                 R.id.searchTalkFragment -> {
                     isSearchFragment = true
-//                    toolbar.btnBack.visibility = View.VISIBLE
+                    searchText.visibility = View.GONE
+                    searchField.visibility = View.VISIBLE
+                    toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
 //                    toolbar.btnBookmark.visibility = View.GONE
 //                    toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                     toolbar.searchView.visibility = View.VISIBLE
-                    toolbar.searchField.isEnabled = true
-                    toolbar.searchField.isClickable = true
+                    searchCancel.visibility = View.VISIBLE
                 }
 //                R.id.searchWatchFragment -> {
 //                    toolbar.searchView.visibility = View.VISIBLE
@@ -345,18 +348,20 @@ class MainActivity : BaseActivity() {
             }
         }
 
+        searchCancel.setOnClickListener {
+            onBackPressed()
+        }
+
+
         toolbar.btnCalendarSearch.setOnClickListener {
             Navigation.findNavController(this, R.id.nav_host_fragment)
                 .navigate(R.id.action_todayFragment_to_searchCalendarFragment)
         }
         //드라마 검색하기
         toolbar.searchView.setOnClickListener {
-            Log.e("성국",""+isSearchFragment)
-            if (!isSearchFragment){
-
+            if (!isSearchFragment) {
                 Navigation.findNavController(this, R.id.nav_host_fragment)
                     .navigate(R.id.action_talkFragment_to_searchTalkFragment)
-
             }
         }
         toolbar.btnWatchSearch.setOnClickListener {
@@ -398,7 +403,8 @@ class MainActivity : BaseActivity() {
 
                     fragment.watch?.let { watch ->
 
-                        when (watch.owner?.id == BaseApplication.shared.getSharedPreferences().getUser()?.id) {
+                        when (watch.owner?.id == BaseApplication.shared.getSharedPreferences()
+                            .getUser()?.id) {
                             true -> {
                                 WatchLoader.shared.updateWatch(
                                     watch.id,
@@ -451,23 +457,23 @@ class MainActivity : BaseActivity() {
 
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
                     ?.childFragmentManager?.fragments?.get(0)?.let { fragment ->
-                    when (fragment) {
-                        is SearchTalkFragment -> {
-                            SearchLoader.shared.searchTalk(keyword) { talk ->
-                                fragment.talk = talk
-                                fragment.resultAdapter.items = fragment.talk
-                                fragment.resultAdapter.notifyDataSetChanged()
+                        when (fragment) {
+                            is SearchTalkFragment -> {
+                                SearchLoader.shared.searchTalk(keyword) { talk ->
+                                    fragment.talk = talk
+                                    fragment.resultAdapter.items = fragment.talk
+                                    fragment.resultAdapter.notifyDataSetChanged()
+                                }
                             }
-                        }
-                        is SearchWatchFragment -> {
-                            SearchLoader.shared.searchWatch(keyword) { watch ->
-                                fragment.watch = watch
-                                fragment.resultAdapter.items = fragment.watch
-                                fragment.resultAdapter.notifyDataSetChanged()
+                            is SearchWatchFragment -> {
+                                SearchLoader.shared.searchWatch(keyword) { watch ->
+                                    fragment.watch = watch
+                                    fragment.resultAdapter.items = fragment.watch
+                                    fragment.resultAdapter.notifyDataSetChanged()
+                                }
                             }
                         }
                     }
-                }
             }
 
         NavigationUI.setupWithNavController(navView, navController)
@@ -502,14 +508,15 @@ class MainActivity : BaseActivity() {
             // google
             if (requestCode == 99) {
                 try {
-                    GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)?.let { account ->
+                    GoogleSignIn.getSignedInAccountFromIntent(data)
+                        .getResult(ApiException::class.java)?.let { account ->
 
-                        account.email?.let { email ->
-                            account.displayName?.let { nickname ->
-                                fragment.sign(email, nickname, UserModel.SocialProvider.google)
+                            account.email?.let { email ->
+                                account.displayName?.let { nickname ->
+                                    fragment.sign(email, nickname, UserModel.SocialProvider.google)
+                                }
                             }
                         }
-                    }
 
                 } catch (e: ApiException) {
                     Log.e("TAG", "Google sign in failed", e)
