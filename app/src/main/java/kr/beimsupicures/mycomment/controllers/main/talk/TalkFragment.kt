@@ -13,8 +13,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.islamkhsh.CardSliderIndicator
 import com.github.islamkhsh.CardSliderViewPager
 import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.fragment_talk.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.*
@@ -140,6 +142,7 @@ class TalkFragment : BaseFragment() {
 //    lateinit var noticeView: CardSliderViewPager
 //    lateinit var noticeAdapter: NoticeAdapter
     lateinit var bannerView: CardSliderViewPager
+    lateinit var bannerIndicator: CardSliderIndicator
     lateinit var bannerAdapter: BannerAdapter
     lateinit var categoryView: RecyclerView
     lateinit var categoryAdapter: CategoryAdapter
@@ -221,10 +224,13 @@ class TalkFragment : BaseFragment() {
 //            noticeAdapter = NoticeAdapter(notice)
 //            noticeView.adapter = noticeAdapter
             bannerView = view.findViewById(R.id.bannerView)
+            bannerIndicator = view.findViewById(R.id.bannerIndicator)
+
             bannerAdapter = BannerAdapter(activity, ad)
             bannerView.adapter = bannerAdapter
             bannerView.layoutParams.height =
                 (((resources.configuration.screenWidthDp - 16 - 16).toFloat() / 343F) * 110F).toInt().dp
+
 
             categoryView = view.findViewById(R.id.categoryView)
             categoryView.addItemDecoration(object : RecyclerView.ItemDecoration() {

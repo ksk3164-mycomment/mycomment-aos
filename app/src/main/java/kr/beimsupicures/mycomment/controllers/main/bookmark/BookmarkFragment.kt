@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_talk.*
@@ -19,10 +20,7 @@ import kr.beimsupicures.mycomment.api.models.AgendaModel
 import kr.beimsupicures.mycomment.api.models.OpinionModel
 import kr.beimsupicures.mycomment.api.models.TalkModel
 import kr.beimsupicures.mycomment.api.models.WatchModel
-import kr.beimsupicures.mycomment.components.adapters.AgendaAdapter
-import kr.beimsupicures.mycomment.components.adapters.OpinionAdapter
-import kr.beimsupicures.mycomment.components.adapters.TalkAdapter
-import kr.beimsupicures.mycomment.components.adapters.WatchAdapter
+import kr.beimsupicures.mycomment.components.adapters.*
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
@@ -56,7 +54,7 @@ class BookmarkFragment : BaseFragment() {
     lateinit var opinionAdapter: OpinionAdapter
 
     lateinit var talkView: RecyclerView
-    lateinit var talkAdapter: TalkAdapter
+    lateinit var talkAdapter: TalkAdapter2
 
     lateinit var watchView: RecyclerView
     lateinit var watchAdapter: WatchAdapter
@@ -78,226 +76,226 @@ class BookmarkFragment : BaseFragment() {
         super.loadUI()
 
         view?.let { view ->
-            btnHistory = view.findViewById(R.id.btnHistory)
-            btnHistory.setOnClickListener {
-                historyView.visibility = View.VISIBLE
-                bookmarkWrapperView.visibility = View.GONE
+//            btnHistory = view.findViewById(R.id.btnHistory)
+//            btnHistory.setOnClickListener {
+//                historyView.visibility = View.VISIBLE
+//                bookmarkWrapperView.visibility = View.GONE
+//
+//                context?.let { btnHistory.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
+//                btnHistory.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_b
+//                    )
+//                )
+//                context?.let { btnBookmark.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnBookmark.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//            }
+//            btnBookmark = view.findViewById(R.id.btnBookmark)
+//            btnBookmark.setOnClickListener {
+//                historyView.visibility = View.GONE
+//                bookmarkWrapperView.visibility = View.VISIBLE
+//
+//                context?.let { btnHistory.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnHistory.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnBookmark.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
+//                btnBookmark.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_b
+//                    )
+//                )
+//            }
+//            //
+//            historyAdapter = OpinionAdapter(activity, history, false, true)
+//            historyView = view.findViewById(R.id.historyView)
+//            historyView.layoutManager = LinearLayoutManager(context)
+//            historyView.adapter = historyAdapter
+//
+//            bookmarkWrapperView = view.findViewById(R.id.bookmarkWrapperView)
+//            bookmarkWrapperView.visibility = View.VISIBLE
+//
+//            btnAgenda = view.findViewById(R.id.btnAgenda)
+//            btnAgenda.setOnClickListener {
+//                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
+//                btnAgenda.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_b
+//                    )
+//                )
+//                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnOpinion.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnTalk.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnWatch.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//
+//                agendaView.visibility = View.VISIBLE
+//                opinionView.visibility = View.GONE
+//                talkView.visibility = View.GONE
+//                watchView.visibility = View.GONE
+//            }
+//            btnOpinion = view.findViewById(R.id.btnOpinion)
+//            btnOpinion.setOnClickListener {
+//                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnAgenda.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
+//                btnOpinion.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_b
+//                    )
+//                )
+//                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnTalk.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnWatch.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//
+//                agendaView.visibility = View.GONE
+//                opinionView.visibility = View.VISIBLE
+//                talkView.visibility = View.GONE
+//                watchView.visibility = View.GONE
+//            }
+//            btnTalk = view.findViewById(R.id.btnTalk)
+//            btnTalk.setOnClickListener {
+//                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnAgenda.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnOpinion.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
+//                btnTalk.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_b
+//                    )
+//                )
+//                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnWatch.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//
+//                agendaView.visibility = View.GONE
+//                opinionView.visibility = View.GONE
+//                talkView.visibility = View.VISIBLE
+//                watchView.visibility = View.GONE
+//
+//                getUserBookmarkTalk()
+//            }
+//            btnWatch = view.findViewById(R.id.btnWatch)
+//            btnWatch.setOnClickListener {
+//                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnAgenda.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnOpinion.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
+//                btnTalk.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_r
+//                    )
+//                )
+//                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
+//                btnWatch.setTypeface(
+//                    ResourcesCompat.getFont(
+//                        view.context,
+//                        R.font.gyeonggi_batang_b
+//                    )
+//                )
+//                agendaView.visibility = View.GONE
+//                opinionView.visibility = View.GONE
+//                talkView.visibility = View.GONE
+//                watchView.visibility = View.VISIBLE
+//
+//                getUserBookmarkWatch()
+//            }
 
-                context?.let { btnHistory.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
-                btnHistory.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_b
-                    )
-                )
-                context?.let { btnBookmark.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnBookmark.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-            }
-            btnBookmark = view.findViewById(R.id.btnBookmark)
-            btnBookmark.setOnClickListener {
-                historyView.visibility = View.GONE
-                bookmarkWrapperView.visibility = View.VISIBLE
+//            agendaAdapter = AgendaAdapter(activity, agenda)
+//            agendaView = view.findViewById(R.id.agendaView)
+//            agendaView.layoutManager = LinearLayoutManager(context)
+//            agendaView.adapter = agendaAdapter
+//            agendaView.visibility = View.GONE
+//
+//            opinionAdapter = OpinionAdapter(activity, opinion, true, true)
+//            opinionView = view.findViewById(R.id.opinionView)
+//            opinionView.layoutManager = LinearLayoutManager(context)
+//            opinionView.adapter = opinionAdapter
+//            opinionView.visibility = View.GONE
 
-                context?.let { btnHistory.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnHistory.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnBookmark.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
-                btnBookmark.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_b
-                    )
-                )
-            }
-            //
-            historyAdapter = OpinionAdapter(activity, history, false, true)
-            historyView = view.findViewById(R.id.historyView)
-            historyView.layoutManager = LinearLayoutManager(context)
-            historyView.adapter = historyAdapter
-
-            bookmarkWrapperView = view.findViewById(R.id.bookmarkWrapperView)
-            bookmarkWrapperView.visibility = View.VISIBLE
-
-            btnAgenda = view.findViewById(R.id.btnAgenda)
-            btnAgenda.setOnClickListener {
-                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
-                btnAgenda.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_b
-                    )
-                )
-                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnOpinion.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnTalk.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnWatch.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-
-                agendaView.visibility = View.VISIBLE
-                opinionView.visibility = View.GONE
-                talkView.visibility = View.GONE
-                watchView.visibility = View.GONE
-            }
-            btnOpinion = view.findViewById(R.id.btnOpinion)
-            btnOpinion.setOnClickListener {
-                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnAgenda.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
-                btnOpinion.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_b
-                    )
-                )
-                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnTalk.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnWatch.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-
-                agendaView.visibility = View.GONE
-                opinionView.visibility = View.VISIBLE
-                talkView.visibility = View.GONE
-                watchView.visibility = View.GONE
-            }
-            btnTalk = view.findViewById(R.id.btnTalk)
-            btnTalk.setOnClickListener {
-                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnAgenda.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnOpinion.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
-                btnTalk.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_b
-                    )
-                )
-                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnWatch.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-
-                agendaView.visibility = View.GONE
-                opinionView.visibility = View.GONE
-                talkView.visibility = View.VISIBLE
-                watchView.visibility = View.GONE
-
-                getUserBookmarkTalk()
-            }
-            btnWatch = view.findViewById(R.id.btnWatch)
-            btnWatch.setOnClickListener {
-                context?.let { btnAgenda.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnAgenda.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnOpinion.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnOpinion.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnTalk.setTextColor(ContextCompat.getColor(it, R.color.colorTextNone)) }
-                btnTalk.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_r
-                    )
-                )
-                context?.let { btnWatch.setTextColor(ContextCompat.getColor(it, R.color.colorTextSegment)) }
-                btnWatch.setTypeface(
-                    ResourcesCompat.getFont(
-                        view.context,
-                        R.font.gyeonggi_batang_b
-                    )
-                )
-                agendaView.visibility = View.GONE
-                opinionView.visibility = View.GONE
-                talkView.visibility = View.GONE
-                watchView.visibility = View.VISIBLE
-
-                getUserBookmarkWatch()
-            }
-
-            agendaAdapter = AgendaAdapter(activity, agenda)
-            agendaView = view.findViewById(R.id.agendaView)
-            agendaView.layoutManager = LinearLayoutManager(context)
-            agendaView.adapter = agendaAdapter
-            agendaView.visibility = View.GONE
-
-            opinionAdapter = OpinionAdapter(activity, opinion, true, true)
-            opinionView = view.findViewById(R.id.opinionView)
-            opinionView.layoutManager = LinearLayoutManager(context)
-            opinionView.adapter = opinionAdapter
-            opinionView.visibility = View.GONE
-
-            talkAdapter = TalkAdapter(activity, talk)
+            talkAdapter = TalkAdapter2(activity, talk)
             talkView = view.findViewById(R.id.talkView)
-            talkView.layoutManager = LinearLayoutManager(context)
+            talkView.layoutManager = GridLayoutManager(context,3)
             talkView.adapter = talkAdapter
             talkView.visibility = View.VISIBLE
 
-            watchAdapter = WatchAdapter(activity, watch)
-            watchView = view.findViewById(R.id.watchView)
-            watchView.layoutManager = LinearLayoutManager(context)
-            watchView.adapter = watchAdapter
-            watchView.visibility = View.GONE
+//            watchAdapter = WatchAdapter(activity, watch)
+//            watchView = view.findViewById(R.id.watchView)
+//            watchView.layoutManager = LinearLayoutManager(context)
+//            watchView.adapter = watchAdapter
+//            watchView.visibility = View.GONE
         }
     }
 

@@ -12,7 +12,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:fontFamily="@font/gyeonggi_batang_r"
         android:text="톡"
         android:textColor="@color/colorTextTitle"
         android:textSize="14sp"

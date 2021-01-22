@@ -19,9 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:fontFamily="@font/gyeonggi_batang_r"
-        android:text="실시간으로\n드라마 보면서\n이야기 나누자!"
-
+        android:text="드라마 볼 땐\n드라마 톡\n\n마이코멘트 - 드라마톡"
         android:textColor="@color/colorTextTitle"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@id/logoView"
@@ -43,7 +41,7 @@
             android:layout_height="40dp"
             android:background="@color/colorSnsFacebook"
             android:gravity="center"
-            android:text="Facebook으로 로그인"
+            android:text="페이스북 로그인"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -57,7 +55,7 @@
             android:layout_height="40dp"
             android:background="@color/colorSnsGoogle"
             android:gravity="center"
-            android:text="Google로 로그인"
+            android:text="구글 로그인"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

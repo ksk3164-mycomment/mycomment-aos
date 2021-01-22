@@ -16,7 +16,6 @@ import kr.beimsupicures.mycomment.api.models.*
 import kr.beimsupicures.mycomment.common.isPushEnabledAtOSLevel
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.WaterDropDialog
-import kr.beimsupicures.mycomment.extensions.currencyValue
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
 import kr.beimsupicures.mycomment.extensions.getUser
 import kr.beimsupicures.mycomment.extensions.popup
@@ -60,7 +59,7 @@ class TalkAdapter(val activity: FragmentActivity?, var items: MutableList<TalkMo
             bookmarkView.setImageDrawable(
                 ContextCompat.getDrawable(
                     itemView.context,
-                    if (viewModel.pick == true) R.drawable.bookmark_r else R.drawable.bookmark
+                    if (viewModel.pick == true) R.drawable.bookmark_full else R.drawable.bookmark
                 )
             )
             bookmarkView.setOnClickListener {
@@ -72,7 +71,7 @@ class TalkAdapter(val activity: FragmentActivity?, var items: MutableList<TalkMo
                                 PickModel.Category.talk,
                                 viewModel.id
                             ) { pickModel ->
-                                var newValue = items[position]
+                                val newValue = items[position]
                                 newValue.pick = pickModel.pick()
                                 items[position] = newValue
                                 notifyDataSetChanged()
@@ -82,7 +81,11 @@ class TalkAdapter(val activity: FragmentActivity?, var items: MutableList<TalkMo
                         false -> {
                             activity?.supportFragmentManager?.let { fragmentManager ->
                                 WaterDropDialog.newInstance(
-                                    if (isPushEnabledAtOSLevel(activity)) { WaterDropDialog.NotificationSetting.allowed } else { WaterDropDialog.NotificationSetting.denied },
+                                    if (isPushEnabledAtOSLevel(activity)) {
+                                        WaterDropDialog.NotificationSetting.allowed
+                                    } else {
+                                        WaterDropDialog.NotificationSetting.denied
+                                    },
                                     viewModel.title
                                 ).show(fragmentManager, "")
                             }
@@ -98,7 +101,8 @@ class TalkAdapter(val activity: FragmentActivity?, var items: MutableList<TalkMo
                             }
                         }
 
-                        else -> { }
+                        else -> {
+                        }
                     }
 
                 } ?: run {
@@ -114,9 +118,9 @@ class TalkAdapter(val activity: FragmentActivity?, var items: MutableList<TalkMo
             Glide.with(itemView.context).load(viewModel.title_image_url).into(profileView)
             titleLabel.text = viewModel.title
             descLabel.text = "${viewModel.dayString} ${viewModel.openTimeString}"
-            countLabel.text = "${(viewModel.talk_count ?: 0).currencyValue} 톡"
+            countLabel.text = viewModel.talk_count.toString()
 
-            itemView.setOnClickListener { view ->
+            itemView.setOnClickListener {
                 activity?.let { activity ->
 
                     val action = NavigationDirections.actionGlobalTalkDetailFragment(viewModel)

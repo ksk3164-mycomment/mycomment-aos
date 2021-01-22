@@ -5,168 +5,171 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
-    <LinearLayout
-        android:id="@+id/optionWrapperView"
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/optionWrapperView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="32dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <Space-->
+    <!--            android:layout_width="16dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:visibility="gone" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/btnHistory"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:lineSpacingMultiplier="1.5"-->
+    <!--            android:text="히스토리"-->
+    <!--            android:textColor="@color/colorTextNone"-->
+    <!--            android:textSize="15sp"-->
+    <!--            android:visibility="gone" />-->
+
+    <!--        <Space-->
+    <!--            android:layout_width="12dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:visibility="gone" />-->
+
+    <TextView
+        android:id="@+id/btnBookmark"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="내가 즐겨보는 드라마"
+        android:textColor="@color/colorTextTitle"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    </LinearLayout>-->
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/historyView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:scrollbars="vertical"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/optionWrapperView" />-->
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/bookmarkWrapperView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/optionWrapperView">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="32dp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--            <Space-->
+    <!--                android:layout_width="16dp"-->
+    <!--                android:layout_height="match_parent" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/btnAgenda"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:lineSpacingMultiplier="1.5"-->
+    <!--                android:text="논의"-->
+    <!--                android:textColor="@color/colorTextSegment"-->
+    <!--                android:textSize="14sp"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <Space-->
+    <!--                android:layout_width="12dp"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/btnOpinion"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:lineSpacingMultiplier="1.5"-->
+    <!--                android:text="타인의 의견"-->
+    <!--                android:textColor="@color/colorTextNone"-->
+    <!--                android:textSize="14sp"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <Space-->
+    <!--                android:layout_width="12dp"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:visibility="gone" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/btnTalk"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:lineSpacingMultiplier="1.5"-->
+    <!--                android:text="본방사수"-->
+    <!--                android:textColor="@color/colorTextSegment"-->
+    <!--                android:textSize="14sp" />-->
+
+    <!--            <Space-->
+    <!--                android:layout_width="12dp"-->
+    <!--                android:layout_height="match_parent" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/btnWatch"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:lineSpacingMultiplier="1.5"-->
+    <!--                android:text="드라마 집합소"-->
+    <!--                android:textColor="@color/colorTextNone"-->
+    <!--                android:textSize="14sp" />-->
+
+    <!--        </LinearLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/btnBookmark">
 
-        <Space
-            android:layout_width="16dp"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/btnHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/gyeonggi_batang_r"
-            android:lineSpacingMultiplier="1.5"
-            android:text="히스토리"
-            android:textColor="@color/colorTextNone"
-            android:textSize="15sp"
-            android:visibility="gone" />
-
-        <Space
-            android:layout_width="12dp"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/btnBookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/gyeonggi_batang_b"
-            android:lineSpacingMultiplier="1.5"
-            android:text="즐겨보는 드라마"
-            android:textColor="@color/colorTextSegment"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/optionWrapperView" />
-
-    <LinearLayout
-        android:id="@+id/bookmarkWrapperView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/optionWrapperView">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Space
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/btnAgenda"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/gyeonggi_batang_b"
-                android:lineSpacingMultiplier="1.5"
-                android:text="논의"
-                android:textColor="@color/colorTextSegment"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/btnOpinion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/gyeonggi_batang_r"
-                android:lineSpacingMultiplier="1.5"
-                android:text="타인의 의견"
-                android:textColor="@color/colorTextNone"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/btnTalk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/gyeonggi_batang_b"
-                android:lineSpacingMultiplier="1.5"
-                android:text="본방사수"
-                android:textColor="@color/colorTextSegment"
-                android:textSize="14sp" />
-
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/btnWatch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/gyeonggi_batang_r"
-                android:lineSpacingMultiplier="1.5"
-                android:text="드라마 집합소"
-                android:textColor="@color/colorTextNone"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/opinionView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/opinionView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/agendaView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/agendaView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/talkView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/talkView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/watchView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/watchView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
+    </RelativeLayout>
 
-        </RelativeLayout>
-
-    </LinearLayout>
+    <!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

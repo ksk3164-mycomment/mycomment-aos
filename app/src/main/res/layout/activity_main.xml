@@ -191,7 +191,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
-                    android:fontFamily="@font/gyeonggi_batang_r"
                     android:gravity="center_vertical"
                     android:text="드라마 검색하기"
                     android:textSize="15sp" />
@@ -202,7 +201,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
-                    android:fontFamily="@font/gyeonggi_batang_r"
                     android:hint="드라마 검색하기"
                     android:textSize="15sp"
                     android:visibility="gone" />
@@ -215,7 +213,6 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="12dp"
-                android:fontFamily="@font/gyeonggi_batang_r"
                 android:gravity="center"
                 android:text="취소"
                 android:textColor="@color/black"

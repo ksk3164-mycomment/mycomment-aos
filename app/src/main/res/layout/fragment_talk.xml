@@ -14,26 +14,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <TextView-->
-<!--                android:id="@+id/titleLabel"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:fontFamily="@font/gyeonggi_batang_r"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:paddingBottom="24dp"-->
-<!--                android:text="본방사수"-->
-<!--                android:textColor="@color/colorTextTitle" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/titleLabel"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:gravity="center_horizontal"-->
+            <!--                android:paddingBottom="24dp"-->
+            <!--                android:text="본방사수"-->
+            <!--                android:textColor="@color/colorTextTitle" />-->
 
-<!--            <com.github.islamkhsh.CardSliderViewPager-->
-<!--                android:id="@+id/noticeView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="44dp"-->
-<!--                android:background="#EFF6FA"-->
-<!--                app:auto_slide_time="5"-->
-<!--                app:cardSlider_baseShadow="0dp"-->
-<!--                app:cardSlider_otherPagesWidth="0dp"-->
-<!--                app:cardSlider_pageMargin="0dp"-->
-<!--                app:cardSlider_smallScaleFactor="1.0" />-->
+            <!--            <com.github.islamkhsh.CardSliderViewPager-->
+            <!--                android:id="@+id/noticeView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="44dp"-->
+            <!--                android:background="#EFF6FA"-->
+            <!--                app:auto_slide_time="5"-->
+            <!--                app:cardSlider_baseShadow="0dp"-->
+            <!--                app:cardSlider_otherPagesWidth="0dp"-->
+            <!--                app:cardSlider_pageMargin="0dp"-->
+            <!--                app:cardSlider_smallScaleFactor="1.0" />-->
 
             <Space
                 android:layout_width="match_parent"
@@ -45,13 +44,176 @@
                 android:layout_height="0dp"
                 app:auto_slide_time="5"
                 app:cardSlider_baseShadow="0dp"
-                app:cardSlider_otherPagesWidth="0dp"
-                app:cardSlider_pageMargin="16dp"
+                app:cardSlider_indicator="@id/bannerIndicator"
+                app:cardSlider_otherPagesWidth="12dp"
+                app:cardSlider_pageMargin="12dp"
                 app:cardSlider_smallScaleFactor="1.0" />
+
+            <com.github.islamkhsh.CardSliderIndicator
+                android:id="@+id/bannerIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                app:indicatorsToShow="5" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="24dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bookmarkLayout"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="내가 즐겨보는 드라마"
+                    android:textColor="@color/colorTextTitle"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvBookMark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:text="전체보기 >"
+                    android:textColor="@color/colorTextSegment2"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/colorBackgroundGrey">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="어제 공감물방울 가장 많이 받은 코멘터"
+                    android:textColor="@color/colorTextTitle"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/first_sympath_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/first_sympathy"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_sircle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="38dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/invalid_name"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_first_sympathy_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1등아이디"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_sircle"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/img_second_sympathy"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/second_sympathy"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_sircle2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="38dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/invalid_name"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_second_sympathy_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2등아이디"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_sircle2"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="#317C83"
+                    android:text="당신은 마이코멘트 인싸! 매일 정오에 새롭게 집계됩니다"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/first_sympath_layout" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/bubble_smiling"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_content"
+                    app:layout_constraintTop_toBottomOf="@id/first_sympath_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categoryView"
@@ -75,9 +237,8 @@
                     android:id="@+id/btnWeekday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="8dp"
-                    android:fontFamily="@font/gyeonggi_batang_b"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
                     android:gravity="right"
                     android:text="요일별"
                     android:textColor="@color/colorTextTitle"
@@ -89,7 +250,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="16dp"
-                    android:fontFamily="@font/gyeonggi_batang_r"
                     android:gravity="right"
                     android:text="방송사별"
                     android:textColor="@color/colorTextSegment"

@@ -18,7 +18,6 @@
                 android:id="@+id/titleLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gyeonggi_batang_r"
                 android:gravity="center_horizontal"
                 android:paddingBottom="24dp"
                 android:text="드라마 집합소"

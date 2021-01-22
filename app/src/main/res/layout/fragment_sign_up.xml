@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="56dp"
-        android:fontFamily="@font/gyeonggi_batang_r"
         android:lineSpacingMultiplier="1.5"
         android:text="아이디"
         android:textColor="@color/colorTextContent"
@@ -39,7 +38,6 @@
             android:layout_marginRight="8dp"
             android:background="@color/colorWhite"
             android:ems="10"
-            android:fontFamily="@font/gyeonggi_batang_r"
             android:hint="아이디"
             android:inputType="textPersonName"
             android:textSize="15sp" />
@@ -52,7 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
-        android:fontFamily="@font/gyeonggi_batang_r"
         android:lineSpacingMultiplier="1.5"
         android:text="비밀번호"
         android:textColor="@color/colorTextContent"
@@ -80,7 +77,6 @@
             android:layout_marginRight="8dp"
             android:background="@color/colorWhite"
             android:ems="10"
-            android:fontFamily="@font/gyeonggi_batang_r"
             android:hint="비밀번호를 입력해주세요"
             android:inputType="textPassword"
             android:textSize="15sp" />
@@ -107,7 +103,6 @@
             android:layout_marginRight="8dp"
             android:background="@color/colorWhite"
             android:ems="10"
-            android:fontFamily="@font/gyeonggi_batang_r"
             android:hint="비밀번호를 한번 더 입력해주세요"
             android:inputType="textPassword"
             android:textSize="15sp" />
@@ -148,7 +143,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gyeonggi_batang_r"
             android:lineSpacingMultiplier="1.5"
             android:text="회원가입 버튼을 누를 시 "
             android:textColor="@color/colorTextContent"
@@ -158,7 +152,6 @@
             android:id="@+id/btnService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gyeonggi_batang_b"
             android:lineSpacingMultiplier="1.5"
             android:text="서비스이용약관"
             android:textColor="@color/colorPrimary"
@@ -167,7 +160,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gyeonggi_batang_r"
             android:lineSpacingMultiplier="1.5"
             android:text="과 "
             android:textColor="@color/colorTextContent"
@@ -177,7 +169,6 @@
             android:id="@+id/btnPrivacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gyeonggi_batang_b"
             android:lineSpacingMultiplier="1.5"
             android:text="개인정보처리방침"
             android:textColor="@color/colorPrimary"
@@ -186,7 +177,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gyeonggi_batang_r"
             android:lineSpacingMultiplier="1.5"
             android:text="에 동의한 것으로 간주합니다."
             android:textColor="@color/colorTextContent"

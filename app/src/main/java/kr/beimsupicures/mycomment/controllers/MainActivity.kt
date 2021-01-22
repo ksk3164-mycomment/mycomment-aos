@@ -240,7 +240,7 @@ class MainActivity : BaseActivity() {
                     searchCancel.visibility = View.GONE
                     searchField.visibility = View.GONE
 //                    toolbar.btnTalkSearch.visibility = View.VISIBLE
-//                    toolbar.btnBookmark.visibility = View.VISIBLE
+                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                     navView.visibility = View.VISIBLE
@@ -368,20 +368,20 @@ class MainActivity : BaseActivity() {
             Navigation.findNavController(this, R.id.nav_host_fragment)
                 .navigate(R.id.action_watchFragment_to_searchWatchFragment)
         }
-//        toolbar.btnBookmark.setOnClickListener { view ->
-//
-//            BaseApplication.shared.getSharedPreferences().getUser()?.let {
-//                Navigation.findNavController(this, R.id.nav_host_fragment)
-//                    .navigate(R.id.action_global_bookmarkFragment)
-//
-//            } ?: run {
-//
-//                popup("로그인하시겠습니까?", "로그인") {
-//                    Navigation.findNavController(this, R.id.nav_host_fragment)
-//                        .navigate(R.id.action_global_signInFragment)
-//                }
-//            }
-//        }
+        toolbar.btnBookmark.setOnClickListener {
+
+            BaseApplication.shared.getSharedPreferences().getUser()?.let {
+                Navigation.findNavController(this, R.id.nav_host_fragment)
+                    .navigate(R.id.action_global_bookmarkFragment)
+
+            } ?: run {
+
+                popup("로그인하시겠습니까?", "로그인") {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(R.id.action_global_signInFragment)
+                }
+            }
+        }
         toolbar.btnProfile.setOnClickListener {
 
             BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->

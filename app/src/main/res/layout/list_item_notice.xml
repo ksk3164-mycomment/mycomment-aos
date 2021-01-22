@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#EFF6FA"
-        android:fontFamily="@font/gyeonggi_batang_r"
         android:gravity="center_vertical"
         android:padding="8dp"
         android:textColor="@color/colorTextTitle"

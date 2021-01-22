@@ -8,10 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gyeonggi_batang_b"
         android:padding="16dp"
         android:text="소개글 작성하기"
-
         android:textAlignment="center"
         android:textColor="@color/colorTextTitle"
         android:textSize="15sp" />
@@ -23,7 +21,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/bg_input_dialog"
-        android:fontFamily="@font/gyeonggi_batang_r"
         android:gravity="top"
         android:hint="소개글을 작성해보세요!"
         android:inputType="textCapSentences|textMultiLine"
@@ -41,8 +38,6 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_dialog_button_disable"
         android:clickable="true"
-
-        android:fontFamily="@font/gyeonggi_batang_b"
         android:gravity="center"
         android:text="확인"
         android:textAlignment="center"

@@ -19,7 +19,9 @@
     <color name="colorTextIntro">#404040</color>
     <color name="colorTextName">#000000</color>
     <color name="colorTextNone">#A8A8A8</color>
+    <color name="colorBackgroundGrey">#ECF3F8</color>
     <color name="colorTextSegment">#505050</color>
+    <color name="colorTextSegment2">#8E8E93</color>
     <color name="colorTextTimestamp">#A9A9A9</color>
     <color name="colorTextTitle">#000000</color>
     <color name="paleGrey">#f2f7fa</color>

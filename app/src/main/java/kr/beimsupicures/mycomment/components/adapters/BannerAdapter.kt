@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.github.islamkhsh.CardSliderAdapter
 import kotlinx.android.synthetic.main.list_item_banner.view.*
 import kr.beimsupicures.mycomment.R
@@ -44,10 +46,12 @@ class BannerAdapter(val activity: FragmentActivity?, var items : MutableList<AdM
     inner class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView = itemView.imageView
 
+
         fun bind(viewModel: AdModel) {
             viewModel.banner_image_url?.let { image_url ->
                 Glide.with(itemView.context).load(image_url)
                     .transform(CenterCrop())
+                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                     .into(imageView)
             }
 

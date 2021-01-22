@@ -8,10 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gyeonggi_batang_b"
         android:padding="16dp"
         android:text="공감"
-
         android:textAlignment="center"
         android:textColor="@color/colorTextTitle"
         android:textSize="15sp" />
