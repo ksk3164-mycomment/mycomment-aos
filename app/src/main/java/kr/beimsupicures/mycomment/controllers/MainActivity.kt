@@ -6,15 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -26,7 +23,6 @@ import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.OpinionLoader
 import kr.beimsupicures.mycomment.api.loaders.SearchLoader
-import kr.beimsupicures.mycomment.api.loaders.UserLoader
 import kr.beimsupicures.mycomment.api.loaders.WatchLoader
 import kr.beimsupicures.mycomment.api.models.TermModel
 import kr.beimsupicures.mycomment.api.models.UserModel
@@ -61,9 +57,9 @@ class MainActivity : BaseActivity() {
 //        findViewById<ConstraintLayout>(R.id.searchViewConst)
 //    }
 
-    val navView: BottomNavigationView by lazy {
-        findViewById<BottomNavigationView>(R.id.nav_view)
-    }
+//    val navView: BottomNavigationView by lazy {
+//        findViewById<BottomNavigationView>(R.id.nav_view)
+//    }
 
     var isSearchFragment = false
 
@@ -95,7 +91,7 @@ class MainActivity : BaseActivity() {
             toolbar.searchView.visibility = View.GONE
             toolbar.btnBack.visibility = View.VISIBLE
             toolbar.visibility = View.VISIBLE
-            navView.visibility = View.GONE
+//            navView.visibility = View.GONE
             toolbar.btnTalkSearch.visibility = View.GONE
             toolbar.btnWatchSearch.visibility = View.GONE
             toolbar.circleView.visibility = View.GONE
@@ -116,7 +112,7 @@ class MainActivity : BaseActivity() {
 //                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
-                    navView.visibility = View.VISIBLE
+//                    navView.visibility = View.VISIBLE
 
                     OpinionLoader.shared.getUnreadCount { opinion ->
                         toolbar.circleView.visibility =
@@ -137,7 +133,7 @@ class MainActivity : BaseActivity() {
 //                    toolbar.btnClose.visibility = View.GONE
 //                }
                 R.id.profileFragment -> {
-                    toolbar.titleLabel.text = "프로필 보기"
+//                    toolbar.titleLabel.text = "프로필 보기"
                     toolbar.btnCalendarSearch.visibility = View.GONE
 //                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
@@ -240,17 +236,17 @@ class MainActivity : BaseActivity() {
                     searchCancel.visibility = View.GONE
                     searchField.visibility = View.GONE
 //                    toolbar.btnTalkSearch.visibility = View.VISIBLE
-                    toolbar.btnBookmark.visibility = View.VISIBLE
+//                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
-                    navView.visibility = View.VISIBLE
+//                    navView.visibility = View.VISIBLE
                     searchText.visibility = View.VISIBLE
                     toolbar.searchView.visibility = View.VISIBLE
                 }
                 R.id.talkDetailFragment -> {
                     toolbar.btnCalendarSearch.visibility = View.GONE
 //                    toolbar.btnBookmark.visibility = View.GONE
-                    toolbar.btnProfile.visibility = View.GONE
+                    toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.watchFragment -> {
@@ -259,7 +255,7 @@ class MainActivity : BaseActivity() {
 //                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
-                    navView.visibility = View.VISIBLE
+//                    navView.visibility = View.VISIBLE
                     toolbar.btnWatchSearch.visibility = View.VISIBLE
                 }
                 R.id.watchDetailFragment -> {
@@ -284,7 +280,7 @@ class MainActivity : BaseActivity() {
                     }
 
                     toolbar.btnCalendarSearch.visibility = View.GONE
-//                    toolbar.btnBookmark.visibility = View.GONE
+                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -304,7 +300,7 @@ class MainActivity : BaseActivity() {
                     }
                     toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-//                    toolbar.btnBookmark.visibility = View.GONE
+                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -312,7 +308,7 @@ class MainActivity : BaseActivity() {
                     toolbar.titleLabel.text = "주제 제안하기"
                     toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-//                    toolbar.btnBookmark.visibility = View.GONE
+                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -323,7 +319,7 @@ class MainActivity : BaseActivity() {
                     searchField.visibility = View.VISIBLE
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-//                    toolbar.btnBookmark.visibility = View.GONE
+                    toolbar.btnBookmark.visibility = View.GONE
 //                    toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                     toolbar.searchView.visibility = View.VISIBLE
@@ -341,7 +337,7 @@ class MainActivity : BaseActivity() {
                     toolbar.titleLabel.text = "프로필 입력"
                     toolbar.btnBack.visibility = View.VISIBLE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-//                    toolbar.btnBookmark.visibility = View.GONE
+                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
@@ -476,7 +472,7 @@ class MainActivity : BaseActivity() {
                     }
             }
 
-        NavigationUI.setupWithNavController(navView, navController)
+//        NavigationUI.setupWithNavController(navView, navController)
     }
 
 

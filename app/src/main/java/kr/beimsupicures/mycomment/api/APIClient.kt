@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.api
 
+import android.util.Log
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.extensions.getAccessToken
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
@@ -15,7 +16,7 @@ data class APIResult<T>(
 class APIClient {
     companion object {
         val baseURL = "http://api.my-comment.co.kr:3000/" // live server
-//        val baseURL = "http://api.my-comment.co.kr:3001/" // dev server
+        //        val baseURL = "http://api.my-comment.co.kr:3001/" // dev server
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -24,12 +25,13 @@ class APIClient {
         var accessToken: String? = ""
             get() {
                 BaseApplication.shared.getSharedPreferences().getAccessToken()?.let { accessToken ->
-                    return "Bearer ${accessToken}"
-
+                    return "Bearer $accessToken"
                 } ?: run {
                     return null
                 }
+
             }
+
 
         fun <T> create(service: Class<T>): T {
             return retrofit.create(service)

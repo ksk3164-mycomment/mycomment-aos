@@ -112,8 +112,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="724" />
+                            <option name="x" value="1231" />
+                            <option name="y" value="1727" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -426,6 +426,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_talkFragment_to_bookMarkFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_talkFragment_to_searchTalkFragment">
                               <value>
                                 <LayoutPositions />
@@ -527,7 +532,7 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
+                            <option name="x" value="18" />
                             <option name="y" value="12" />
                           </Point>
                         </option>

@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
+import android.app.Activity
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.islamkhsh.CardSliderIndicator
@@ -24,9 +26,10 @@ import kr.beimsupicures.mycomment.api.models.*
 import kr.beimsupicures.mycomment.components.adapters.*
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
-import kr.beimsupicures.mycomment.extensions.dp
-import kr.beimsupicures.mycomment.extensions.getSharedPreferences
-import kr.beimsupicures.mycomment.extensions.setCurrentTalkId
+import kr.beimsupicures.mycomment.controllers.MainActivity
+import kr.beimsupicures.mycomment.controllers.main.bookmark.BookmarkFragment
+import kr.beimsupicures.mycomment.controllers.signs.SignInFragmentDirections
+import kr.beimsupicures.mycomment.extensions.*
 import kr.beimsupicures.mycomment.services.MCFirebaseMessagingService
 import java.util.*
 
@@ -94,7 +97,7 @@ class TalkFragment : BaseFragment() {
             }
         }
 
-//    var notice: MutableList<NoticeModel> = mutableListOf()
+    //    var notice: MutableList<NoticeModel> = mutableListOf()
     var ad: MutableList<AdModel> = mutableListOf()
     var category: MutableList<Pair<Boolean, CategoryModel>> = mutableListOf()
     var provider: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
@@ -139,7 +142,7 @@ class TalkFragment : BaseFragment() {
             talkAdapter.notifyDataSetChanged()
         }
 
-//    lateinit var noticeView: CardSliderViewPager
+    //    lateinit var noticeView: CardSliderViewPager
 //    lateinit var noticeAdapter: NoticeAdapter
     lateinit var bannerView: CardSliderViewPager
     lateinit var bannerIndicator: CardSliderIndicator
@@ -148,10 +151,13 @@ class TalkFragment : BaseFragment() {
     lateinit var categoryAdapter: CategoryAdapter
     lateinit var btnWeekday: TextView
     lateinit var btnProvider: TextView
+    lateinit var tvBookMark: TextView
     lateinit var providerView: RecyclerView
     lateinit var providerAdapter: ProviderAdapter
     lateinit var talkView: RecyclerView
     lateinit var talkAdapter: TalkAdapter
+    lateinit var bookMarkView: RecyclerView
+    lateinit var bookMarkAdapter: TalkAdapter3
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -174,14 +180,16 @@ class TalkFragment : BaseFragment() {
                     val mentionModel = makeMentionModel(payload)
                     if (mentionModel != null) {
                         AnalyticsLoader.shared.reportMentionConfirm(mentionModel.mention.id)
-                        val action = NavigationDirections.actionGlobalTalkDetailFragment(mentionModel.talk)
+                        val action =
+                            NavigationDirections.actionGlobalTalkDetailFragment(mentionModel.talk)
                         action.selectedCommentId = mentionModel.mention.comment_id
                         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                             .navigate(action)
                     }
                 }
             }
-            else -> { }
+            else -> {
+            }
         }
         BaseApplication.shared.getSharedPreferences().setCurrentTalkId(-1)
         activity?.intent?.removeExtra("Redirection")
@@ -275,14 +283,16 @@ class TalkFragment : BaseFragment() {
 
             btnWeekday = view.findViewById(R.id.btnWeekday)
             btnWeekday.setOnClickListener {
-                filter = Pair(filter.first,
+                filter = Pair(
+                    filter.first,
                     Sort.weekday
                 )
                 showWeekdayUI()
             }
             btnProvider = view.findViewById(R.id.btnProvider)
             btnProvider.setOnClickListener {
-                filter = Pair(filter.first,
+                filter = Pair(
+                    filter.first,
                     Sort.provider
                 )
                 showProviderUI()
@@ -353,6 +363,34 @@ class TalkFragment : BaseFragment() {
             talkView = view.findViewById(R.id.talkView)
             talkView.layoutManager = LinearLayoutManager(context)
             talkView.adapter = talkAdapter
+
+
+            BaseApplication.shared.getSharedPreferences().getUser()?.let {
+
+                var accessToken = BaseApplication.shared.getSharedPreferences().getAccessToken()
+                Log.e("성국", "" + accessToken)
+
+                bookmarkLayout.visibility = View.VISIBLE
+
+                bookMarkAdapter = TalkAdapter3(activity,this.talk)
+                bookMarkView = view.findViewById(R.id.rvBookMark)
+                bookMarkView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+                bookMarkView.adapter = bookMarkAdapter
+
+
+            } ?: run {
+
+                bookmarkLayout.visibility = View.GONE
+            }
+
+            tvBookMark = view.findViewById(R.id.tvBookMark)
+            tvBookMark.setOnClickListener {
+                val action = R.id.action_talkFragment_to_bookMarkFragment
+                findNavController().navigate(action)
+            }
+
+
+
         }
     }
 
@@ -387,6 +425,8 @@ class TalkFragment : BaseFragment() {
             providerAdapter.items = this.tabs
             providerAdapter.notifyDataSetChanged()
         }
+
+        getUserBookmarkTalk()
     }
 
     fun sort(talk: MutableList<TalkModel>): MutableList<TalkModel> {
@@ -404,10 +444,10 @@ fun TalkFragment.showWeekdayUI() {
     weekday.filter { it.first }.firstOrNull()?.let { selected ->
         TalkModel.Weekday.values().filter { it.value == selected.second.name.replace("요일", "") }
             .firstOrNull()?.let { weekday ->
-            TalkLoader.shared.getTalkList(weekday) { talk ->
-                this.talk = sort(talk)
+                TalkLoader.shared.getTalkList(weekday) { talk ->
+                    this.talk = sort(talk)
+                }
             }
-        }
     }
 }
 
@@ -427,4 +467,12 @@ fun TalkFragment.makeTalkModel(payload: String): TalkModel? {
 fun TalkFragment.makeMentionModel(payload: String): MentionModel? {
     val gson = GsonBuilder().create()
     return gson.fromJson(payload, MentionModel::class.java)
+}
+
+fun TalkFragment.getUserBookmarkTalk() {
+    UserLoader.shared.getUserBookmarkTalk { talk ->
+        this.talk = talk.toMutableList()
+        bookMarkAdapter.items = this.talk
+        bookMarkAdapter.notifyDataSetChanged()
+    }
 }

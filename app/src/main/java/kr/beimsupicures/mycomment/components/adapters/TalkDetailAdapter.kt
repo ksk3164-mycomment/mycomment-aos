@@ -44,15 +44,6 @@ class TalkDetailAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
             0 -> {
-                ViewHolder1(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.list_item_talk_header,
-                        parent,
-                        false
-                    )
-                )
-            }
-            1 -> {
                 ViewHolder2(
                     LayoutInflater.from(parent.context).inflate(
                         R.layout.list_item_talk_content,
@@ -60,6 +51,16 @@ class TalkDetailAdapter(
                         false
                     )
                 )
+            }
+            1 -> {
+                ViewHolder1(
+                    LayoutInflater.from(parent.context).inflate(
+                        R.layout.list_item_talk_header,
+                        parent,
+                        false
+                    )
+                )
+
             }
             2 -> {
                 ViewHolder3(
@@ -140,7 +141,7 @@ class TalkDetailAdapter(
                     if (viewModel.pick == true) R.drawable.bookmark_r else R.drawable.bookmark
                 )
             )
-            bookmarkView.setOnClickListener { view ->
+            bookmarkView.setOnClickListener {
 
                 BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
@@ -407,9 +408,9 @@ class TalkDetailAdapter(
                                         put("count", "${count}")
                                     })
 
-                                    activity.alert("삭제되었습니다.", "알림", {
+                                    activity.alert("삭제되었습니다.", "알림") {
 
-                                    })
+                                    }
                                     items.removeAt(position)
                                     notifyDataSetChanged()
 
