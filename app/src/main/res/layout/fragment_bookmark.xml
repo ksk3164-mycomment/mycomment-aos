@@ -142,17 +142,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBookmark">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/opinionView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/opinionView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="vertical" />-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/agendaView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/agendaView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="vertical" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/talkView"
@@ -160,11 +160,11 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/watchView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/watchView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:scrollbars="vertical" />-->
 
     </RelativeLayout>
 

@@ -158,6 +158,8 @@ class TalkFragment : BaseFragment() {
     lateinit var talkAdapter: TalkAdapter
     lateinit var bookMarkView: RecyclerView
     lateinit var bookMarkAdapter: TalkAdapter3
+    lateinit var rvDrama: RecyclerView
+    lateinit var dramaAdapter: TalkAdapter3
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -368,7 +370,7 @@ class TalkFragment : BaseFragment() {
             BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
                 var accessToken = BaseApplication.shared.getSharedPreferences().getAccessToken()
-                Log.e("성국", "" + accessToken)
+                Log.e("성국", "Bearer $accessToken")
 
                 bookmarkLayout.visibility = View.VISIBLE
 
