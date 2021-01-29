@@ -105,6 +105,7 @@ class MainActivity : BaseActivity() {
 //                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
+                    toolbar.searchView.visibility = View.GONE
                 }
                 R.id.todayFragment -> {
                     toolbar.btnBack.visibility = View.GONE
@@ -139,12 +140,12 @@ class MainActivity : BaseActivity() {
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
-                R.id.detailFragment -> {
-                    toolbar.btnCalendarSearch.visibility = View.GONE
-//                    toolbar.btnBookmark.visibility = View.VISIBLE
-                    toolbar.btnProfile.visibility = View.VISIBLE
-                    toolbar.btnClose.visibility = View.GONE
-                }
+//                R.id.detailFragment -> {
+//                    toolbar.btnCalendarSearch.visibility = View.GONE
+////                    toolbar.btnBookmark.visibility = View.VISIBLE
+//                    toolbar.btnProfile.visibility = View.VISIBLE
+//                    toolbar.btnClose.visibility = View.GONE
+//                }
                 R.id.bestUserFragment -> {
                     toolbar.titleLabel.text = "Key Opinion Leader"
                     toolbar.btnCalendarSearch.visibility = View.GONE
@@ -233,21 +234,23 @@ class MainActivity : BaseActivity() {
                     isSearchFragment = false
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnCalendarSearch.visibility = View.GONE
-                    searchCancel.visibility = View.GONE
-                    searchField.visibility = View.GONE
-//                    toolbar.btnTalkSearch.visibility = View.VISIBLE
-//                    toolbar.btnBookmark.visibility = View.VISIBLE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
-//                    navView.visibility = View.VISIBLE
-                    searchText.visibility = View.VISIBLE
+                    toolbar.searchText.visibility = View.VISIBLE
                     toolbar.searchView.visibility = View.VISIBLE
+                    toolbar.searchCancel.visibility = View.GONE
+                    toolbar.searchField.visibility = View.GONE
                 }
                 R.id.talkDetailFragment -> {
                     toolbar.btnCalendarSearch.visibility = View.GONE
 //                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
+                    toolbar.searchText.visibility = View.GONE
+                    toolbar.searchView.visibility = View.GONE
+                    toolbar.searchCancel.visibility = View.GONE
+                    toolbar.searchField.visibility = View.GONE
+
                 }
                 R.id.watchFragment -> {
                     toolbar.btnBack.visibility = View.GONE
