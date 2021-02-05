@@ -1,6 +1,5 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
-import android.app.Activity
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -15,6 +15,9 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.github.islamkhsh.CardSliderIndicator
 import com.github.islamkhsh.CardSliderViewPager
 import com.google.gson.GsonBuilder
@@ -26,11 +29,10 @@ import kr.beimsupicures.mycomment.api.models.*
 import kr.beimsupicures.mycomment.components.adapters.*
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
-import kr.beimsupicures.mycomment.controllers.MainActivity
-import kr.beimsupicures.mycomment.controllers.main.bookmark.BookmarkFragment
-import kr.beimsupicures.mycomment.controllers.signs.SignInFragmentDirections
 import kr.beimsupicures.mycomment.extensions.*
 import kr.beimsupicures.mycomment.services.MCFirebaseMessagingService
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class TalkFragment : BaseFragment() {
@@ -99,6 +101,9 @@ class TalkFragment : BaseFragment() {
 
     //    var notice: MutableList<NoticeModel> = mutableListOf()
     var ad: MutableList<AdModel> = mutableListOf()
+
+    var ymd_date: String = ""
+
     var category: MutableList<Pair<Boolean, CategoryModel>> = mutableListOf()
     var provider: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
         set(newValue) {
@@ -142,6 +147,7 @@ class TalkFragment : BaseFragment() {
             talkAdapter.notifyDataSetChanged()
         }
 
+
     //    lateinit var noticeView: CardSliderViewPager
 //    lateinit var noticeAdapter: NoticeAdapter
     lateinit var bannerView: CardSliderViewPager
@@ -160,6 +166,13 @@ class TalkFragment : BaseFragment() {
     lateinit var bookMarkAdapter: TalkAdapter3
     lateinit var rvDrama: RecyclerView
     lateinit var dramaAdapter: TalkAdapter3
+
+    lateinit var tvFirstSympathyName: TextView
+    lateinit var tvSecondSympathyName: TextView
+    lateinit var ivFirstProfile: ImageView
+    lateinit var ivSecondProfile: ImageView
+
+    lateinit var pickTop: MutableList<PickTopModel>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -201,6 +214,12 @@ class TalkFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+
+        val day = Calendar.getInstance()
+        day.add(Calendar.DATE, -1)
+        val beforeDate: String = SimpleDateFormat("yyMMdd").format(day.time)
+
+        ymd_date = beforeDate
 
         fetchModel()
         filter = Pair(1, Sort.weekday)
@@ -374,9 +393,10 @@ class TalkFragment : BaseFragment() {
 
                 bookmarkLayout.visibility = View.VISIBLE
 
-                bookMarkAdapter = TalkAdapter3(activity,this.talk)
+                bookMarkAdapter = TalkAdapter3(activity, this.talk)
                 bookMarkView = view.findViewById(R.id.rvBookMark)
-                bookMarkView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+                bookMarkView.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 bookMarkView.adapter = bookMarkAdapter
 
 
@@ -392,6 +412,10 @@ class TalkFragment : BaseFragment() {
             }
 
 
+            tvFirstSympathyName = view.findViewById(R.id.tv_first_sympathy_name)
+            tvSecondSympathyName = view.findViewById(R.id.tv_second_sympathy_name)
+            ivFirstProfile = view.findViewById(R.id.iv_first_prifile)
+            ivSecondProfile = view.findViewById(R.id.iv_second_profile)
 
         }
     }
@@ -405,6 +429,43 @@ class TalkFragment : BaseFragment() {
 //            noticeAdapter.notifyDataSetChanged()
 //            noticeView.visibility = if (notice.size > 0) View.VISIBLE else View.GONE
 //        }
+
+        PickTopLoader.shared.getPickTop(ymd_date) { values ->
+
+            this.pickTop = values
+
+            if (values.size > 0) {
+                Glide.with(this).load(values[0].profile_image_url)
+                    .transform(CenterCrop(), CircleCrop())
+                    .fallback(R.drawable.invalid_name)
+                    .into(ivFirstProfile)
+
+                Glide.with(this).load(values[1].profile_image_url)
+                    .transform(CenterCrop(), CircleCrop())
+                    .fallback(R.drawable.invalid_name)
+                    .into(ivSecondProfile)
+
+                tvFirstSympathyName.text = pickTop[0].nickname
+                tvSecondSympathyName.text = pickTop[1].nickname
+            } else {
+                PickTopLoader.shared.getPickTop("210201") { values ->
+                    this.pickTop = values
+                    pickTop[0].profile_image_url?.let { profile_image_url ->
+                        Glide.with(this).load(profile_image_url)
+                            .transform(CenterCrop(), CircleCrop())
+                            .into(ivFirstProfile)
+
+                        Glide.with(this).load(profile_image_url)
+                            .transform(CenterCrop(), CircleCrop())
+                            .into(ivSecondProfile)
+
+                        tvFirstSympathyName.text = pickTop[0].nickname
+                        tvSecondSympathyName.text = pickTop[1].nickname
+                    }
+                }
+
+            }
+        }
 
         AdLoader.shared.getAdList(true, AdModel.Location.talk) { ad ->
             this.ad = ad

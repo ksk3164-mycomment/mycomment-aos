@@ -350,6 +350,15 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/RealTimeTalkFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.talk.RealTimeTalkFragment"
+        android:label="RealTimeTalkFragment">
+        <argument
+            android:name="talk"
+            app:argType="kr.beimsupicures.mycomment.api.models.TalkModel" />
+    </fragment>
+
     <action
         android:id="@+id/action_global_talkDetailFragment"
         app:destination="@id/talkDetailFragment"

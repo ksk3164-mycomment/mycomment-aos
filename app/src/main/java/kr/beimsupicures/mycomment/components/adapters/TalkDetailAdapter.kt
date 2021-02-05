@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.components.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,211 +14,56 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.list_item_talk.view.*
-import kotlinx.android.synthetic.main.list_item_talk.view.descLabel
 import kotlinx.android.synthetic.main.list_item_talk.view.profileView
-import kotlinx.android.synthetic.main.list_item_talk.view.titleLabel
 import kotlinx.android.synthetic.main.list_item_talk_comment.view.*
 import kotlinx.android.synthetic.main.list_item_talk_content.view.*
 import kotlinx.android.synthetic.main.list_item_talk_header.view.contentLabel
+import kotlinx.android.synthetic.main.list_item_talk_tab.view.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.CommentLoader
 import kr.beimsupicures.mycomment.api.loaders.PickLoader
 import kr.beimsupicures.mycomment.api.loaders.ReportLoader
 import kr.beimsupicures.mycomment.api.models.*
-import kr.beimsupicures.mycomment.common.isPushEnabledAtOSLevel
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.BubbleUserListDialog
 import kr.beimsupicures.mycomment.components.dialogs.ReportDialog
-import kr.beimsupicures.mycomment.components.dialogs.WaterDropDialog
 import kr.beimsupicures.mycomment.extensions.*
 
 class TalkDetailAdapter(
     val activity: FragmentActivity?,
     var talk: TalkModel,
     var items: MutableList<CommentModel>,
-    var count: Int,
     val onReplied: (String) -> Unit
 ) :
     RecyclerView.Adapter<TalkDetailAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return when (viewType) {
-            0 -> {
-                ViewHolder2(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.list_item_talk_content,
-                        parent,
-                        false
-                    )
-                )
-            }
-            1 -> {
-                ViewHolder1(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.list_item_talk_header,
-                        parent,
-                        false
-                    )
-                )
-
-            }
-            2 -> {
-                ViewHolder3(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.list_item_talk_board,
-                        parent,
-                        false
-                    )
-                )
-            }
-            3 -> {
-                ViewHolder4(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.list_item_talk_comment,
-                        parent,
-                        false
-                    )
-                )
-            }
-            else -> {
-                ViewHolder1(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.list_item_talk_header,
-                        parent,
-                        false
-                    )
-                )
-            }
-        }
+        return ViewHolder4(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.list_item_talk_comment,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
-        return 3 + items.count()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            0 -> 0
-            1 -> 1
-            2 -> 2
-            else -> 3
-        }
+        return items.count()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
-
-            is ViewHolder1 -> {
-                holder.bind(talk)
-            }
-
-            is ViewHolder2 -> {
-                holder.bind(talk)
-            }
-
-            is ViewHolder3 -> {
-                holder.bind(count)
-            }
-
             is ViewHolder4 -> {
-                holder.bind(items[position-3], position-3)
+                holder.bind(items[position], position)
             }
         }
     }
 
     open inner class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    inner class ViewHolder1(itemView: View) : ViewHolder(itemView) {
-        val bookmarkView = itemView.bookmarkView
-        val titleLabel = itemView.titleLabel
-        val descLabel = itemView.descLabel
-        val contentLabel = itemView.contentLabel
-
-        fun bind(viewModel: TalkModel) {
-            bookmarkView.setImageDrawable(
-                ContextCompat.getDrawable(
-                    itemView.context,
-                    if (viewModel.pick == true) R.drawable.bookmark_r else R.drawable.bookmark
-                )
-            )
-            bookmarkView.setOnClickListener {
-
-                BaseApplication.shared.getSharedPreferences().getUser()?.let {
-
-                    when (viewModel.pick) {
-                        true -> {
-                            PickLoader.shared.unpick(
-                                PickModel.Category.talk,
-                                viewModel.id
-                            ) { pickModel ->
-                                var newValue = talk
-                                newValue.pick = pickModel.pick()
-                                talk = newValue
-                                notifyDataSetChanged()
-                            }
-                        }
-
-                        false -> {
-                            activity?.supportFragmentManager?.let { fragmentManager ->
-                                WaterDropDialog.newInstance(
-                                    if (isPushEnabledAtOSLevel(activity)) { WaterDropDialog.NotificationSetting.allowed } else { WaterDropDialog.NotificationSetting.denied },
-                                    viewModel.title
-                                ).show(fragmentManager, "")
-                            }
-                            PickLoader.shared.pick(
-                                PickModel.Category.talk,
-                                category_owner_id = null,
-                                category_id = viewModel.id
-                            ) { pickModel ->
-                                var newValue = talk
-                                newValue.pick = pickModel.pick()
-                                talk = newValue
-                                notifyDataSetChanged()
-                            }
-                        }
-
-                        else -> { }
-                    }
-
-                } ?: run {
-                    activity?.let { activity ->
-                        activity.popup("로그인하시겠습니까?", "로그인") {
-                            Navigation.findNavController(activity, R.id.nav_host_fragment)
-                                .navigate(R.id.action_global_signInFragment)
-                        }
-                    }
-                }
-            }
-            titleLabel.text = viewModel.title
-            descLabel.text = "${viewModel.dayString} ${viewModel.openTimeString}"
-            contentLabel.text = viewModel.content
-        }
-    }
-
-    inner class ViewHolder2(itemView: View) : ViewHolder(itemView) {
-        val imageView = itemView.imageView
-
-        fun bind(viewModel: TalkModel) {
-            Glide.with(itemView.context).load(viewModel.content_image_url)
-                .into(imageView)
-            imageView.setOnClickListener { view ->
-                val action =
-                    NavigationDirections.actionGlobalWebViewFragment(viewModel, null)
-                view.findNavController().navigate(action)
-            }
-        }
-    }
-
-    inner class ViewHolder3(itemView: View) : ViewHolder(itemView) {
-        val countLabel = itemView.countLabel
-
-        fun bind(viewModel: Int) {
-            countLabel.text = "${viewModel.currencyValue}개의 톡"
-        }
-    }
-
     var isLoad = hashMapOf<Int, Boolean>()
+
     inner class ViewHolder4(itemView: View) : ViewHolder(itemView) {
         val likeCountLabel = itemView.likeCountLabel
         val likeView = itemView.likeView
@@ -270,11 +116,14 @@ class TalkDetailAdapter(
                 likeView.background =
                     ContextCompat.getDrawable(
                         itemView.context,
-                        if (viewModel.isMe) R.drawable.bubble_white else { if (viewModel.pick == true) R.drawable.bubble_fill else R.drawable.bubble_empty }
+                        if (viewModel.isMe) R.drawable.bubble_white else {
+                            if (viewModel.pick == true) R.drawable.bubble_fill else R.drawable.bubble_empty
+                        }
                     )
                 likeCountLabel.setTextColor(
                     ContextCompat.getColor(
-                        activity.baseContext, if (viewModel.isMe) R.color.white else R.color.black)
+                        activity.baseContext, if (viewModel.isMe) R.color.white else R.color.black
+                    )
                 )
                 itemView.setBackgroundColor(
                     ContextCompat.getColor(
@@ -327,7 +176,9 @@ class TalkDetailAdapter(
                                 isLoad[position] = false
                                 notifyDataSetChanged()
 
-                                FirebaseDatabase.getInstance().getReference("talk").child("${talk.id}").child("like").setValue("${viewModel.id}/${newValue.pick_count}")
+                                FirebaseDatabase.getInstance().getReference("talk")
+                                    .child("${talk.id}").child("like")
+                                    .setValue("${viewModel.id}/${newValue.pick_count}")
                             }
                         }
 
@@ -354,7 +205,9 @@ class TalkDetailAdapter(
                                 isLoad[position] = false
                                 notifyDataSetChanged()
 
-                                FirebaseDatabase.getInstance().getReference("talk").child("${talk.id}").child("like").setValue("${viewModel.id}/${newValue.pick_count}")
+                                FirebaseDatabase.getInstance().getReference("talk")
+                                    .child("${talk.id}").child("like")
+                                    .setValue("${viewModel.id}/${newValue.pick_count}")
                             }
                         }
                     }
@@ -376,7 +229,11 @@ class TalkDetailAdapter(
                 activity?.supportFragmentManager?.let { fragmentManager ->
 
                     ReportDialog(view.context, didSelectAt = { reason ->
-                        ReportLoader.shared.report(ReportModel.Category.comment, viewModel.id, reason) {
+                        ReportLoader.shared.report(
+                            ReportModel.Category.comment,
+                            viewModel.id,
+                            reason
+                        ) {
                             activity.alert("신고되었습니다.", "신고완료") { }
                         }
                     }).show(fragmentManager, "")
@@ -434,13 +291,26 @@ class TalkDetailAdapter(
                 activity?.let { activity ->
                     val tag = replyInfos.first
                     val origin = replyInfos.second
-                    contentLabel.text = viewModel.content.makeRepliedMessage(tag, origin, ContextCompat.getColor(activity.baseContext, R.color.dullTeal))
+                    contentLabel.text = viewModel.content.makeRepliedMessage(
+                        tag,
+                        origin,
+                        ContextCompat.getColor(activity.baseContext, R.color.dullTeal)
+                    )
 
                     val nickname = tag.parseNickname()
-                    if (!viewModel.isMe && nickname == BaseApplication.shared.getSharedPreferences().getUser()?.nickname)
-                        itemView.setBackgroundColor(ContextCompat.getColor(activity.baseContext, R.color.lightBlueGrey))
+                    if (!viewModel.isMe && nickname == BaseApplication.shared.getSharedPreferences()
+                            .getUser()?.nickname
+                    )
+                        itemView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                activity.baseContext,
+                                R.color.lightBlueGrey
+                            )
+                        )
                 }
             }
         }
     }
+
+
 }

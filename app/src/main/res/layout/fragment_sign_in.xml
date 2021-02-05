@@ -9,7 +9,7 @@
         android:id="@+id/logoView"
         android:layout_width="176dp"
         android:layout_height="48dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:src="@drawable/logo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
@@ -18,8 +18,8 @@
         android:id="@+id/descLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="드라마 볼 땐\n드라마 톡\n\n마이코멘트 - 드라마톡"
+        android:layout_marginTop="50dp"
+        android:text="드라마, OTT 시청자들을 위한\n채팅 앱서비스"
         android:textColor="@color/colorTextTitle"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@id/logoView"
@@ -30,9 +30,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descLabel">
 
         <TextView

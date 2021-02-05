@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="RealTimeTalkFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="381" />
+                            <option name="y" value="462" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="action_global_bookmarkFragment">
                     <value>
                       <LayoutPositions />
@@ -408,8 +420,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="20" />
+                            <option name="y" value="819" />
                           </Point>
                         </option>
                       </LayoutPositions>

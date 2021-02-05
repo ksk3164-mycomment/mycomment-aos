@@ -56,7 +56,6 @@ class BannerAdapter(val activity: FragmentActivity?, var items : MutableList<AdM
             }
 
             imageView.setOnClickListener { view ->
-
                 viewModel.url?.let { url ->
                     view.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 }

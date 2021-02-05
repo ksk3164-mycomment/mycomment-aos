@@ -83,28 +83,28 @@ class WaterDropDialog(
         view?.let { view ->
             tvTitle = view.findViewById(R.id.tv_title)
             btnConfirm = view.findViewById(R.id.btnConfirm)
-            btnAlarmSetting = view.findViewById(R.id.btn_alarm_setting)
-            tvAlarmSetting = view.findViewById(R.id.tv_alarm_setting)
+//            btnAlarmSetting = view.findViewById(R.id.btn_alarm_setting)
+//            tvAlarmSetting = view.findViewById(R.id.tv_alarm_setting)
             btnConfirm.setOnClickListener {
                 dialog?.dismiss()
             }
-            btnAlarmSetting.setOnClickListener {
-                dialog?.dismiss()
-                openNotificationSettings()
-            }
+//            btnAlarmSetting.setOnClickListener {
+//                dialog?.dismiss()
+//                openNotificationSettings()
+//            }
             tvTitle.text = title
-            when(type) {
-                NotificationSetting.allowed -> {
-                    btnConfirm.visibility = View.VISIBLE
-                    btnAlarmSetting.visibility = View.GONE
-                    tvAlarmSetting.visibility = View.GONE
-                }
-                NotificationSetting.denied -> {
-                    btnConfirm.visibility = View.GONE
-                    btnAlarmSetting.visibility = View.VISIBLE
-                    tvAlarmSetting.visibility = View.VISIBLE
-                }
-            }
+//            when(type) {
+//                NotificationSetting.allowed -> {
+//                    btnConfirm.visibility = View.VISIBLE
+//                    btnAlarmSetting.visibility = View.GONE
+//                    tvAlarmSetting.visibility = View.GONE
+//                }
+//                NotificationSetting.denied -> {
+//                    btnConfirm.visibility = View.GONE
+//                    btnAlarmSetting.visibility = View.VISIBLE
+//                    tvAlarmSetting.visibility = View.VISIBLE
+//                }
+//            }
         }
     }
 }

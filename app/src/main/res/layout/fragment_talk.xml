@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12dp"
-                app:indicatorsToShow="5" />
+                app:indicatorsToShow="10" />
 
             <Space
                 android:layout_width="match_parent"
@@ -114,7 +114,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:background="@color/colorBackgroundGrey">
 
                 <TextView
@@ -147,11 +147,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/iv_sircle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="38dp"
-                        android:layout_marginTop="12dp"
+                        android:id="@+id/iv_first_prifile"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="44dp"
                         android:src="@drawable/invalid_name"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -163,8 +162,9 @@
                         android:layout_height="wrap_content"
                         android:text="1등아이디"
                         android:textSize="12sp"
+                        android:layout_marginStart="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/iv_sircle"
+                        app:layout_constraintStart_toEndOf="@+id/iv_first_prifile"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -189,11 +189,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/iv_sircle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="38dp"
-                        android:layout_marginTop="12dp"
+                        android:id="@+id/iv_second_profile"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="44dp"
                         android:src="@drawable/invalid_name"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -203,10 +202,11 @@
                         android:id="@+id/tv_second_sympathy_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:text="2등아이디"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/iv_sircle2"
+                        app:layout_constraintStart_toEndOf="@+id/iv_second_profile"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
