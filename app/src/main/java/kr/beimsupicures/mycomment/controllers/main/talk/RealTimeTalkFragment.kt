@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,10 +31,8 @@ import kr.beimsupicures.mycomment.common.diffSec
 import kr.beimsupicures.mycomment.common.keyboard.KeyboardVisibilityUtils
 import kr.beimsupicures.mycomment.common.keyboard.showKeyboard
 import kr.beimsupicures.mycomment.components.adapters.TalkDetailAdapter
-import kr.beimsupicures.mycomment.components.adapters.TalkDetailAdapter2
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
-import kr.beimsupicures.mycomment.controllers.main.talk.RealTimeTalkFragmentArgs.fromBundle
 import kr.beimsupicures.mycomment.extensions.*
 import java.lang.NumberFormatException
 
@@ -69,8 +66,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
         fun newInstance(
             viewModel: TalkModel
         ): RealTimeTalkFragment {
-            val model = RealTimeTalkFragment(viewModel)
-            return model
+            return RealTimeTalkFragment(viewModel)
         }
     }
 

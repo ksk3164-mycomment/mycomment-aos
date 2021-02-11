@@ -58,6 +58,8 @@ class TalkDetailFragment : BaseFragment() {
         super.onResume()
         fetchModel()
 //        setUpViewPager()
+        hideKeyboard()
+
     }
 
 
@@ -105,7 +107,7 @@ class TalkDetailFragment : BaseFragment() {
 
 
                 realTimeTalkFragment = RealTimeTalkFragment(talk!!)
-                dramaFeedFragment = DramaFeedFragment()
+                dramaFeedFragment = DramaFeedFragment(talk!!)
                 timeLineTalkFragment = TimeLineTalkFragment()
 
                 RealTimeTalkFragment.newInstance(values)
@@ -223,7 +225,7 @@ class TalkDetailFragment : BaseFragment() {
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> RealTimeTalkFragment(viewModel)
-                else -> DramaFeedFragment()
+                else -> DramaFeedFragment(viewModel)
             }
         }
     }

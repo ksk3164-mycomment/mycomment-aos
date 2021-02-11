@@ -31,11 +31,13 @@ import kr.beimsupicures.mycomment.components.activities.BaseActivity
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment
 import kr.beimsupicures.mycomment.controllers.main.search.SearchWatchFragment
+import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedDetailFragment
 import kr.beimsupicures.mycomment.controllers.main.watch.CreateWatchFragment
 import kr.beimsupicures.mycomment.controllers.main.watch.WatchDetailFragment
 import kr.beimsupicures.mycomment.controllers.main.watch.invalidate
 import kr.beimsupicures.mycomment.controllers.signs.SignInFragment
 import kr.beimsupicures.mycomment.controllers.signs.sign
+import kr.beimsupicures.mycomment.extensions.alert
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
 import kr.beimsupicures.mycomment.extensions.getUser
 import kr.beimsupicures.mycomment.extensions.popup
@@ -250,6 +252,7 @@ class MainActivity : BaseActivity() {
                     toolbar.searchView.visibility = View.GONE
                     toolbar.searchCancel.visibility = View.GONE
                     toolbar.searchField.visibility = View.GONE
+                    toolbar.btnWrite.visibility = View.GONE
 
                 }
                 R.id.watchFragment -> {
@@ -343,6 +346,10 @@ class MainActivity : BaseActivity() {
                     toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
+                }
+                R.id.dramaFeedDetailFragment -> {
+                    toolbar.btnProfile.visibility = View.GONE
+                    toolbar.btnWrite.visibility = View.VISIBLE
                 }
             }
         }
@@ -475,7 +482,25 @@ class MainActivity : BaseActivity() {
                     }
             }
 
-//        NavigationUI.setupWithNavController(navView, navController)
+        toolbar.btnWrite.setOnClickListener {
+            (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
+                //제목 미입력
+                if (!fragment.title.text.isNotEmpty()) {
+                    alert("제목을 입력하세요", "") {}
+                } else {
+                    //제목입력 , 내용 미입력
+                    if (!fragment.editorEmpty) {
+                        alert("내용을 입력하세요", "") {}
+                    } else {
+                        //제목입력, 내용입력
+                            popup("\n등록 이후 수정이 가능합니다","해당 글을 등록하시겠어요?"){
+                                Log.e("tjdrnr", "제목 = " + fragment.title.text+"내용 = "+fragment.editorText)
+                            }
+                    }
+
+                }
+            }
+        }
     }
 
 
@@ -524,3 +549,6 @@ class MainActivity : BaseActivity() {
         }
     }
 }
+
+
+

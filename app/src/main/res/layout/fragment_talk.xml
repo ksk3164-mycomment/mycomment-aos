@@ -151,7 +151,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_marginStart="44dp"
-                        android:src="@drawable/invalid_name"
+                        android:src="@drawable/bg_profile_thumbnail"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -193,7 +193,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_marginStart="44dp"
-                        android:src="@drawable/invalid_name"
+                        android:src="@drawable/bg_profile_thumbnail"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

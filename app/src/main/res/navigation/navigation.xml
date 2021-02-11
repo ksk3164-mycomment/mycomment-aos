@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/splashFragment">
 
@@ -440,5 +441,25 @@
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/fade_out"
         app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <fragment
+        android:id="@+id/dramaFeedFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedFragment"
+        android:label="DramaFeedFragment"
+        tools:layout="@layout/fragment_drama_feed">
+
+    </fragment>
+    <fragment
+        android:id="@+id/dramaFeedDetailFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedDetailFragment"
+        android:label="DramaFeedDetailFragment"
+        tools:layout="@layout/fragment_drama_feed_detail"/>
+    <action
+        android:id="@+id/action_global_dramaFeedDetailFragment"
+        app:destination="@id/dramaFeedDetailFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_out"
         app:popExitAnim="@anim/slide_out_right" />
 </navigation>

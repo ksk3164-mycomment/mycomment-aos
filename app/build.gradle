@@ -129,7 +129,7 @@ dependencies {
     //Tablayout
     implementation 'com.google.android.material:material:1.1.0-alpha08'
 
-    //StickyScrollView
-    implementation 'com.github.amarjain07:StickyScrollView:1.0.2'
+    //editor
+    implementation 'jp.wasabeef:richeditor-android:2.0.0'
 
 }

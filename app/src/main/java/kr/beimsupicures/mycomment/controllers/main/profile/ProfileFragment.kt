@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,13 +118,10 @@ class ProfileFragment : BaseFragment() {
             }
             btnProfile = view.findViewById(R.id.btnProfile)
             btnProfile.setOnClickListener {
-
                 context?.let { context ->
                     TedImagePicker.with(context).start { uri ->
-
                         startLoadingUI()
                         AmazonS3Loader.shared.uploadImage("profile", uri) { url ->
-
                             UserLoader.shared.updateProfileImage(url) { user ->
                                 this.user = user
 

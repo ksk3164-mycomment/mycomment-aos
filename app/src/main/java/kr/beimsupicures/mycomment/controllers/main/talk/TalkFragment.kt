@@ -437,12 +437,12 @@ class TalkFragment : BaseFragment() {
             if (values.size > 0) {
                 Glide.with(this).load(values[0].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
-                    .fallback(R.drawable.invalid_name)
+                    .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivFirstProfile)
 
                 Glide.with(this).load(values[1].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
-                    .fallback(R.drawable.invalid_name)
+                    .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivSecondProfile)
 
                 tvFirstSympathyName.text = pickTop[0].nickname
