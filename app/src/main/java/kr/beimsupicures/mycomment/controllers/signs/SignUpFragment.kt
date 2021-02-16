@@ -61,16 +61,14 @@ class SignUpFragment : BaseFragment() {
             btnService = view.findViewById(R.id.btnService)
             btnService.setOnClickListener {
                 val action =
-                    NavigationDirections.actionGlobalTermFragment()
-                        .setCategory(TermModel.Category.service)
+                    NavigationDirections.actionGlobalTermFragment(TermModel.Category.service)
                 view.findNavController().navigate(action)
             }
 
             btnPrivacy = view.findViewById(R.id.btnPrivacy)
             btnPrivacy.setOnClickListener {
                 val action =
-                    NavigationDirections.actionGlobalTermFragment()
-                        .setCategory(TermModel.Category.privacy)
+                    NavigationDirections.actionGlobalTermFragment(TermModel.Category.privacy)
                 view.findNavController().navigate(action)
             }
             btnSignUp = view.findViewById(R.id.btnSignUp)

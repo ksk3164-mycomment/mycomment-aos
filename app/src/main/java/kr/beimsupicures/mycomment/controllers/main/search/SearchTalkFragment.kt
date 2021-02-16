@@ -4,20 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.beimsupicures.mycomment.R
-import kr.beimsupicures.mycomment.api.loaders.SearchLoader
 import kr.beimsupicures.mycomment.api.models.TalkModel
-import kr.beimsupicures.mycomment.components.adapters.TalkAdapter
+import kr.beimsupicures.mycomment.components.adapters.TalkGridAdapter
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
+import kr.beimsupicures.mycomment.extensions.hideKeyboard
 
 class SearchTalkFragment : BaseFragment() {
 
     var talk: MutableList<TalkModel> = mutableListOf()
 
     lateinit var resultView: RecyclerView
-    lateinit var resultAdapter: TalkAdapter
+    lateinit var resultAdapter: TalkGridAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,15 +37,20 @@ class SearchTalkFragment : BaseFragment() {
         super.loadUI()
 
         view?.let { view ->
-            resultAdapter = TalkAdapter(activity, talk)
+            resultAdapter = TalkGridAdapter(activity, talk)
             resultView = view.findViewById(R.id.resultView)
-            resultView.layoutManager = LinearLayoutManager(context)
+            resultView.layoutManager = GridLayoutManager(context,3)
             resultView.adapter = resultAdapter
         }
     }
 
     override fun fetchModel() {
         super.fetchModel()
-
     }
+
+    override fun onPause() {
+        super.onPause()
+        hideKeyboard()
+    }
+
 }

@@ -24,6 +24,7 @@ abstract class BaseFragment : Fragment() {
         loadModel()
         loadViewModel()
         loadUI()
+
     }
 
     open fun loadModel() {

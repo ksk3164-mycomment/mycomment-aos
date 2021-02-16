@@ -1,16 +1,13 @@
 package kr.beimsupicures.mycomment.api.loaders
 
-import kr.beimsupicures.mycomment.api.loaders.base.BaseLoader
 import kr.beimsupicures.mycomment.api.APIClient
 import kr.beimsupicures.mycomment.api.APIResult
-import kr.beimsupicures.mycomment.api.models.LinkModel
+import kr.beimsupicures.mycomment.api.loaders.base.BaseLoader
 import kr.beimsupicures.mycomment.api.models.PickTopModel
-import kr.beimsupicures.mycomment.api.models.TalkModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface PickTopService {

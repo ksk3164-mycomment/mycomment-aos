@@ -209,16 +209,15 @@ class SignStep1Fragment : BaseFragment() {
 
                         when (index) {
                             1 -> {
-                                val action = NavigationDirections.actionGlobalTermFragment().setCategory(
-                                    TermModel.Category.service)
+                                val action = NavigationDirections.actionGlobalTermFragment(TermModel.Category.service)
                                 view.findNavController().navigate(action)
                             }
                             2 -> {
-                                val action = NavigationDirections.actionGlobalTermFragment().setCategory(TermModel.Category.privacy)
+                                val action = NavigationDirections.actionGlobalTermFragment(TermModel.Category.privacy)
                                 view.findNavController().navigate(action)
                             }
                             3 -> {
-                                val action = NavigationDirections.actionGlobalTermFragment().setCategory(TermModel.Category.guide)
+                                val action = NavigationDirections.actionGlobalTermFragment(TermModel.Category.guide)
                                 view.findNavController().navigate(action)
                             }
                         }

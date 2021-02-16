@@ -35,32 +35,12 @@
                       <LayoutPositions />
                     </value>
                   </entry>
-                  <entry key="action_global_createWatchFragment">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
-                  <entry key="action_global_detailFragment">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
-                  <entry key="action_global_historyFragment">
+                  <entry key="action_global_dramaFeedWriteFragment">
                     <value>
                       <LayoutPositions />
                     </value>
                   </entry>
                   <entry key="action_global_profileFragment">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
-                  <entry key="action_global_replyFragment">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
-                  <entry key="action_global_searchCalendarFragment">
                     <value>
                       <LayoutPositions />
                     </value>
@@ -85,11 +65,6 @@
                       <LayoutPositions />
                     </value>
                   </entry>
-                  <entry key="action_global_watchDetailFragment">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
                   <entry key="action_global_webViewFragment">
                     <value>
                       <LayoutPositions />
@@ -102,18 +77,6 @@
                           <Point>
                             <option name="x" value="744" />
                             <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="bestUserFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1964" />
-                            <option name="y" value="325" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -169,51 +132,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="createWatchFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="detailFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="368" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_detailFragment_to_bestUserFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_detailFragment_to_replyFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="dramaFeedDetailFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="466" />
+                            <option name="x" value="-347" />
+                            <option name="y" value="44" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -224,18 +149,30 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-358" />
-                            <option name="y" value="561" />
+                            <option name="x" value="-657" />
+                            <option name="y" value="68" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="dramaFeedDetailFragment">
+                            <entry key="action_dramaFeedFragment_to_dramaFeedDetailFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dramaFeedWriteFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="466" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -264,18 +201,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="historyFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1964" />
-                            <option name="y" value="1037" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="profileFragment">
                     <value>
                       <LayoutPositions>
@@ -292,36 +217,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_profileFragment_to_historyFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="replyFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1964" />
-                            <option name="y" value="681" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="searchCalendarFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="1436" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -333,18 +229,6 @@
                           <Point>
                             <option name="x" value="500" />
                             <option name="y" value="3216" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="searchWatchFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1232" />
-                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -436,25 +320,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="suggestFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1720" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="talkDetailFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="20" />
-                            <option name="y" value="819" />
+                            <option name="x" value="-659" />
+                            <option name="y" value="388" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -494,80 +366,6 @@
                             <option name="x" value="500" />
                             <option name="y" value="2148" />
                           </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="todayFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="1476" />
-                            <option name="y" value="97" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_todayFragment_to_bookmarkFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_todayFragment_to_detailFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_todayFragment_to_profileFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_todayFragment_to_searchCalendarFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_todayFragment_to_suggestFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="watchDetailFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="watchFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="988" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_watchFragment_to_searchWatchFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

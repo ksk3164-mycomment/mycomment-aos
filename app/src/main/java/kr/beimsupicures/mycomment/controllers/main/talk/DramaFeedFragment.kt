@@ -1,12 +1,11 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -50,10 +49,8 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
         fetchModel()
     }
 
-
     override fun onPause() {
         super.onPause()
-        isLoaded = false
         items.clear()
     }
 
@@ -63,7 +60,7 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
         talk?.let { talk ->
 
             FeedLoader.shared.getFeedList(
-                talk.id, true, 0
+                talk.id, true,0
             ) { items ->
                 this.items = items
                 dramaFeedAdapter.items = this.items
@@ -85,34 +82,40 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 
         view?.let { view ->
 
+
             floatingButton = view.findViewById(R.id.floating_button)
 
             floatingButton.setOnClickListener {
-                val action = NavigationDirections.actionGlobalDramaFeedDetailFragment()
+                val action = NavigationDirections.actionGlobalDramaFeedWriteFragment()
                 view.findNavController().navigate(action)
             }
 
             rvDramaFeed = view.findViewById(R.id.rvDramaFeed)
-            dramaFeedAdapter = DramaFeedAdapter(items)
+            dramaFeedAdapter = DramaFeedAdapter(activity,items)
 
-            rvDramaFeed.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            rvDramaFeed.layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            rvDramaFeed.setHasFixedSize(true)
+
+//            rvDramaFeed.layoutManager = LinearLayoutManager(context)
 //            rvDramaFeed.layoutManager = GridLayoutManager(context,2)
-
             rvDramaFeed.adapter = dramaFeedAdapter
             rvDramaFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
 
                     rvDramaFeed.layoutManager?.let {
-                        (it as? LinearLayoutManager)?.let { layoutManager ->
+                        (it as? StaggeredGridLayoutManager)?.let { layoutManager ->
                             recyclerView.adapter?.let { adapter ->
-                                if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
+                                val lastPositions = IntArray(layoutManager.spanCount)
+                                layoutManager.findLastVisibleItemPositions(lastPositions)
+                                val lastVisibleItemPosition = findMax(lastPositions)
+                                if (lastVisibleItemPosition == adapter.itemCount - 1) {
+                                    val newPage = page+1
                                     talk?.let { talk ->
                                         FeedLoader.shared.getFeedList(
-                                            talk_id = talk.id, reset = false,
-                                            page = page
+                                            talk_id = talk.id,reset = false,page = newPage
                                         ) { talk ->
-                                            page += 1
                                             this@DramaFeedFragment.items = talk.toMutableList()
                                             dramaFeedAdapter.items = this@DramaFeedFragment.items
                                             dramaFeedAdapter.notifyDataSetChanged()
@@ -126,5 +129,15 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
             })
 
         }
+    }
+
+    private fun findMax(lastPositions: IntArray): Int {
+        var max = lastPositions[0]
+        for (value in lastPositions) {
+            if (value > max) {
+                max = value
+            }
+        }
+        return max
     }
 }

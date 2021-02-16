@@ -15,6 +15,7 @@ import javax.security.auth.login.LoginException
 
 interface CommentService {
 
+    //talk comment
     @GET("talk/{talk_id}/comment/count")
     fun getCommentCount(@Path("talk_id") talk_id: Int): Call<APIResult<ValueModel>>
 
@@ -43,6 +44,11 @@ interface CommentService {
 
     @GET("comment/{id}/watch/pick/users")
     fun getWatchPickedUsers(@Path("id") comment_id: Int): Call<APIResult<MutableList<UserModel>>>
+
+    //feed comment
+    @GET("feed/{feed_seq}/comment")
+    fun getFeedCommentList(@Header("Authorization") accessToken: String?, @Path("feed_seq") feed_seq: Int, @Query("page") page: Int): Call<APIResult<MutableList<CommentModel>>>
+
 }
 
 class CommentLoader : BaseLoader<CommentService> {
@@ -113,6 +119,45 @@ class CommentLoader : BaseLoader<CommentService> {
         if (available()) {
             isLoading = true
             api.getCommentList(APIClient.accessToken, talk_id, this.page)
+                .enqueue(object : Callback<APIResult<MutableList<CommentModel>>> {
+                    override fun onFailure(
+                        call: Call<APIResult<MutableList<CommentModel>>>,
+                        t: Throwable
+                    ) {
+                        isLoading = false
+                    }
+
+                    override fun onResponse(
+                        call: Call<APIResult<MutableList<CommentModel>>>,
+                        response: Response<APIResult<MutableList<CommentModel>>>
+                    ) {
+                        val newValue = response.body()?.result
+                        newValue?.let { newValue ->
+                            items.addAll(newValue)
+                            page += 1
+                            isLoading = false
+                            isLast = (newValue.size == 0)
+
+                            completionHandler(items)
+                        }
+                    }
+                })
+        }
+    }
+
+    //코멘트 댓글 조회
+    fun getFeedCommentList(
+        feed_seq: Int,
+        reset: Boolean,
+        completionHandler: (MutableList<CommentModel>) -> Unit
+    ) {
+        if (reset) {
+            this.reset()
+        }
+
+        if (available()) {
+            isLoading = true
+            api.getCommentList(APIClient.accessToken, feed_seq, this.page)
                 .enqueue(object : Callback<APIResult<MutableList<CommentModel>>> {
                     override fun onFailure(
                         call: Call<APIResult<MutableList<CommentModel>>>,

@@ -1,6 +1,5 @@
 package kr.beimsupicures.mycomment.components.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -99,7 +98,7 @@ class TalkDetailAdapter(
 
                 profileView.setOnClickListener { view ->
                     val action =
-                        NavigationDirections.actionGlobalProfileFragment().setUserId(userModel.id)
+                        NavigationDirections.actionGlobalProfileFragment(userModel.id)
                     view.findNavController().navigate(action)
                 }
 

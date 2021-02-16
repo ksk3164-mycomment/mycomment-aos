@@ -140,10 +140,6 @@ class ProfileFragment : BaseFragment() {
                 }
             }
             btnHistory = view.findViewById(R.id.btnHistory)
-            btnHistory.setOnClickListener {
-                val action = NavigationDirections.actionGlobalHistoryFragment().setUserId(user.id)
-                view.findNavController().navigate(action)
-            }
             likeCountLabel = view.findViewById(R.id.bookmarkCountLabel)
             nameLabel = view.findViewById(R.id.nameLabel)
             nicknameWrapperView = view.findViewById(R.id.nicknameWrapperView)
@@ -174,29 +170,27 @@ class ProfileFragment : BaseFragment() {
             }
             btnChangePassword = view.findViewById(R.id.btnChangePassword)
             btnChangePassword.setOnClickListener {
-                val action = NavigationDirections.actionGlobalChangePasswordFragment()
-                    .setCategory(ChangePasswordFragment.Category.change)
+                val action = NavigationDirections.actionGlobalChangePasswordFragment(
+                    ChangePasswordFragment.Category.change.toString()
+                )
                 view.findNavController().navigate(action)
             }
             btnGuide = view.findViewById(R.id.btnGuide)
             btnGuide.setOnClickListener {
                 val action =
-                    NavigationDirections.actionGlobalTermFragment()
-                        .setCategory(TermModel.Category.guide)
+                    NavigationDirections.actionGlobalTermFragment(TermModel.Category.guide)
                 view.findNavController().navigate(action)
             }
             btnTerm = view.findViewById(R.id.btnTerm)
             btnTerm.setOnClickListener {
                 val action =
-                    NavigationDirections.actionGlobalTermFragment()
-                        .setCategory(TermModel.Category.service)
+                    NavigationDirections.actionGlobalTermFragment(TermModel.Category.service)
                 view.findNavController().navigate(action)
             }
             btnPrivacy = view.findViewById(R.id.btnPrivacy)
             btnPrivacy.setOnClickListener {
                 val action =
-                    NavigationDirections.actionGlobalTermFragment()
-                        .setCategory(TermModel.Category.privacy)
+                    NavigationDirections.actionGlobalTermFragment(TermModel.Category.privacy)
                 view.findNavController().navigate(action)
             }
             btnSecession = view.findViewById(R.id.btnSecession)

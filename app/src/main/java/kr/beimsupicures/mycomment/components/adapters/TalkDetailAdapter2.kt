@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.components.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -154,10 +155,11 @@ class TalkDetailAdapter2(
             bookmarkView.setImageDrawable(
                 ContextCompat.getDrawable(
                     itemView.context,
-                    if (viewModel.pick == true) R.drawable.bookmark_r else R.drawable.bookmark
+                    if (viewModel.pick == true) R.drawable.bookmark_full_green else R.drawable.bookmark_empty_black
                 )
             )
             bookmarkView.setOnClickListener {
+                Log.e("tjdrnr","gld")
 
                 BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
@@ -282,7 +284,7 @@ class TalkDetailAdapter2(
 
                 profileView.setOnClickListener { view ->
                     val action =
-                        NavigationDirections.actionGlobalProfileFragment().setUserId(userModel.id)
+                        NavigationDirections.actionGlobalProfileFragment(userModel.id)
                     view.findNavController().navigate(action)
                 }
 

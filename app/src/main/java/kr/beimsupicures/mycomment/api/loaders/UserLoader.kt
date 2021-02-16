@@ -34,15 +34,6 @@ interface UserService {
     @GET("user/{id}")
     fun getUser(@Path("id") id: Int): Call<APIResult<UserModel>>
 
-    @GET("user/{id}/opinion")
-    fun getUserOpinion(@Header("Authorization") accessToken: String?, @Path("id") id: Int): Call<APIResult<List<OpinionModel>>>
-
-    @GET("user/agenda/bookmark")
-    fun getUserAgendaOpinion(@Header("Authorization") accessToken: String?): Call<APIResult<List<AgendaModel>>>
-
-    @GET("user/opinion/bookmark")
-    fun getUserBookmarkOpinion(@Header("Authorization") accessToken: String?): Call<APIResult<List<OpinionModel>>>
-
     @GET("user/{id}/scrapped")
     fun getUserScrappedCount(@Path("id") id: Int): Call<APIResult<Int>>
 
@@ -227,78 +218,6 @@ class UserLoader : BaseLoader<UserService> {
                     user?.let { completionHandler(it) }
                 }
 
-            })
-    }
-
-    // 히스토리
-    fun getUserOpinion(user_id: Int, completionHandler: (List<OpinionModel>) -> Unit) {
-        api.getUserOpinion(APIClient.accessToken, user_id)
-            .enqueue(object : Callback<APIResult<List<OpinionModel>>> {
-                override fun onFailure(call: Call<APIResult<List<OpinionModel>>>, t: Throwable) {
-
-                }
-
-                override fun onResponse(
-                    call: Call<APIResult<List<OpinionModel>>>,
-                    response: Response<APIResult<List<OpinionModel>>>
-                ) {
-                    val opinion = response.body()?.result
-                    opinion?.let { completionHandler(it) }
-                }
-            })
-    }
-
-    // 즐겨찾기 논의
-    fun getUserAgendaOpinion(completionHandler: (List<AgendaModel>) -> Unit) {
-        api.getUserAgendaOpinion(APIClient.accessToken)
-            .enqueue(object : Callback<APIResult<List<AgendaModel>>> {
-                override fun onFailure(call: Call<APIResult<List<AgendaModel>>>, t: Throwable) {
-
-                }
-
-                override fun onResponse(
-                    call: Call<APIResult<List<AgendaModel>>>,
-                    response: Response<APIResult<List<AgendaModel>>>
-                ) {
-                    val agenda = response.body()?.result
-                    agenda?.let { completionHandler(it) }
-                }
-            })
-    }
-
-    // 타인의 의견
-    fun getUserBookmarkOpinion(completionHandler: (List<OpinionModel>) -> Unit) {
-        api.getUserBookmarkOpinion(APIClient.accessToken)
-            .enqueue(object : Callback<APIResult<List<OpinionModel>>> {
-                override fun onFailure(call: Call<APIResult<List<OpinionModel>>>, t: Throwable) {
-
-                }
-
-                override fun onResponse(
-                    call: Call<APIResult<List<OpinionModel>>>,
-                    response: Response<APIResult<List<OpinionModel>>>
-                ) {
-                    val opinion = response.body()?.result
-                    opinion?.let { completionHandler(it) }
-                }
-            })
-    }
-
-    // 스크랩된 횟수
-    fun getUserScrappedCount(id: Int, completionHandler: (Int) -> Unit) {
-        api.getUserScrappedCount(id)
-            .enqueue(object : Callback<APIResult<Int>> {
-                override fun onFailure(call: Call<APIResult<Int>>, t: Throwable) {
-
-                }
-
-                override fun onResponse(
-                    call: Call<APIResult<Int>>,
-                    response: Response<APIResult<Int>>
-                ) {
-                    val count = response.body()?.result
-                    count?.let { completionHandler(it) }
-                }
             })
     }
 

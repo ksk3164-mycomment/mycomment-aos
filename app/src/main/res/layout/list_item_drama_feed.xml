@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/thumbnailCard"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:cardCornerRadius="10dp"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:cardElevation="0dp">
 
         <ImageView
-            android:layout_gravity="center"
+            android:layout_margin="1dp"
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/bookmark" />
+            android:src="@drawable/mypage" />
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:gravity="center"
@@ -45,6 +45,7 @@
         android:id="@+id/title2"
         android:layout_width="170dp"
         android:layout_height="80dp"
+        android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:background="@drawable/bg_feed_text"
         android:ellipsize="end"
@@ -61,9 +62,10 @@
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <LinearLayout
-        android:layout_width="170dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title2">
@@ -79,8 +81,8 @@
             android:id="@+id/userId"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_marginStart="4dp"
+            android:gravity="center"
             android:text="유저아이디"
             android:textColor="#8e8e93"
             android:textSize="11sp" />
@@ -99,7 +101,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:gravity="center"
-            android:text="2주전"
+            android:text="23주전"
             android:textColor="#8e8e93"
             android:textSize="11sp" />
 
@@ -117,10 +119,10 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:gravity="center"
-            android:text="조회 500"
+            android:text="조회 50000"
             android:textColor="#8e8e93"
             android:textSize="11sp" />
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

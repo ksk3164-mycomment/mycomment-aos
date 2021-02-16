@@ -59,7 +59,7 @@ class TalkAdapter(val activity: FragmentActivity?, var items: MutableList<TalkMo
             bookmarkView.setImageDrawable(
                 ContextCompat.getDrawable(
                     itemView.context,
-                    if (viewModel.pick == true) R.drawable.bookmark_full else R.drawable.bookmark
+                    if (viewModel.pick == true) R.drawable.bookmark_full else R.drawable.bookmark_count
                 )
             )
             bookmarkView.setOnClickListener {

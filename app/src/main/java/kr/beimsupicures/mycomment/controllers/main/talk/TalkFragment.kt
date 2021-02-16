@@ -1,16 +1,12 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,121 +27,121 @@ import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.*
 import kr.beimsupicures.mycomment.services.MCFirebaseMessagingService
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class TalkFragment : BaseFragment() {
 
-    enum class Sort {
-        weekday, provider
-    }
+//    enum class Sort {
+//        weekday, provider
+//    }
 
-    var filter: Pair<Int, Sort> = Pair(1, Sort.weekday)
-        set(newValue) {
-            val oldValue = filter
-            field = newValue
+//    var filter: Pair<Int, Sort> = Pair(1, Sort.weekday)
+//        set(newValue) {
+//            val oldValue = filter
+//            field = newValue
 
-            Log.e("TAG", "${filter}")
+//            Log.e("TAG", "${filter}")
 
-            context?.let { context ->
-                when (filter.second) {
-                    Sort.weekday -> {
-                        btnWeekday.setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.colorTextTitle
-                            )
-                        )
-                        btnWeekday.typeface =
-                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_b)
-                        btnProvider.setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.colorTextSegment
-                            )
-                        )
-                        btnProvider.typeface =
-                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_r)
-                    }
-                    Sort.provider -> {
-                        btnWeekday.setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.colorTextSegment
-                            )
-                        )
-                        btnWeekday.typeface =
-                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_r)
-                        btnProvider.setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.colorTextTitle
-                            )
-                        )
-                        btnProvider.typeface =
-                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_b)
-                    }
-                }
-            }
+//            context?.let { context ->
+//                when (filter.second) {
+//                    Sort.weekday -> {
+//                        btnWeekday.setTextColor(
+//                            ContextCompat.getColor(
+//                                context,
+//                                R.color.colorTextTitle
+//                            )
+//                        )
+//                        btnWeekday.typeface =
+//                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_b)
+//                        btnProvider.setTextColor(
+//                            ContextCompat.getColor(
+//                                context,
+//                                R.color.colorTextSegment
+//                            )
+//                        )
+//                        btnProvider.typeface =
+//                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_r)
+//                    }
+//                    Sort.provider -> {
+//                        btnWeekday.setTextColor(
+//                            ContextCompat.getColor(
+//                                context,
+//                                R.color.colorTextSegment
+//                            )
+//                        )
+//                        btnWeekday.typeface =
+//                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_r)
+//                        btnProvider.setTextColor(
+//                            ContextCompat.getColor(
+//                                context,
+//                                R.color.colorTextTitle
+//                            )
+//                        )
+//                        btnProvider.typeface =
+//                            ResourcesCompat.getFont(context, R.font.gyeonggi_batang_b)
+//                    }
+//                }
+//            }
 
-            if (filter.second != oldValue.second) {
-                providerAdapter.items = tabs
-                providerAdapter.notifyDataSetChanged()
-            }
-
-            if (filter.first != oldValue.first) {
-                list = talk.filter { it.category_id == filter.first }.toMutableList()
-            }
-        }
+//            if (filter.second != oldValue.second) {
+//                providerAdapter.items = tabs
+//                providerAdapter.notifyDataSetChanged()
+//            }
+//
+//            if (filter.first != oldValue.first) {
+//                list = talk.filter { it.category_id == filter.first }.toMutableList()
+//            }
+//        }
 
     //    var notice: MutableList<NoticeModel> = mutableListOf()
     var ad: MutableList<AdModel> = mutableListOf()
 
     var ymd_date: String = ""
 
-    var category: MutableList<Pair<Boolean, CategoryModel>> = mutableListOf()
-    var provider: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
-        set(newValue) {
-            field = newValue
-
-            when (filter.second) {
-                Sort.provider -> {
-                    showProviderUI()
-                }
-            }
-        }
-    var weekday: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
-        set(newValue) {
-            field = newValue
-            when (filter.second) {
-                Sort.weekday -> {
-                    showWeekdayUI()
-                }
-            }
-        }
+//    var category: MutableList<Pair<Boolean, CategoryModel>> = mutableListOf()
+//    var provider: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
+//        set(newValue) {
+//            field = newValue
+//
+//            when (filter.second) {
+//                Sort.provider -> {
+//                    showProviderUI()
+//                }
+//            }
+//        }
+//    var weekday: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
+//        set(newValue) {
+//            field = newValue
+//            when (filter.second) {
+//                Sort.weekday -> {
+//                    showWeekdayUI()
+//                }
+//            }
+//        }
     var talk: MutableList<TalkModel> = mutableListOf()
-        set(newValue) {
-            field = newValue
-            list = talk.filter { it.category_id == filter.first }.toMutableList()
-        }
-    var tabs: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
-        get() {
-            when (filter.second) {
-                Sort.provider -> {
-                    return provider
-                }
-                Sort.weekday -> {
-                    return weekday
-                }
-            }
-        }
-    var list: MutableList<TalkModel> = mutableListOf()
-        set(newValue) {
-            field = newValue
-            talkAdapter.items = list
-            talkAdapter.notifyDataSetChanged()
-        }
+    var pickTop: MutableList<PickTopModel> = mutableListOf()
+//        set(newValue) {
+//            field = newValue
+//            list = talk.filter { it.category_id == filter.first }.toMutableList()
+//        }
+//    var tabs: MutableList<Pair<Boolean, ProviderModel>> = mutableListOf()
+//        get() {
+//            when (filter.second) {
+//                Sort.provider -> {
+//                    return provider
+//                }
+//                Sort.weekday -> {
+//                    return weekday
+//                }
+//            }
+//        }
+//    var list: MutableList<TalkModel> = mutableListOf()
+//        set(newValue) {
+//            field = newValue
+//            talkAdapter.items = list
+//            talkAdapter.notifyDataSetChanged()
+//        }
 
 
     //    lateinit var noticeView: CardSliderViewPager
@@ -153,26 +149,18 @@ class TalkFragment : BaseFragment() {
     lateinit var bannerView: CardSliderViewPager
     lateinit var bannerIndicator: CardSliderIndicator
     lateinit var bannerAdapter: BannerAdapter
-    lateinit var categoryView: RecyclerView
-    lateinit var categoryAdapter: CategoryAdapter
-    lateinit var btnWeekday: TextView
-    lateinit var btnProvider: TextView
     lateinit var tvBookMark: TextView
-    lateinit var providerView: RecyclerView
-    lateinit var providerAdapter: ProviderAdapter
-    lateinit var talkView: RecyclerView
-    lateinit var talkAdapter: TalkAdapter
     lateinit var bookMarkView: RecyclerView
-    lateinit var bookMarkAdapter: TalkAdapter3
+    lateinit var bookMarkAdapter: TalkBookmarkAdapter
     lateinit var rvDrama: RecyclerView
-    lateinit var dramaAdapter: TalkAdapter3
+    lateinit var dramaAdapter: TalkTodayAdapter
 
     lateinit var tvFirstSympathyName: TextView
     lateinit var tvSecondSympathyName: TextView
     lateinit var ivFirstProfile: ImageView
     lateinit var ivSecondProfile: ImageView
 
-    lateinit var pickTop: MutableList<PickTopModel>
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -197,7 +185,6 @@ class TalkFragment : BaseFragment() {
                         AnalyticsLoader.shared.reportMentionConfirm(mentionModel.mention.id)
                         val action =
                             NavigationDirections.actionGlobalTalkDetailFragment(mentionModel.talk)
-                        action.selectedCommentId = mentionModel.mention.comment_id
                         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                             .navigate(action)
                     }
@@ -222,7 +209,7 @@ class TalkFragment : BaseFragment() {
         ymd_date = beforeDate
 
         fetchModel()
-        filter = Pair(1, Sort.weekday)
+//        filter = Pair(1, Sort.weekday)
     }
 
     override fun loadModel() {
@@ -240,8 +227,8 @@ class TalkFragment : BaseFragment() {
 
         val day = Calendar.getInstance()[Calendar.DAY_OF_WEEK]
 
-        weekday = array.mapIndexed { index, value -> Pair((index == (day + 5) % 7), value) }
-            .toMutableList()
+//        weekday = array.mapIndexed { index, value -> Pair((index == (day + 5) % 7), value) }
+//            .toMutableList()
     }
 
     override fun loadUI() {
@@ -254,6 +241,7 @@ class TalkFragment : BaseFragment() {
 //            noticeView.adapter = noticeAdapter
             bannerView = view.findViewById(R.id.bannerView)
             bannerIndicator = view.findViewById(R.id.bannerIndicator)
+//            weekdayView = view.findViewById(R.id.weekdayView)
 
             bannerAdapter = BannerAdapter(activity, ad)
             bannerView.adapter = bannerAdapter
@@ -261,130 +249,143 @@ class TalkFragment : BaseFragment() {
                 (((resources.configuration.screenWidthDp - 16 - 16).toFloat() / 343F) * 110F).toInt().dp
 
 
-            categoryView = view.findViewById(R.id.categoryView)
-            categoryView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    super.getItemOffsets(outRect, view, parent, state)
-                    when (parent.getChildAdapterPosition(view)) {
-                        0 -> {
-                        }
-                        else -> outRect.left = 8.dp
-                    }
-                }
-            })
-            categoryView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+//            categoryView = view.findViewById(R.id.categoryView)
+//            categoryView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+//                override fun getItemOffsets(
+//                    outRect: Rect,
+//                    view: View,
+//                    parent: RecyclerView,
+//                    state: RecyclerView.State
+//                ) {
+//                    super.getItemOffsets(outRect, view, parent, state)
+//                    when (parent.getChildAdapterPosition(view)) {
+//                        0 -> {
+//                        }
+//                        else -> outRect.left = 8.dp
+//                    }
+//                }
+//            })
+//            categoryView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+//                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+//
+//                }
+//
+//                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+//                    when (e.action) {
+//                        MotionEvent.ACTION_DOWN -> {
+//                            rv.parent.requestDisallowInterceptTouchEvent(true)
+//                        }
+//                    }
+//                    return false
+//                }
+//
+//                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+//
+//                }
+//            })
+//            categoryAdapter = CategoryAdapter(this.category, didSelectAt = { selected ->
+//                filter = Pair(selected.second.id, filter.second)
+//            })
+//            categoryView.layoutManager =
+//                LinearLayoutManager(context).apply { orientation = LinearLayoutManager.HORIZONTAL }
+//            categoryView.adapter = categoryAdapter
+//
+//
+//
+//            btnWeekday = view.findViewById(R.id.btnWeekday)
+//            btnWeekday.setOnClickListener {
+//                filter = Pair(
+//                    filter.first,
+//                    Sort.weekday
+//                )
+//                showWeekdayUI()
+//            }
+//            btnProvider = view.findViewById(R.id.btnProvider)
+//            btnProvider.setOnClickListener {
+//                filter = Pair(
+//                    filter.first,
+//                    Sort.provider
+//                )
+//                showProviderUI()
+//            }
 
-                }
 
-                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    when (e.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            rv.parent.requestDisallowInterceptTouchEvent(true)
-                        }
-                    }
-                    return false
-                }
+//            providerView = view.findViewById(R.id.providerView)
+//            providerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+//                override fun getItemOffsets(
+//                    outRect: Rect,
+//                    view: View,
+//                    parent: RecyclerView,
+//                    state: RecyclerView.State
+//                ) {
+//                    super.getItemOffsets(outRect, view, parent, state)
+//                    when (parent.getChildAdapterPosition(view)) {
+//                        0 -> {
+//                        }
+//                        else -> outRect.left = 8.dp
+//                    }
+//                }
+//            })
+//            providerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+//                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+//
+//                }
+//
+//                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+//                    when (e.action) {
+//                        MotionEvent.ACTION_DOWN -> {
+//                            rv.parent.requestDisallowInterceptTouchEvent(true)
+//                        }
+//                    }
+//                    return false
+//                }
+//
+//                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+//
+//                }
+//            })
+//            providerAdapter = ProviderAdapter(this.provider, didSelectAt = { position, selected ->
+//
+//                when (filter.second) {
+//                    Sort.weekday -> {
+//                        val newValue = weekday.mapIndexed { index, value ->
+//                            Pair(
+//                                index == position,
+//                                value.second
+//                            )
+//                        }.toMutableList()
+//                        weekday = newValue
+//                    }
+//                    Sort.provider -> {
+//                        val newValue = provider.mapIndexed { index, value ->
+//                            Pair(
+//                                index == position,
+//                                value.second
+//                            )
+//                        }.toMutableList()
+//                        provider = newValue
+//                    }
+//                }
+//            })
+//            providerView.layoutManager =
+//                LinearLayoutManager(context).apply { orientation = LinearLayoutManager.HORIZONTAL }
+//            providerView.adapter = providerAdapter
 
-                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
 
-                }
-            })
-            categoryAdapter = CategoryAdapter(this.category, didSelectAt = { selected ->
-                filter = Pair(selected.second.id, filter.second)
-            })
-            categoryView.layoutManager =
-                LinearLayoutManager(context).apply { orientation = LinearLayoutManager.HORIZONTAL }
-            categoryView.adapter = categoryAdapter
 
-            btnWeekday = view.findViewById(R.id.btnWeekday)
-            btnWeekday.setOnClickListener {
-                filter = Pair(
-                    filter.first,
-                    Sort.weekday
-                )
-                showWeekdayUI()
-            }
-            btnProvider = view.findViewById(R.id.btnProvider)
-            btnProvider.setOnClickListener {
-                filter = Pair(
-                    filter.first,
-                    Sort.provider
-                )
-                showProviderUI()
-            }
+//            talkAdapter = TalkAdapter(activity, this.talk)
+//            talkView = view.findViewById(R.id.talkView)
+//            talkView.layoutManager = LinearLayoutManager(context)
+//            talkView.adapter = talkAdapter
 
-            providerView = view.findViewById(R.id.providerView)
-            providerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-                override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-                ) {
-                    super.getItemOffsets(outRect, view, parent, state)
-                    when (parent.getChildAdapterPosition(view)) {
-                        0 -> {
-                        }
-                        else -> outRect.left = 8.dp
-                    }
-                }
-            })
-            providerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+//            weekdayView.visibility = View.GONE
+//            providerView.visibility = View.GONE
+//            categoryView.visibility = View.GONE
 
-                }
-
-                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    when (e.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            rv.parent.requestDisallowInterceptTouchEvent(true)
-                        }
-                    }
-                    return false
-                }
-
-                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
-                }
-            })
-            providerAdapter = ProviderAdapter(this.provider, didSelectAt = { position, selected ->
-
-                when (filter.second) {
-                    Sort.weekday -> {
-                        val newValue = weekday.mapIndexed { index, value ->
-                            Pair(
-                                index == position,
-                                value.second
-                            )
-                        }.toMutableList()
-                        weekday = newValue
-                    }
-                    Sort.provider -> {
-                        val newValue = provider.mapIndexed { index, value ->
-                            Pair(
-                                index == position,
-                                value.second
-                            )
-                        }.toMutableList()
-                        provider = newValue
-                    }
-                }
-            })
-            providerView.layoutManager =
-                LinearLayoutManager(context).apply { orientation = LinearLayoutManager.HORIZONTAL }
-            providerView.adapter = providerAdapter
-
-            talkAdapter = TalkAdapter(activity, this.talk)
-            talkView = view.findViewById(R.id.talkView)
-            talkView.layoutManager = LinearLayoutManager(context)
-            talkView.adapter = talkAdapter
-
+            tvFirstSympathyName = view.findViewById(R.id.tv_first_sympathy_name)
+            tvSecondSympathyName = view.findViewById(R.id.tv_second_sympathy_name)
+            ivFirstProfile = view.findViewById(R.id.iv_first_prifile)
+            ivSecondProfile = view.findViewById(R.id.iv_second_profile)
 
             BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
@@ -393,7 +394,7 @@ class TalkFragment : BaseFragment() {
 
                 bookmarkLayout.visibility = View.VISIBLE
 
-                bookMarkAdapter = TalkAdapter3(activity, this.talk)
+                bookMarkAdapter = TalkBookmarkAdapter(activity, this.talk)
                 bookMarkView = view.findViewById(R.id.rvBookMark)
                 bookMarkView.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -411,11 +412,14 @@ class TalkFragment : BaseFragment() {
                 findNavController().navigate(action)
             }
 
+            rvDrama = view.findViewById(R.id.rvDrama)
+            dramaAdapter = TalkTodayAdapter(activity, this.talk)
 
-            tvFirstSympathyName = view.findViewById(R.id.tv_first_sympathy_name)
-            tvSecondSympathyName = view.findViewById(R.id.tv_second_sympathy_name)
-            ivFirstProfile = view.findViewById(R.id.iv_first_prifile)
-            ivSecondProfile = view.findViewById(R.id.iv_second_profile)
+            rvDrama.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvDrama.adapter = dramaAdapter
+
+
 
         }
     }
@@ -431,16 +435,15 @@ class TalkFragment : BaseFragment() {
 //        }
 
         PickTopLoader.shared.getPickTop(ymd_date) { values ->
+            pickTop = values.toMutableList()
 
-            this.pickTop = values
-
-            if (values.size > 0) {
-                Glide.with(this).load(values[0].profile_image_url)
+            if (pickTop.size > 0) {
+                Glide.with(this).load(pickTop[0].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
                     .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivFirstProfile)
 
-                Glide.with(this).load(values[1].profile_image_url)
+                Glide.with(this).load(pickTop[1].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
                     .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivSecondProfile)
@@ -467,27 +470,51 @@ class TalkFragment : BaseFragment() {
             }
         }
 
+        val instance = Calendar.getInstance()
+        val date = instance.get(Calendar.DAY_OF_WEEK).toString()
+        var weekDay = ""
+        Log.e("tjdrnr",""+date)
+        when(date){
+            "1"-> weekDay = "일"
+            "2"-> weekDay = "월"
+            "3"-> weekDay = "화"
+            "4"-> weekDay = "수"
+            "5"-> weekDay = "목"
+            "6"-> weekDay = "금"
+            "7"-> weekDay = "토"
+        }
+        TalkLoader.shared.getTalkList(weekDay) {
+
+            this.talk = it.toMutableList()
+
+            var talkfilter = talk.filter { model-> model.live == 2 }.sortedBy { data -> data.talk_count }.reversed()
+
+            dramaAdapter.items = this.sort(talkfilter.toMutableList())
+            dramaAdapter.notifyDataSetChanged()
+
+        }
+
         AdLoader.shared.getAdList(true, AdModel.Location.talk) { ad ->
             this.ad = ad
             bannerAdapter.items = this.ad
             bannerAdapter.notifyDataSetChanged()
         }
+//
+//        TalkLoader.shared.getCategoryList { values ->
+//            this.category =
+//                values.mapIndexed { index, providerModel -> Pair((index == 0), providerModel) }
+//                    .toMutableList()
+//            categoryAdapter.items = this.category
+//            categoryAdapter.notifyDataSetChanged()
+//        }
 
-        TalkLoader.shared.getCategoryList { values ->
-            this.category =
-                values.mapIndexed { index, providerModel -> Pair((index == 0), providerModel) }
-                    .toMutableList()
-            categoryAdapter.items = this.category
-            categoryAdapter.notifyDataSetChanged()
-        }
-
-        ProviderLoader.shared.getProviderList(true) { values ->
-            this.provider =
-                values.mapIndexed { index, providerModel -> Pair((index == 0), providerModel) }
-                    .toMutableList()
-            providerAdapter.items = this.tabs
-            providerAdapter.notifyDataSetChanged()
-        }
+//        ProviderLoader.shared.getProviderList(true) { values ->
+//            this.provider =
+//                values.mapIndexed { index, providerModel -> Pair((index == 0), providerModel) }
+//                    .toMutableList()
+//            providerAdapter.items = this.tabs
+//            providerAdapter.notifyDataSetChanged()
+//        }
 
         getUserBookmarkTalk()
     }
@@ -503,24 +530,24 @@ class TalkFragment : BaseFragment() {
     }
 }
 
-fun TalkFragment.showWeekdayUI() {
-    weekday.filter { it.first }.firstOrNull()?.let { selected ->
-        TalkModel.Weekday.values().filter { it.value == selected.second.name.replace("요일", "") }
-            .firstOrNull()?.let { weekday ->
-                TalkLoader.shared.getTalkList(weekday) { talk ->
-                    this.talk = sort(talk)
-                }
-            }
-    }
-}
+//fun TalkFragment.showWeekdayUI() {
+//    weekday.filter { it.first }.firstOrNull()?.let { selected ->
+//        TalkModel.Weekday.values().filter { it.value == selected.second.name.replace("요일", "") }
+//            .firstOrNull()?.let { weekday ->
+//                TalkLoader.shared.getTalkList(weekday) { talk ->
+//                    this.talk = sort(talk)
+//                }
+//            }
+//    }
+//}
 
-fun TalkFragment.showProviderUI() {
-    provider.filter { it.first }.firstOrNull()?.let { selected ->
-        TalkLoader.shared.getTalkList(selected.second.id) { talk ->
-            this.talk = sort(talk)
-        }
-    }
-}
+//fun TalkFragment.showProviderUI() {
+//    provider.filter { it.first }.firstOrNull()?.let { selected ->
+//        TalkLoader.shared.getTalkList(selected.second.id) { talk ->
+//            this.talk = sort(talk)
+//        }
+//    }
+//}
 
 fun TalkFragment.makeTalkModel(payload: String): TalkModel? {
     val gson = GsonBuilder().create()

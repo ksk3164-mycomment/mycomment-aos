@@ -1,12 +1,14 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -15,7 +17,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_talk_detail.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.PickLoader
@@ -35,6 +36,10 @@ class TalkDetailFragment : BaseFragment() {
     lateinit var titleLabel: TextView
     lateinit var contentLabel: TextView
     lateinit var bookmarkView: ImageView
+    lateinit var ivNetflix: ImageView
+    lateinit var ivTving: ImageView
+    lateinit var ivWave: ImageView
+    lateinit var ivWatcha: ImageView
 
     private lateinit var viewPager: ViewPager2
     lateinit var tabLayouts: TabLayout
@@ -74,6 +79,12 @@ class TalkDetailFragment : BaseFragment() {
         view?.let { view ->
 
             ivContentImage = view.findViewById(R.id.ivContentImage)
+
+            ivNetflix = view.findViewById(R.id.ivNetflix)
+            ivTving = view.findViewById(R.id.ivTving)
+            ivWave = view.findViewById(R.id.ivWave)
+            ivWatcha = view.findViewById(R.id.ivWatcha)
+
             titleLabel = view.findViewById(R.id.titleLabel)
             contentLabel = view.findViewById(R.id.contentLabel)
             bookmarkView = view.findViewById(R.id.bookmarkView)
@@ -81,36 +92,13 @@ class TalkDetailFragment : BaseFragment() {
             tabLayouts = view.findViewById(R.id.tabLayout)
             viewPager = view.findViewById(R.id.viewPager2)
 
-//            tabLayouts.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//                override fun onTabReselected(tab: TabLayout.Tab?) {
-//
-//                }
-//
-//                override fun onTabUnselected(tab: TabLayout.Tab?) {
-//                }
-//
-//                override fun onTabSelected(tab: TabLayout.Tab?) {
-//
-//                    Log.e("tjdrnr", "" + tab?.position)
-//                    when (tab?.position) {
-//                        0 ->
-//                            viewPager.currentItem = 0
-//                        1 ->
-//                            viewPager.currentItem = 1
-//                        2 ->
-//                            viewPager.currentItem = 2
-//                    }
-//                }
-//            })
-
             talk?.let { values ->
 
-
-                realTimeTalkFragment = RealTimeTalkFragment(talk!!)
+                realTimeTalkFragment = RealTimeTalkFragment(talk!!,true)
                 dramaFeedFragment = DramaFeedFragment(talk!!)
                 timeLineTalkFragment = TimeLineTalkFragment()
 
-                RealTimeTalkFragment.newInstance(values)
+                RealTimeTalkFragment.newInstance(values,true)
 
                 viewPager.adapter = CustomFragmentStateAdapter(talk!!,this )
                 TabLayoutMediator(tabLayouts, viewPager) { tab, position ->
@@ -129,18 +117,25 @@ class TalkDetailFragment : BaseFragment() {
                 titleLabel.text = values.title
                 contentLabel.text = values.content
 
+                ivNetflix.isVisible = values.otts.contains("netflix")
+                ivTving.isVisible = values.otts.contains("tving")
+                ivWave.isVisible = values.otts.contains("wavve")
+                ivWatcha.isVisible = values.otts.contains("watcha")
+
                 bookmarkView.setImageDrawable(
                     ContextCompat.getDrawable(
                         view.context,
-                        if (values.pick == true) R.drawable.bookmark_r else R.drawable.bookmark
+                        if (values.pick == true) R.drawable.bookmark_full_green else R.drawable.bookmark_empty_black
                     )
                 )
                 bookmarkView.setOnClickListener {
-
+                    Log.e("tjdrnr","talk detail click")
                     BaseApplication.shared.getSharedPreferences().getUser()?.let {
-
+                        Log.e("tjdrnr2","talk detail click")
+                        Log.e("tjdrnr2","talk detail click"+ values.pick)
                         when (values.pick) {
                             true -> {
+                                Log.e("tjdrnr3","talk detail click")
                                 PickLoader.shared.unpick(
                                     PickModel.Category.talk,
                                     values.id
@@ -154,12 +149,13 @@ class TalkDetailFragment : BaseFragment() {
                                 bookmarkView.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         view.context,
-                                        R.drawable.bookmark
+                                        R.drawable.bookmark_empty_black
                                     )
                                 )
                             }
 
                             false -> {
+                                Log.e("tjdrnr4","talk detail click")
                                 activity?.supportFragmentManager?.let { fragmentManager ->
                                     WaterDropDialog.newInstance(
                                         if (isPushEnabledAtOSLevel(view.context)) {
@@ -182,7 +178,7 @@ class TalkDetailFragment : BaseFragment() {
                                 bookmarkView.setImageDrawable(
                                     ContextCompat.getDrawable(
                                         view.context,
-                                        R.drawable.bookmark_r
+                                        R.drawable.bookmark_full_green
                                     )
                                 )
                             }
@@ -224,7 +220,7 @@ class TalkDetailFragment : BaseFragment() {
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> RealTimeTalkFragment(viewModel)
+                0 -> RealTimeTalkFragment(viewModel,true)
                 else -> DramaFeedFragment(viewModel)
             }
         }

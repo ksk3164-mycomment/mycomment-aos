@@ -37,15 +37,15 @@ import kr.beimsupicures.mycomment.extensions.*
 import java.lang.NumberFormatException
 
 
-class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
+class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : BaseFragment() {
 
     var talk: TalkModel? = null
 
     lateinit var countLabel: TextView
     lateinit var messageField: EditText
     lateinit var btnSend: ImageView
-    lateinit var detailAdapter : TalkDetailAdapter
-    lateinit var rvRealtimeTalk : RecyclerView
+    lateinit var detailAdapter: TalkDetailAdapter
+    lateinit var rvRealtimeTalk: RecyclerView
 
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
@@ -64,9 +64,10 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
     companion object {
 
         fun newInstance(
-            viewModel: TalkModel
+            viewModel: TalkModel,
+            talkFeedTF: Boolean
         ): RealTimeTalkFragment {
-            return RealTimeTalkFragment(viewModel)
+            return RealTimeTalkFragment(viewModel, talkFeedTF)
         }
     }
 
@@ -90,15 +91,21 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
                 if (!isLoaded) {
                     isLoaded = true
                     Log.e("TALK", "latest_id: $latest_id")
-                    CommentLoader.shared.getNewComment(talk.id, latest_id) { newValue ->
-                        Log.e("TALK", "new snapshot: ${newValue.size}")
-                        for (item in newValue.reversed()) {
-                            this@RealTimeTalkFragment.items.add(0, item)
+                    if (talkFeedTF) {
+                        CommentLoader.shared.getNewComment(talk.id, latest_id) { newValue ->
+                            Log.e("TALK", "new snapshot: ${newValue.size}")
+                            for (item in newValue.reversed()) {
+                                this@RealTimeTalkFragment.items.add(0, item)
+                            }
+                            detailAdapter.notifyDataSetChanged()
+                            isLoaded = false
                         }
-                        detailAdapter.notifyDataSetChanged()
-                        isLoaded = false
+                    } else {
+                        //todo
                     }
+
                 }
+
             }
         }
 
@@ -254,9 +261,14 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
                                 recyclerView.adapter?.let { adapter ->
                                     if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                                         talk?.let { talk ->
-                                            CommentLoader.shared.getCommentList(talk_id = talk.id, reset = false) { talk ->
-                                                this@RealTimeTalkFragment.items = talk.toMutableList()
-                                                detailAdapter.items = this@RealTimeTalkFragment.items
+                                            CommentLoader.shared.getCommentList(
+                                                talk_id = talk.id,
+                                                reset = false
+                                            ) { talk ->
+                                                this@RealTimeTalkFragment.items =
+                                                    talk.toMutableList()
+                                                detailAdapter.items =
+                                                    this@RealTimeTalkFragment.items
                                                 detailAdapter.notifyDataSetChanged()
                                             }
                                         }
@@ -283,7 +295,8 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
                             btnSend.setImageDrawable(
                                 ContextCompat.getDrawable(
                                     context,
-                                    if (validation) R.drawable.send else R.drawable.send_g)
+                                    if (validation) R.drawable.send else R.drawable.send_g
+                                )
                             )
                         }
                     }
@@ -319,8 +332,12 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
                                                 // Write a message to the database
                                                 talk?.let { talk ->
                                                     val database = FirebaseDatabase.getInstance()
-                                                    database.getReference("talk").child("${talk.id}").child("total").setValue(total)
-                                                    database.getReference("talk").child("${talk.id}").child("count").setValue(count)
+                                                    database.getReference("talk")
+                                                        .child("${talk.id}")
+                                                        .child("total").setValue(total)
+                                                    database.getReference("talk")
+                                                        .child("${talk.id}")
+                                                        .child("count").setValue(count)
                                                 }
                                             }
                                         }
@@ -328,7 +345,8 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
                                 }
                             }
 
-                            false -> { }
+                            false -> {
+                            }
                         }
 
                     } ?: run {
@@ -361,13 +379,26 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
             BaseApplication.shared.getSharedPreferences().setTalkTime()
             BaseApplication.shared.getSharedPreferences().setCurrentTalkId(talk.id)
 
-            CommentLoader.shared.getCommentList(talk.id, true
-            ) { items ->
-                this.items = items
-                detailAdapter.items = this.items
-                detailAdapter.notifyDataSetChanged()
-                scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
+            if (talkFeedTF) {
+                CommentLoader.shared.getCommentList(
+                    talk.id, true
+                ) { items ->
+                    this.items = items
+                    detailAdapter.items = this.items
+                    detailAdapter.notifyDataSetChanged()
+                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
+                }
+            } else {
+                CommentLoader.shared.getFeedCommentList(
+                    talk.id, true
+                ) { items ->
+                    this.items = items
+                    detailAdapter.items = this.items
+                    detailAdapter.notifyDataSetChanged()
+                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
+                }
             }
+
 
 //            CommentLoader.shared.getCommentCount(talk.id) { count ->
 //                this.count = count
@@ -397,7 +428,10 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment() {
                 val position = items.indexOfFirst { it.id == selectedCommentId }
                 val headCount = 3
                 view.run {
-                    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position+headCount, 0)
+                    (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                        position + headCount,
+                        0
+                    )
                 }
             }
         }

@@ -104,6 +104,7 @@
                     android:id="@+id/rvBookMark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -160,9 +161,10 @@
                         android:id="@+id/tv_first_sympathy_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1등아이디"
-                        android:textSize="12sp"
                         android:layout_marginStart="8dp"
+                        android:text="1등아이디"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_first_prifile"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -203,6 +205,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:textColor="@color/black"
                         android:text="2등아이디"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -266,9 +269,9 @@
                         android:layout_marginEnd="16dp"
                         android:gravity="center_vertical"
                         android:text="편성표 보기 >"
-                        android:visibility="gone"
                         android:textColor="@color/colorTextSegment2"
                         android:textSize="11sp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -278,77 +281,16 @@
                     android:id="@+id/rvDrama"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/todayDramaTextLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categoryView"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:clipToPadding="false"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/btnWeekday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:gravity="right"
-                    android:text="요일별"
-                    android:textColor="@color/colorTextTitle"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/btnProvider"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
-                    android:gravity="right"
-                    android:text="방송사별"
-                    android:textColor="@color/colorTextSegment"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/providerView"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="#EFF6FA"
-                android:clipToPadding="false"
-                android:paddingLeft="20dp"
-                android:paddingTop="5dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="5dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/talkView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

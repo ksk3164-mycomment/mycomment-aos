@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 fun Activity.popup(message: String, title: String, cancel: (() -> Unit)? = null, confirm: (() -> Unit)? = null) {
     val builder = AlertDialog.Builder(this)

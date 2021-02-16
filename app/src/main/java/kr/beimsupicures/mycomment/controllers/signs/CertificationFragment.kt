@@ -64,25 +64,19 @@ class CertificationFragment : BaseFragment() {
                                 Category.nickname -> {
 
                                     val action =
-                                        CertificationFragmentDirections.actionCertificationFragmentToForgotNicknameFragment().setUniqueKey(profile.unique_key)
+                                        CertificationFragmentDirections.actionCertificationFragmentToForgotNicknameFragment(profile.unique_key)
                                     view.findNavController().navigate(action)
                                 }
 
                                 Category.password -> {
                                     CertificationFragmentArgs.fromBundle(requireArguments()).nickname?.let { nickname ->
-                                        val action = NavigationDirections.actionGlobalChangePasswordFragment()
-                                            .setNickname(nickname)
-                                            .setCategory(ChangePasswordFragment.Category.forgot)
+                                        val action = NavigationDirections.actionGlobalChangePasswordFragment(nickname)
                                         view.findNavController().navigate(action)
                                     }
                                 }
 
                                 Category.signup -> {
-                                    val action = CertificationFragmentDirections.actionCertificationFragmentToSignUpFragment()
-                                        .setUniqueKey(profile.unique_key)
-                                        .setName(profile.name)
-                                        .setBirth(profile.birth)
-                                        .setGender(profile.gender)
+                                    val action = CertificationFragmentDirections.actionCertificationFragmentToSignUpFragment(profile.unique_key,profile.name,profile.birth,profile.gender)
                                     view.findNavController().navigate(action)
                                 }
 

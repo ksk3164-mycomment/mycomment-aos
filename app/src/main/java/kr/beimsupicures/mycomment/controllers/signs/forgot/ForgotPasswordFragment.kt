@@ -49,9 +49,7 @@ class ForgotPasswordFragment : BaseFragment() {
                 when (validation) {
                     true -> {
 
-                        val action = NavigationDirections.actionGlobalCertificationFragment()
-                            .setCategory(CertificationFragment.Category.password)
-                            .setNickname(nicknameField.text.toString())
+                        val action = NavigationDirections.actionGlobalCertificationFragment(CertificationFragment.Category.password,nicknameField.text.toString())
                         view.findNavController().navigate(action)
                     }
                 }

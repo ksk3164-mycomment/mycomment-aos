@@ -20,7 +20,7 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:src="@drawable/bookmark" />
+            android:src="@drawable/bookmark_count" />
 
     </LinearLayout>
 

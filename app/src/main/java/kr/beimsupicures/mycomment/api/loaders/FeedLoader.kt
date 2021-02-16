@@ -3,9 +3,7 @@ package kr.beimsupicures.mycomment.api.loaders
 import kr.beimsupicures.mycomment.api.APIClient
 import kr.beimsupicures.mycomment.api.APIResult
 import kr.beimsupicures.mycomment.api.loaders.base.BaseLoader
-import kr.beimsupicures.mycomment.api.models.CommentModel
-import kr.beimsupicures.mycomment.api.models.FeedModel
-import kr.beimsupicures.mycomment.api.models.PickModel
+import kr.beimsupicures.mycomment.api.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,17 +12,17 @@ import retrofit2.http.*
 interface FeedService {
 
     @GET("feed/list/{talk_id}/{page}")
-    fun getFeedList(@Header("Authorization") accessToken: String?, @Path("talk_id") talk_id: Int, @Path("page") page: Int): Call<APIResult<MutableList<FeedModel>>>
+    fun getFeedList(
+        @Header("Authorization") accessToken: String?,
+        @Path("talk_id") talk_id: Int,
+        @Path("page") page: Int
+    ): Call<APIResult<MutableList<FeedModel>>>
 
+    @GET("feed/detail/{talk_id}")
+    fun getFeedDetail(@Path("talk_id") talk_id: Int): Call<APIResult<FeedDetailModel>>
 
-//    @POST("unpick")
-//    @FormUrlEncoded
-//    fun unpick(
-//        @Header("Authorization") accessToken: String?,
-//        @Field("category") category: PickModel.Category,
-//        @Field("category_id") category_id: Int
-//    ): Call<APIResult<PickModel>>
-
+    @DELETE("feed/delete/{talk_id}")
+    fun deleteFeedDetail(@Header("Authorization") accessToken: String?,@Path("talk_id") talk_id: Int): Call<APIResult<UpdatedModel>>
 }
 
 class FeedLoader : BaseLoader<FeedService> {
@@ -37,6 +35,11 @@ class FeedLoader : BaseLoader<FeedService> {
 
     constructor() {
         api = APIClient.create(FeedService::class.java)
+    }
+
+    override fun reset() {
+        super.reset()
+        items.clear()
     }
 
     // 댓글 목록 조회
@@ -76,4 +79,48 @@ class FeedLoader : BaseLoader<FeedService> {
                 })
         }
     }
+
+    //피드 상세
+    fun getFeedDetail(
+        talk_id: Int,
+        completionHandler: (FeedDetailModel) -> Unit
+    ) {
+        api.getFeedDetail(talk_id)
+            .enqueue(object : Callback<APIResult<FeedDetailModel>> {
+                override fun onFailure(
+                    call: Call<APIResult<FeedDetailModel>>,
+                    t: Throwable
+                ) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<APIResult<FeedDetailModel>>,
+                    response: Response<APIResult<FeedDetailModel>>
+                ) {
+                    val talk = response.body()?.result
+                    talk?.let { completionHandler(it) }
+                }
+
+            })
+    }
+
+    fun deleteFeedDetail(talk_id: Int, completionHandler: (UpdatedModel) -> Unit){
+        api.deleteFeedDetail(APIClient.accessToken,talk_id)
+            .enqueue(object : Callback<APIResult<UpdatedModel>>{
+                override fun onResponse(
+                    call: Call<APIResult<UpdatedModel>>,
+                    response: Response<APIResult<UpdatedModel>>
+                ) {
+                    val update = response.body()?.result
+                    update?.let{ completionHandler(it) }
+                }
+
+                override fun onFailure(call: Call<APIResult<UpdatedModel>>, t: Throwable) {
+
+                }
+
+            })
+    }
+
 }
