@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.target.Target
 import com.github.islamkhsh.CardSliderIndicator
 import com.github.islamkhsh.CardSliderViewPager
 import com.google.gson.GsonBuilder
@@ -27,6 +30,7 @@ import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.*
 import kr.beimsupicures.mycomment.services.MCFirebaseMessagingService
+import java.lang.reflect.Array.set
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -241,6 +245,8 @@ class TalkFragment : BaseFragment() {
 //            noticeView.adapter = noticeAdapter
             bannerView = view.findViewById(R.id.bannerView)
             bannerIndicator = view.findViewById(R.id.bannerIndicator)
+            var selectedIndicator: Drawable? = ContextCompat.getDrawable(requireContext(), R.drawable.select_dot)
+            bannerIndicator.selectedIndicator = selectedIndicator
 //            weekdayView = view.findViewById(R.id.weekdayView)
 
             bannerAdapter = BannerAdapter(activity, ad)
@@ -419,8 +425,6 @@ class TalkFragment : BaseFragment() {
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             rvDrama.adapter = dramaAdapter
 
-
-
         }
     }
 
@@ -440,11 +444,13 @@ class TalkFragment : BaseFragment() {
             if (pickTop.size > 0) {
                 Glide.with(this).load(pickTop[0].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
+                    .override(Target.SIZE_ORIGINAL)
                     .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivFirstProfile)
 
                 Glide.with(this).load(pickTop[1].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
+                    .override(Target.SIZE_ORIGINAL)
                     .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivSecondProfile)
 
@@ -456,10 +462,12 @@ class TalkFragment : BaseFragment() {
                     pickTop[0].profile_image_url?.let { profile_image_url ->
                         Glide.with(this).load(profile_image_url)
                             .transform(CenterCrop(), CircleCrop())
+                            .override(Target.SIZE_ORIGINAL)
                             .into(ivFirstProfile)
 
                         Glide.with(this).load(profile_image_url)
                             .transform(CenterCrop(), CircleCrop())
+                            .override(Target.SIZE_ORIGINAL)
                             .into(ivSecondProfile)
 
                         tvFirstSympathyName.text = pickTop[0].nickname
@@ -473,7 +481,6 @@ class TalkFragment : BaseFragment() {
         val instance = Calendar.getInstance()
         val date = instance.get(Calendar.DAY_OF_WEEK).toString()
         var weekDay = ""
-        Log.e("tjdrnr",""+date)
         when(date){
             "1"-> weekDay = "일"
             "2"-> weekDay = "월"
@@ -487,9 +494,10 @@ class TalkFragment : BaseFragment() {
 
             this.talk = it.toMutableList()
 
-            var talkfilter = talk.filter { model-> model.live == 2 }.sortedBy { data -> data.talk_count }.reversed()
+            var talkfilter = talk.filter { model-> model.live == 2  }.sortedBy { data -> data.talk_count }.reversed()
+            Log.e("성국",""+talkfilter)
 
-            dramaAdapter.items = this.sort(talkfilter.toMutableList())
+            dramaAdapter.items = talkfilter.toMutableList()
             dramaAdapter.notifyDataSetChanged()
 
         }
@@ -499,7 +507,7 @@ class TalkFragment : BaseFragment() {
             bannerAdapter.items = this.ad
             bannerAdapter.notifyDataSetChanged()
         }
-//
+
 //        TalkLoader.shared.getCategoryList { values ->
 //            this.category =
 //                values.mapIndexed { index, providerModel -> Pair((index == 0), providerModel) }

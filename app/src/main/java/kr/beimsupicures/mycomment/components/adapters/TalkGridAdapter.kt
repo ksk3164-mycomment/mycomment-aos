@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.list_item_talk.view.*
 import kotlinx.android.synthetic.main.list_item_talk.view.bookmarkView
 import kotlinx.android.synthetic.main.list_item_talk.view.countLabel
@@ -64,6 +65,7 @@ class TalkGridAdapter(val activity: FragmentActivity?, var items: MutableList<Ta
         val bookmarkCountLabel = itemView.bookmarkCountLabel
 
         fun bind(viewModel: TalkModel, position: Int) {
+
             bookmarkView.setImageDrawable(
                 ContextCompat.getDrawable(
                     itemView.context,
@@ -71,7 +73,6 @@ class TalkGridAdapter(val activity: FragmentActivity?, var items: MutableList<Ta
                 )
             )
             bookmarkView.setOnClickListener {
-                Log.e("tjdrnr","gid Click")
                 BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
                     when (viewModel.pick) {
@@ -125,6 +126,7 @@ class TalkGridAdapter(val activity: FragmentActivity?, var items: MutableList<Ta
             }
 //            onAirView.visibility = if (viewModel.onAir) View.VISIBLE else View.GONE
             Glide.with(itemView.context).load(viewModel.poster_image_url)
+                .placeholder(R.drawable.bg_profile_thumbnail)
                 .transform(CenterCrop(),RoundedCorners(30))
                 .into(profileView)
             titleLabel.text = viewModel.title

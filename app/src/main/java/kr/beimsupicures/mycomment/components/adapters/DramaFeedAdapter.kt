@@ -1,32 +1,25 @@
 package kr.beimsupicures.mycomment.components.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.NavAction
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.Target
-import kotlinx.android.synthetic.main.fragment_drama_feed_detail.*
 import kotlinx.android.synthetic.main.list_item_drama_feed.view.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.models.FeedModel
-import kr.beimsupicures.mycomment.api.models.TermModel
 import kr.beimsupicures.mycomment.components.application.BaseApplication
-import kr.beimsupicures.mycomment.controllers.MainActivity
-import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedDetailFragment
-import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedFragment
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
 import kr.beimsupicures.mycomment.extensions.setFeed
 import kr.beimsupicures.mycomment.extensions.setFeedId
@@ -55,8 +48,10 @@ class DramaFeedAdapter(var activity: FragmentActivity?, var items: MutableList<F
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (holder) {
             is ViewHolder -> {
-                holder.bind(items[position], position)
-                setAnimation(holder.itemView, position)
+
+                val safePosition = holder.adapterPosition
+                holder.bind(items[safePosition], safePosition)
+//                setAnimation(holder.itemView, position)
             }
         }
     }
@@ -79,18 +74,24 @@ class DramaFeedAdapter(var activity: FragmentActivity?, var items: MutableList<F
                 thumbnail.visibility = View.GONE
             } else {
                 thumbnail.visibility = View.VISIBLE
+                var feedThumbnail = model.feed_thumbnail.substringAfter("/img/")
                 Glide.with(itemView.context)
-                    .load("http://api.my-comment.co.kr:3000${model.feed_thumbnail}")
+                    .load("https://myco-img-re.s3.ap-northeast-2.amazonaws.com/$feedThumbnail")
                     .thumbnail(0.1f)
                     .override(Target.SIZE_ORIGINAL)
-                    .transform(CenterCrop())
+                    .transform(CenterCrop(),RoundedCorners(30))
                     .into(thumbnail)
                 title.visibility = View.VISIBLE
                 title2.visibility = View.GONE
             }
 
             if (model.profile_image_url.isNullOrEmpty()) {
-                profile.setImageResource(R.drawable.bg_profile_thumbnail)
+                profile.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        itemView.context,
+                        R.drawable.bg_profile_thumbnail
+                    )
+                )
             } else {
                 Glide.with(itemView.context)
                     .load(model.profile_image_url)

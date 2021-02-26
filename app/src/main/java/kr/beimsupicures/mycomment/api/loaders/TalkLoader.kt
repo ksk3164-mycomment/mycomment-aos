@@ -54,25 +54,25 @@ class TalkLoader : BaseLoader<TalkService> {
     }
 
     // 요일별 방송목록 조회
-    fun getTalkList(weekday: TalkModel.Weekday, completionHandler: (MutableList<TalkModel>) -> Unit) {
-        api.getTalkList(APIClient.accessToken, weekday.value)
-            .enqueue(object : Callback<APIResult<MutableList<TalkModel>>> {
-                override fun onFailure(call: Call<APIResult<MutableList<TalkModel>>>, t: Throwable) {
+//    fun getTalkList(weekday: TalkModel.Weekday, completionHandler: (MutableList<TalkModel>) -> Unit) {
+//        api.getTalkList(APIClient.accessToken, weekday.value)
+//            .enqueue(object : Callback<APIResult<MutableList<TalkModel>>> {
+//                override fun onFailure(call: Call<APIResult<MutableList<TalkModel>>>, t: Throwable) {
+//
+//                }
+//
+//                override fun onResponse(
+//                    call: Call<APIResult<MutableList<TalkModel>>>,
+//                    response: Response<APIResult<MutableList<TalkModel>>>
+//                ) {
+//                    val talk = response.body()?.result
+//                    talk?.let { completionHandler(it) }
+//                }
+//
+//            })
+//    }
 
-                }
-
-                override fun onResponse(
-                    call: Call<APIResult<MutableList<TalkModel>>>,
-                    response: Response<APIResult<MutableList<TalkModel>>>
-                ) {
-                    val talk = response.body()?.result
-                    talk?.let { completionHandler(it) }
-                }
-
-            })
-    }
-
-    fun getTalkList(weekday: String, completionHandler: (MutableList<TalkModel>) -> Unit) {
+    fun getTalkList(weekday: String , completionHandler: (MutableList<TalkModel>) -> Unit) {
         api.getTalkList(APIClient.accessToken, weekday)
             .enqueue(object : Callback<APIResult<MutableList<TalkModel>>> {
                 override fun onFailure(call: Call<APIResult<MutableList<TalkModel>>>, t: Throwable) {

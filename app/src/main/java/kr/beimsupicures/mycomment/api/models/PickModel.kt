@@ -11,7 +11,7 @@ data class PickModel(
     val deleted_at: String?
 ) {
     enum class Category {
-        agenda, opinion, user, talk, watch, comment, komment
+        user, talk, watch, comment, fcomment
     }
 }
 

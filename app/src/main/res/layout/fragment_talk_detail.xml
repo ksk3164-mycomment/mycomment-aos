@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
@@ -37,6 +36,8 @@
                     <ImageView
                         android:id="@+id/ivContentImage"
                         android:layout_width="match_parent"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/profile"
                         android:layout_height="wrap_content" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout

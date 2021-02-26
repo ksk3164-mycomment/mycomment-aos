@@ -1,6 +1,5 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
-
 import android.content.ContentValues
 import android.os.Bundle
 import android.text.Editable
@@ -31,13 +30,14 @@ import kr.beimsupicures.mycomment.common.diffSec
 import kr.beimsupicures.mycomment.common.keyboard.KeyboardVisibilityUtils
 import kr.beimsupicures.mycomment.common.keyboard.showKeyboard
 import kr.beimsupicures.mycomment.components.adapters.TalkDetailAdapter
+import kr.beimsupicures.mycomment.components.adapters.list_onClick_interface
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.*
-import java.lang.NumberFormatException
 
 
-class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : BaseFragment() {
+class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : BaseFragment(),
+    list_onClick_interface {
 
     var talk: TalkModel? = null
 
@@ -243,13 +243,12 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                 }
 
                 //
-                detailAdapter = TalkDetailAdapter(
-                    activity, values, items
-                ) { message ->
+                detailAdapter = TalkDetailAdapter(activity, values, items, { message ->
                     messageField.setText(message)
                     showKeyboard(requireActivity(), messageField)
-                }
+                }, this)
                 rvRealtimeTalk = view.findViewById(R.id.rvRealtimeTalk)
+                rvRealtimeTalk.setHasFixedSize(true)
                 rvRealtimeTalk.layoutManager = LinearLayoutManager(context)
                 rvRealtimeTalk.adapter = detailAdapter
                 rvRealtimeTalk.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -317,30 +316,34 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                                     CommentLoader.shared.addTalkComment(
                                         talk.id, message
                                     ) { newValue ->
-
-                                        CommentLoader.shared.getCommentCountTotal(
-                                            talk.id
-
-                                        ) { total ->
-                                            CommentLoader.shared.getCommentCount(
-                                                talk.id
-
-                                            ) { count ->
-
-                                                isLoaded = false
-
-                                                // Write a message to the database
-                                                talk?.let { talk ->
-                                                    val database = FirebaseDatabase.getInstance()
-                                                    database.getReference("talk")
-                                                        .child("${talk.id}")
-                                                        .child("total").setValue(total)
-                                                    database.getReference("talk")
-                                                        .child("${talk.id}")
-                                                        .child("count").setValue(count)
-                                                }
+                                        val latest_id = items.firstOrNull()?.id ?: 0
+                                        CommentLoader.shared.getNewComment(
+                                            talk.id,
+                                            latest_id
+                                        ) { newValue ->
+                                            Log.e("TALK", "new snapshot: ${newValue.size}")
+                                            for (item in newValue.reversed()) {
+                                                this@RealTimeTalkFragment.items.add(0, item)
                                             }
+                                            detailAdapter.notifyDataSetChanged()
+                                            isLoaded = false
                                         }
+
+
+                                    }
+
+                                    CommentLoader.shared.getCommentCount(talk.id) { count ->
+//                                        Write a message to the database
+                                        talk?.let { talk ->
+                                            val database = FirebaseDatabase.getInstance()
+                                            database.getReference("talk")
+                                                .child("${talk.id}")
+                                                .child("total").setValue(count)
+                                            database.getReference("talk")
+                                                .child("${talk.id}")
+                                                .child("count").setValue(count)
+                                        }
+                                        countLabel.text = "${count}개의 톡"
                                     }
                                 }
                             }
@@ -388,25 +391,23 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                     detailAdapter.notifyDataSetChanged()
                     scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
                 }
-            } else {
-                CommentLoader.shared.getFeedCommentList(
-                    talk.id, true
-                ) { items ->
-                    this.items = items
-                    detailAdapter.items = this.items
-                    detailAdapter.notifyDataSetChanged()
-                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
-                }
             }
-
-
+//            else {
+//                CommentLoader.shared.getFeedCommentList(
+//                    talk.id, true
+//                ) { items ->
+//                    this.items = items
+//                    detailAdapter.items = this.items
+//                    detailAdapter.notifyDataSetChanged()
+//                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
+//                }
+//            }
 //            CommentLoader.shared.getCommentCount(talk.id) { count ->
 //                this.count = count
 //                detailAdapter.count = this.count
 //                detailAdapter.notifyDataSetChanged()
 //            }
         }
-
 
     }
 
@@ -435,5 +436,9 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                 }
             }
         }
+    }
+
+    override fun onCheckBox(friend_data: Int) {
+        countLabel.text = "${friend_data}개의 톡"
     }
 }

@@ -2,39 +2,55 @@ package kr.beimsupicures.mycomment.controllers
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.kakao.auth.Session
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.fragment_drama_feed_detail.*
+import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
+import kr.beimsupicures.mycomment.api.loaders.FeedLoader
 import kr.beimsupicures.mycomment.api.loaders.SearchLoader
+import kr.beimsupicures.mycomment.api.models.FeedModel
 import kr.beimsupicures.mycomment.api.models.TermModel
 import kr.beimsupicures.mycomment.api.models.UserModel
 import kr.beimsupicures.mycomment.components.activities.BaseActivity
 import kr.beimsupicures.mycomment.components.application.BaseApplication
+import kr.beimsupicures.mycomment.components.dialogs.LoadingDialog
 import kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment
 import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedDetailFragment
 import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedWriteFragment
 import kr.beimsupicures.mycomment.controllers.signs.SignInFragment
 import kr.beimsupicures.mycomment.controllers.signs.sign
-import kr.beimsupicures.mycomment.extensions.alert
-import kr.beimsupicures.mycomment.extensions.getSharedPreferences
-import kr.beimsupicures.mycomment.extensions.getUser
-import kr.beimsupicures.mycomment.extensions.popup
+import kr.beimsupicures.mycomment.extensions.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
+
 
 class MainActivity : BaseActivity() {
 
@@ -44,6 +60,10 @@ class MainActivity : BaseActivity() {
             R.id.nav_host_fragment
         )
     }
+
+    lateinit var loadingDialog: LoadingDialog
+//    lateinit var firebaseAnalytics: FirebaseAnalytics
+
     val toolbar: Toolbar by lazy {
         findViewById<Toolbar>(R.id.toolbar)
     }
@@ -74,6 +94,8 @@ class MainActivity : BaseActivity() {
                     Log.e("fcm", token)
                 }
             })
+
+//        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
     }
 
     @SuppressLint("CheckResult")
@@ -91,8 +113,15 @@ class MainActivity : BaseActivity() {
             toolbar.btnExit.visibility = View.GONE
             toolbar.btnSetting.visibility = View.GONE
 
+
+
             when (destination.id) {
                 R.id.splashFragment -> {
+//
+//                    val bundle = Bundle()
+//                    bundle.putString("splashFragment", "splashFragment")
+//                    firebaseAnalytics.logEvent("splashFragment", bundle)
+
                     toolbar.visibility = View.GONE
                     toolbar.btnBack.visibility = View.GONE
 //                    toolbar.btnBookmark.visibility = View.GONE
@@ -101,10 +130,16 @@ class MainActivity : BaseActivity() {
                     toolbar.searchView.visibility = View.GONE
                 }
                 R.id.profileFragment -> {
+//                    val bundle = Bundle()
+//                    bundle.putString("profileFragment", "profileFragment")
+//                    firebaseAnalytics.logEvent("profileFragment", bundle)
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.signInFragment -> {
+//                    val bundle = Bundle()
+//                    bundle.putString("signInFragment", "signInFragment")
+//                    firebaseAnalytics.logEvent("signInFragment", bundle)
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.VISIBLE
@@ -158,6 +193,9 @@ class MainActivity : BaseActivity() {
                 }
                 //메인 화면
                 R.id.talkFragment -> {
+//                    val bundle = Bundle()
+//                    bundle.putString("talkFragment", "talkFragment")
+//                    firebaseAnalytics.logEvent("talkFragment", bundle)
                     isSearchFragment = false
                     toolbar.visibility = View.VISIBLE
                     toolbar.btnBack.visibility = View.GONE
@@ -169,6 +207,10 @@ class MainActivity : BaseActivity() {
                     toolbar.searchField.visibility = View.GONE
                 }
                 R.id.talkDetailFragment -> {
+
+//                    val bundle = Bundle()
+//                    bundle.putString("talkDetailFragment", "talkDetailFragment")
+//                    firebaseAnalytics.logEvent("talkDetailFragment", bundle)
 //                    toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.VISIBLE
                     toolbar.btnClose.visibility = View.GONE
@@ -182,9 +224,14 @@ class MainActivity : BaseActivity() {
                 }
                 //검색하기
                 R.id.searchTalkFragment -> {
+
+//                    val bundle = Bundle()
+//                    bundle.putString("searchTalkFragment", "searchTalkFragment")
+//                    firebaseAnalytics.logEvent("searchTalkFragment", bundle)
                     isSearchFragment = true
                     searchText.visibility = View.GONE
                     searchField.visibility = View.VISIBLE
+                    searchField.setText("")
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnBookmark.visibility = View.GONE
 //                    toolbar.btnProfile.visibility = View.GONE
@@ -200,13 +247,45 @@ class MainActivity : BaseActivity() {
                     toolbar.btnClose.visibility = View.GONE
                 }
                 R.id.dramaFeedWriteFragment -> {
+
+//                    val bundle = Bundle()
+//                    bundle.putString("dramaFeedWriteFragment", "dramaFeedWriteFragment")
+//                    firebaseAnalytics.logEvent("dramaFeedWriteFragment", bundle)
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnWrite.visibility = View.VISIBLE
                 }
                 R.id.dramaFeedDetailFragment -> {
+
+//                    val bundle = Bundle()
+//                    bundle.putString("dramaFeedDetailFragment", "dramaFeedDetailFragment")
+//                    firebaseAnalytics.logEvent("dramaFeedDetailFragment", bundle)
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.ivMore.visibility = View.VISIBLE
+                    toolbar.btnWrite.visibility = View.GONE
                 }
+                R.id.dramaFeedFragment -> {
+
+
+//                    val bundle = Bundle()
+//                    bundle.putString("dramaFeedFragment", "dramaFeedFragment")
+//                    firebaseAnalytics.logEvent("dramaFeedFragment", bundle)
+
+                    toolbar.btnProfile.visibility = View.VISIBLE
+                    toolbar.btnWrite.visibility = View.GONE
+                    toolbar.ivMore.visibility = View.GONE
+                }
+                R.id.RealTimeTalkFragment -> {
+
+
+//                    val bundle = Bundle()
+//                    bundle.putString("RealTimeTalkFragment", "RealTimeTalkFragment")
+//                    firebaseAnalytics.logEvent("RealTimeTalkFragment", bundle)
+
+                    toolbar.btnProfile.visibility = View.VISIBLE
+                    toolbar.btnWrite.visibility = View.GONE
+                    toolbar.ivMore.visibility = View.GONE
+                }
+
             }
         }
 
@@ -268,54 +347,197 @@ class MainActivity : BaseActivity() {
                     ?.childFragmentManager?.fragments?.get(0)?.let { fragment ->
                         when (fragment) {
                             is SearchTalkFragment -> {
-                                SearchLoader.shared.searchTalk(keyword) { talk ->
-                                    fragment.talk = talk
-                                    fragment.resultAdapter.items = fragment.talk
-                                    fragment.resultAdapter.notifyDataSetChanged()
+
+                                if (!keyword.isNullOrBlank()) {
+
+                                    SearchLoader.shared.searchTalk(
+                                        keyword.replace(
+                                            " ",
+                                            ""
+                                        )
+                                    ) { talk ->
+                                        fragment.talk = talk
+                                        fragment.resultAdapter.items = fragment.talk
+                                        fragment.resultAdapter.notifyDataSetChanged()
+                                    }
+
                                 }
+
                             }
                         }
                     }
             }
 
         toolbar.btnWrite.setOnClickListener {
-            (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedWriteFragment).let { fragment ->
-                //제목 미입력
-                if (!fragment.title.text.isNotEmpty()) {
-                    alert("제목을 입력하세요", "") {}
-                } else {
-                    //제목입력 , 내용 미입력
-                    if (!fragment.editorEmpty) {
-                        alert("내용을 입력하세요", "") {}
+            BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
+                (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedWriteFragment).let { fragment ->
+                    //제목 미입력
+                    if (!fragment.title.text.isNotEmpty()) {
+                        alert("제목을 입력하세요", "") {}
                     } else {
-                        //제목입력, 내용입력
-                        popup("", "해당 글을 등록하시겠어요?") {
-                            Log.e(
-                                "tjdrnr",
-                                "제목 = " + fragment.title.text + "내용 = " + fragment.editorText
-                            )
+                        //제목입력 , 내용 미입력
+                        if (!fragment.editorEmpty) {
+                            alert("내용을 입력하세요", "") {}
+                        } else {
+                            //제목입력, 내용입력
+                            popup("", "해당 글을 등록하시겠어요?") {
+
+                                loadingDialog = LoadingDialog()
+                                loadingDialog.show(supportFragmentManager, "")
+
+                                Log.e(
+                                    "tjdrnr",
+                                    "제목 = " + fragment.title.text + "내용 = " + fragment.editorText
+                                )
+                                BaseApplication.shared.getSharedPreferences().getPostTalkId()
+                                    ?.let { talk_id ->
+                                        var editor = fragment.editorText.toString()
+
+                                        var delimiter1 = """<img src=""""
+                                        var delimiter2 = """" alt="" width="320">"""
+
+                                        val parts = editor.split(
+                                            delimiter1,
+                                            delimiter2,
+                                            ignoreCase = true
+                                        ).toMutableList()
+
+                                        var editor_split =
+                                            editor.replace("""" alt="" width="320">""", "/>")
+
+                                        val subparts = parts.filter { it.startsWith("file") }
+                                        Log.e("tjdrnr", "Substring parts= " + parts)
+                                        for (i in parts.indices) {
+                                            if (i % 2 != 0 ) {
+                                                parts[i] =" "
+                                            }
+                                        }
+
+                                        Log.e("tjdrnr", "Substring parts2= " + parts)
+                                        var sendcontent = ""
+                                        for (i in parts.indices){
+                                            sendcontent += parts[i]
+                                        }
+
+                                        Log.e("tjdrnr", "editor_split= " + editor_split)
+
+                                        Log.e("tjdrnr", "sendcontent= " + sendcontent)
+
+                                        Log.e("tjdrnr", "Substring subparts= " + subparts)
+
+                                        var images = ArrayList<MultipartBody.Part>()
+
+
+
+                                        for (element in subparts) {
+                                            val file = File(element.toUri().path)
+
+                                            var newfile = getStreamByteFromImage(file)
+
+                                            val surveyBody = RequestBody.create(
+                                                MediaType.parse("image/*"),
+                                                newfile
+                                            )
+
+                                            images.add(
+                                                MultipartBody.Part.createFormData(
+                                                    "imgs", URLEncoder.encode(file.name, "utf-8"),
+                                                    surveyBody
+                                                )
+                                            )
+                                        }
+                                        val title =
+                                            RequestBody.create(
+                                                MediaType.parse("text/plain"),
+                                                fragment.title.text.toString()
+                                            )
+                                        val content =
+                                            RequestBody.create(
+                                                MediaType.parse("text/plain"),
+                                                sendcontent
+                                            )
+
+                                        FeedLoader.shared.postFeed(
+                                            talk_id, title, content, images
+                                        ) { feedModel ->
+
+
+                                            FeedLoader.shared.getFeedList(talk_id, true, 0){ feedlist ->
+
+                                                val feedModel: FeedModel? = feedlist.find { it.feed_seq == feedModel.feed_seq }
+
+                                                feedModel?.let { feedModel ->
+                                                    BaseApplication.shared.getSharedPreferences().setFeed(
+                                                        feedModel
+                                                    )
+                                                    BaseApplication.shared.getSharedPreferences().setFeedId(
+                                                        feedModel.feed_seq
+                                                    )
+
+                                                    Handler().postDelayed({
+
+                                                        Navigation.findNavController(fragment.requireView())
+                                                            .popBackStack(
+                                                                R.id.dramaFeedWriteFragment,
+                                                                false
+                                                            )
+                                                        Navigation.findNavController(fragment.requireView())
+                                                            .popBackStack()
+                                                        val action =
+                                                            NavigationDirections.actionGlobalDramaFeedDetailFragment()
+                                                        Navigation.findNavController(
+                                                            this,
+                                                            R.id.nav_host_fragment
+                                                        )
+                                                            .navigate(action)
+                                                        loadingDialog.dismiss()
+                                                    }, 4000)
+
+                                                }
+                                            }
+                                        }
+                                    }
+                            }
                         }
                     }
-
+                }
+            } ?: run {
+                popup("로그인하시겠습니까?", "로그인") {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(R.id.action_global_signInFragment)
                 }
             }
+
         }
         toolbar.ivMore.setOnClickListener {
-            (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
-                val bottomSheet = kr.beimsupicures.mycomment.components.dialogs.BottomSheetDialog()
-                bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+            BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
+                (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
+                    val bottomSheet =
+                        kr.beimsupicures.mycomment.components.dialogs.BottomSheetDialog()
+                    bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+                }
+
+            } ?: run {
+                popup("로그인하시겠습니까?", "로그인") {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(R.id.action_global_signInFragment)
+                }
             }
+
         }
-
     }
-
 
     override fun onBackPressed() {
         navController.currentDestination?.id.let { id ->
             when (id) {
-                R.id.splashFragment, R.id.talkFragment-> {
+                R.id.splashFragment, R.id.talkFragment -> {
                     moveTaskToBack(true)
                     finishAffinity()
+                }
+                R.id.dramaFeedWriteFragment -> {
+                    popup("페이지를 벗어나면 작성하신 내용이\n저장되지 않습니다.", "작성을 그만하시겠어요?") {
+                        super.onBackPressed()
+                    }
                 }
                 else -> {
                     super.onBackPressed()
@@ -354,7 +576,42 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+
+    //this is the byte stream that I upload.
+    fun getStreamByteFromImage(imageFile: File): ByteArray? {
+        var photoBitmap = BitmapFactory.decodeFile(imageFile.path)
+        val stream = ByteArrayOutputStream()
+        val imageRotation = getImageRotation(imageFile)
+        if (imageRotation != 0) photoBitmap = getBitmapRotatedByDegree(photoBitmap, imageRotation)
+        photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream)
+        return stream.toByteArray()
+    }
+
+
+    private fun getImageRotation(imageFile: File): Int {
+        var exif: ExifInterface? = null
+        var exifRotation = 0
+        try {
+            exif = ExifInterface(imageFile.path)
+            exifRotation = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return if (exif == null) 0 else exifToDegrees(exifRotation)
+    }
+
+    private fun exifToDegrees(rotation: Int): Int {
+        if (rotation == ExifInterface.ORIENTATION_ROTATE_90) return 90 else if (rotation == ExifInterface.ORIENTATION_ROTATE_180) return 180 else if (rotation == ExifInterface.ORIENTATION_ROTATE_270) return 270
+        return 0
+    }
+
+    private fun getBitmapRotatedByDegree(bitmap: Bitmap, rotationDegree: Int): Bitmap {
+        val matrix = Matrix()
+        matrix.preRotate(rotationDegree.toFloat())
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
 }
-
-
-

@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kr.beimsupicures.mycomment.NavigationDirections
@@ -27,6 +28,8 @@ import kr.beimsupicures.mycomment.common.isPushEnabledAtOSLevel
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.WaterDropDialog
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
+import kr.beimsupicures.mycomment.components.fragments.startLoadingUI
+import kr.beimsupicures.mycomment.components.fragments.stopLoadingUI
 import kr.beimsupicures.mycomment.extensions.*
 
 class TalkDetailFragment : BaseFragment() {
@@ -62,7 +65,7 @@ class TalkDetailFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         fetchModel()
-//        setUpViewPager()
+
         hideKeyboard()
 
     }
@@ -91,7 +94,6 @@ class TalkDetailFragment : BaseFragment() {
 
             tabLayouts = view.findViewById(R.id.tabLayout)
             viewPager = view.findViewById(R.id.viewPager2)
-
             talk?.let { values ->
 
                 realTimeTalkFragment = RealTimeTalkFragment(talk!!,true)
@@ -107,7 +109,9 @@ class TalkDetailFragment : BaseFragment() {
 
                 viewPager.isUserInputEnabled = false
 
-                Glide.with(this).load(values.content_image_url)
+                Glide.with(this)
+                    .load(values.content_image_url)
+                    .override(Target.SIZE_ORIGINAL)
                     .into(ivContentImage)
                 ivContentImage.setOnClickListener { view ->
                     val action =
@@ -129,13 +133,9 @@ class TalkDetailFragment : BaseFragment() {
                     )
                 )
                 bookmarkView.setOnClickListener {
-                    Log.e("tjdrnr","talk detail click")
                     BaseApplication.shared.getSharedPreferences().getUser()?.let {
-                        Log.e("tjdrnr2","talk detail click")
-                        Log.e("tjdrnr2","talk detail click"+ values.pick)
                         when (values.pick) {
                             true -> {
-                                Log.e("tjdrnr3","talk detail click")
                                 PickLoader.shared.unpick(
                                     PickModel.Category.talk,
                                     values.id
@@ -155,7 +155,6 @@ class TalkDetailFragment : BaseFragment() {
                             }
 
                             false -> {
-                                Log.e("tjdrnr4","talk detail click")
                                 activity?.supportFragmentManager?.let { fragmentManager ->
                                     WaterDropDialog.newInstance(
                                         if (isPushEnabledAtOSLevel(view.context)) {
@@ -208,6 +207,8 @@ class TalkDetailFragment : BaseFragment() {
         talk?.let { talk ->
             BaseApplication.shared.getSharedPreferences().setTalkTime()
             BaseApplication.shared.getSharedPreferences().setCurrentTalkId(talk.id)
+            BaseApplication.shared.getSharedPreferences().setPostTalkId(talk.id)
+            BaseApplication.shared.getSharedPreferences().setTalk(talk)
         }
 
     }
@@ -225,21 +226,5 @@ class TalkDetailFragment : BaseFragment() {
             }
         }
     }
-
-//    private fun setUpViewPager() {
-//
-//        viewPager = viewPager
-//        tabLayouts = tabLayout
-//
-//        val adapter = DetailPagerAdapter(requireFragmentManager(), talk!!)
-//        adapter.addFragment(RealTimeTalkFragment(talk!!), "실시간톡")
-//        adapter.addFragment(DramaFeedFragment(), "드라마피드")
-//        adapter.addFragment(TimeLineTalkFragment(), "타임라인톡")
-//
-//        viewPagers.adapter = adapter
-//        tabLayouts.setupWithViewPager(viewPager)
-//
-//    }
-
 }
 

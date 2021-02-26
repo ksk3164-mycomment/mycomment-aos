@@ -30,7 +30,7 @@ class APIClient {
             return builder.build()
         }
 
-        val retrofit = Retrofit.Builder()
+        var retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(createOkHttpClient())

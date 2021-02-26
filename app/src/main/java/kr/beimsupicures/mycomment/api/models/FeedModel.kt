@@ -9,8 +9,8 @@ data class FeedModel(
     val title: String,
     val c_ts: String,
     val feed_thumbnail: String?,
-    val nickname : String,
-    val profile_image_url : String,
-    val view_cnt : Int,
-    val talk_cnt : Int
-): Parcelable
+    val nickname: String,
+    val profile_image_url: String,
+    val view_cnt: Int,
+    val talk_cnt: Int
+) : Parcelable

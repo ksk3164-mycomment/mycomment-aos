@@ -29,7 +29,6 @@ class SearchTalkFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
         fetchModel()
     }
 

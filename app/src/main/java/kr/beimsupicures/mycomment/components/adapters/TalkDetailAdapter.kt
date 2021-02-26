@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.components.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.target.Target
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.list_item_talk.view.*
 import kotlinx.android.synthetic.main.list_item_talk.view.profileView
@@ -33,7 +35,8 @@ class TalkDetailAdapter(
     val activity: FragmentActivity?,
     var talk: TalkModel,
     var items: MutableList<CommentModel>,
-    val onReplied: (String) -> Unit
+    val onReplied: (String) -> Unit,
+    var listOnclickInterface: list_onClick_interface
 ) :
     RecyclerView.Adapter<TalkDetailAdapter.ViewHolder>() {
 
@@ -77,6 +80,7 @@ class TalkDetailAdapter(
         val replyView = itemView.replyView
         val likeBackgroundView = itemView.likeBackgroundView
 
+
         private fun showLikeMeusers(viewModel: CommentModel): Boolean {
             if (viewModel.isMe) {
                 CommentLoader.shared.getTalkPickedUsers(viewModel.id) { list ->
@@ -94,6 +98,8 @@ class TalkDetailAdapter(
             viewModel.owner?.let { userModel ->
                 Glide.with(itemView.context).load(userModel.profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
+                    .override(200,200)
+                    .thumbnail(0.1f)
                     .into(profileView)
 
                 profileView.setOnClickListener { view ->
@@ -134,11 +140,11 @@ class TalkDetailAdapter(
             likeCountLabel.text = "${viewModel.pick_count.currencyValue}"
 
             likeCountLabel.setOnClickListener {
-                showLikeMeusers(viewModel);
+                showLikeMeusers(viewModel)
             }
 
             likeBackgroundView.setOnClickListener {
-                showLikeMeusers(viewModel);
+                showLikeMeusers(viewModel)
             }
 
             likeView.setOnClickListener {
@@ -252,17 +258,18 @@ class TalkDetailAdapter(
                 activity?.let { activity ->
                     activity.popup("정말 삭제하시겠습니까?", "삭제하기") {
                         CommentLoader.shared.deleteComment(viewModel.id) { comment ->
-
-                            CommentLoader.shared.getCommentCountTotal(viewModel.id) { total ->
-                                CommentLoader.shared.getCommentCount(viewModel.id) { count ->
+//                            CommentLoader.shared.getCommentCountTotal(viewModel.id) { total ->
+                                CommentLoader.shared.getCommentCount(talk.id) { count ->
 
                                     // Write a message to the database
                                     val database = FirebaseDatabase.getInstance()
                                     val myRef = database.getReference("talk").child("${talk.id}")
                                     myRef.setValue(HashMap<String, String>().apply {
-                                        put("total", "${total}")
-                                        put("count", "${count}")
+//                                        put("total", "${total}")
+                                        put("count", "$count")
                                     })
+                                    listOnclickInterface.onCheckBox(count)
+
 
                                     activity.alert("삭제되었습니다.", "알림") {
 
@@ -273,17 +280,29 @@ class TalkDetailAdapter(
                                     val newValue = this@TalkDetailAdapter.items
                                     CommentLoader.shared.items = newValue
                                 }
-                            }
+//                            }
                         }
                     }
                 }
             }
             replyView.setOnClickListener {
-                val content = contentLabel.text.toString()
-                val tag = "@${nameLabel.text}"
-                val original = content.originalString()
-                val replyMessage = "${tag} | ${original}\n"
-                onReplied(replyMessage)
+
+                BaseApplication.shared.getSharedPreferences().getUser()?.let {
+
+                    val content = contentLabel.text.toString()
+                    val tag = "@${nameLabel.text}"
+                    val original = content.originalString()
+                    val replyMessage = "${tag} | ${original}\n"
+                    onReplied(replyMessage)
+
+                } ?: run {
+                    activity?.let { activity ->
+                        activity.popup("로그인하시겠습니까?", "로그인") {
+                            Navigation.findNavController(activity, R.id.nav_host_fragment)
+                                .navigate(R.id.action_global_signInFragment)
+                        }
+                    }
+                }
             }
             val replyInfos = viewModel.content.getReplyInfo()
             if (replyInfos != null) {
@@ -310,6 +329,10 @@ class TalkDetailAdapter(
             }
         }
     }
+}
 
+interface list_onClick_interface {
+
+    fun onCheckBox(friend_data: Int)
 
 }

@@ -12,6 +12,6 @@ data class ReportModel(
     val deleted_at: String?
 ) {
     enum class Category {
-        opinion, comment, komment
+        comment,feed,fcomment
     }
 }

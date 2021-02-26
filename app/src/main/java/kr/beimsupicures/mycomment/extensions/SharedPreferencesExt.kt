@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
 import kr.beimsupicures.mycomment.api.models.FeedModel
+import kr.beimsupicures.mycomment.api.models.TalkModel
 import kr.beimsupicures.mycomment.api.models.UserModel
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import java.text.SimpleDateFormat
@@ -20,10 +21,22 @@ fun SharedPreferences.setFeed(value: FeedModel) {
     BaseApplication.shared.getSharedPreferences().edit().putString("feed", Gson().toJson(value))
         .commit()
 }
+fun SharedPreferences.setTalk(value: TalkModel) {
+    BaseApplication.shared.getSharedPreferences().edit().putString("talk", Gson().toJson(value))
+        .commit()
+}
 
 fun SharedPreferences.getUser(): UserModel? {
     BaseApplication.shared.getSharedPreferences().getString("user", null)?.let { value ->
         return Gson().fromJson<UserModel>(value, UserModel::class.java)
+
+    } ?: run {
+        return null
+    }
+}
+fun SharedPreferences.getTalk(): TalkModel? {
+    BaseApplication.shared.getSharedPreferences().getString("talk", null)?.let { value ->
+        return Gson().fromJson<TalkModel>(value, TalkModel::class.java)
 
     } ?: run {
         return null
@@ -81,7 +94,13 @@ fun SharedPreferences.getWatchTime(): Long? {
 fun SharedPreferences.setCurrentTalkId(id: Int) {
     BaseApplication.shared.getSharedPreferences().edit().putInt("talkId", id).commit()
 }
+fun SharedPreferences.setPostTalkId(id: Int) {
+    BaseApplication.shared.getSharedPreferences().edit().putInt("postTalkId", id).commit()
+}
 
+fun SharedPreferences.getPostTalkId(): Int? {
+    return BaseApplication.shared.getSharedPreferences().getInt("postTalkId", -1)
+}
 fun SharedPreferences.getCurrentTalkId(): Int? {
     return BaseApplication.shared.getSharedPreferences().getInt("talkId", -1)
 }

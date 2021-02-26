@@ -19,8 +19,8 @@ android {
         applicationId "kr.beimsupicures.mycomment"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 22
-        versionName "1.5.0"
+        versionCode 24
+        versionName "1.6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -131,5 +131,8 @@ dependencies {
 
     //editor
     implementation 'jp.wasabeef:richeditor-android:2.0.0'
+
+    //html textview
+    implementation 'org.sufficientlysecure:html-textview:4.0'
 
 }

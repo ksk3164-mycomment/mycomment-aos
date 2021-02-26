@@ -9,12 +9,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface SearchService {
 
     @GET("talk/search")
-    fun searchTalk(@Query("keyword") keyword: String): Call<APIResult<MutableList<TalkModel>>>
+    fun searchTalk(@Header("Authorization") accessToken: String?,@Query("keyword") keyword: String): Call<APIResult<MutableList<TalkModel>>>
 
     @GET("watch/search")
     fun searchWatch(@Query("keyword") keyword: String): Call<APIResult<MutableList<WatchModel>>>
@@ -32,7 +33,7 @@ class SearchLoader : BaseLoader<SearchService> {
 
     // 키워드 검색 결과
     fun searchTalk(keyword: String, completionHandler: (MutableList<TalkModel>) -> Unit) {
-        api.searchTalk(keyword)
+        api.searchTalk(APIClient.accessToken,keyword)
             .enqueue(object : Callback<APIResult<MutableList<TalkModel>>> {
                 override fun onFailure(call: Call<APIResult<MutableList<TalkModel>>>, t: Throwable) {
 

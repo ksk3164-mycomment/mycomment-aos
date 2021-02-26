@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.list_item_talk3.view.*
 import kotlinx.android.synthetic.main.list_item_talk3.view.bookmarkView
 import kotlinx.android.synthetic.main.list_item_talk3.view.countLabel
@@ -125,14 +126,18 @@ class TalkTodayAdapter(val activity: FragmentActivity?, var items: MutableList<T
                 }
             }
             val now: Int = SimpleDateFormat("HHmm").format(Date()).toInt()
-            if ((viewModel.open_time.replace(":", "")
-                    .toInt() <= now) && (now <= viewModel.close_time.replace(":", "").toInt())
-            ) {
-                onAirView.visibility = View.VISIBLE
-            } else {
-                onAirView.visibility = View.GONE
+            if (!viewModel.open_time.isNullOrBlank()) {
+                if ((viewModel.open_time.replace(":", "")
+                        .toInt() <= now) && (now <= viewModel.close_time.replace(":", "").toInt())
+                ) {
+                    onAirView.visibility = View.VISIBLE
+                } else {
+                    onAirView.visibility = View.GONE
+                }
             }
+
             Glide.with(itemView.context).load(viewModel.poster_image_url)
+                .placeholder(R.drawable.bg_profile_thumbnail)
                 .transform(CenterCrop(),RoundedCorners(30))
                 .into(profileView)
             titleLabel.text = viewModel.title

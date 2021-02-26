@@ -1,9 +1,13 @@
 package kr.beimsupicures.mycomment.api.loaders
 
+import android.util.Log
 import kr.beimsupicures.mycomment.api.APIClient
 import kr.beimsupicures.mycomment.api.APIResult
 import kr.beimsupicures.mycomment.api.loaders.base.BaseLoader
 import kr.beimsupicures.mycomment.api.models.*
+import okhttp3.MultipartBody
+import okhttp3.Request
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,8 +25,26 @@ interface FeedService {
     @GET("feed/detail/{talk_id}")
     fun getFeedDetail(@Path("talk_id") talk_id: Int): Call<APIResult<FeedDetailModel>>
 
+    @GET("/feed/count/{talk_id}")
+    fun getFeedCount(@Path("talk_id") talk_id: Int): Call<APIResult<ValueModel>>
+
     @DELETE("feed/delete/{talk_id}")
-    fun deleteFeedDetail(@Header("Authorization") accessToken: String?,@Path("talk_id") talk_id: Int): Call<APIResult<UpdatedModel>>
+    fun deleteFeedDetail(
+        @Header("Authorization") accessToken: String?,
+        @Path("talk_id") talk_id: Int
+    ): Call<APIResult<UpdatedModel>>
+
+    @Multipart
+    @POST("feed/post/{talk_id}")
+    fun postFeed(
+        @Header("Authorization") accessToken: String?,
+        @Path("talk_id") talk_id: Int,
+//        @PartMap map : Map<String, RequestBody>,
+        @Part("title") title: RequestBody,
+        @Part("content") content: RequestBody,
+        @Part imgs : ArrayList<MultipartBody.Part>
+//        @Field("imgs") imgs: Array<String>?
+    ): Call<APIResult<FeedModel>>
 }
 
 class FeedLoader : BaseLoader<FeedService> {
@@ -105,15 +127,15 @@ class FeedLoader : BaseLoader<FeedService> {
             })
     }
 
-    fun deleteFeedDetail(talk_id: Int, completionHandler: (UpdatedModel) -> Unit){
-        api.deleteFeedDetail(APIClient.accessToken,talk_id)
-            .enqueue(object : Callback<APIResult<UpdatedModel>>{
+    fun deleteFeedDetail(talk_id: Int, completionHandler: (UpdatedModel) -> Unit) {
+        api.deleteFeedDetail(APIClient.accessToken, talk_id)
+            .enqueue(object : Callback<APIResult<UpdatedModel>> {
                 override fun onResponse(
                     call: Call<APIResult<UpdatedModel>>,
                     response: Response<APIResult<UpdatedModel>>
                 ) {
                     val update = response.body()?.result
-                    update?.let{ completionHandler(it) }
+                    update?.let { completionHandler(it) }
                 }
 
                 override fun onFailure(call: Call<APIResult<UpdatedModel>>, t: Throwable) {
@@ -123,4 +145,40 @@ class FeedLoader : BaseLoader<FeedService> {
             })
     }
 
+    //피드 개수
+    fun getFeedCount(talk_id: Int, completionHandler: (Int) -> Unit) {
+        api.getFeedCount(talk_id)
+            .enqueue(object : Callback<APIResult<ValueModel>> {
+                override fun onFailure(call: Call<APIResult<ValueModel>>, t: Throwable) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<APIResult<ValueModel>>,
+                    response: Response<APIResult<ValueModel>>
+                ) {
+                    val value = response.body()?.result
+                    value?.let { completionHandler(value.count) }
+                }
+
+            })
+    }
+
+    fun postFeed(talk_id: Int,title : RequestBody,content :  RequestBody,imgs:  ArrayList<MultipartBody.Part>, completionHandler: (FeedModel) -> Unit) {
+        api.postFeed(APIClient.accessToken,talk_id,title,content,imgs)
+            .enqueue(object : Callback<APIResult<FeedModel>> {
+                override fun onResponse(
+                    call: Call<APIResult<FeedModel>>,
+                    response: Response<APIResult<FeedModel>>
+                ) {
+                    val feed_seq = response.body()?.result
+                    feed_seq?.let { completionHandler(it) }
+                }
+
+                override fun onFailure(call: Call<APIResult<FeedModel>>, t: Throwable) {
+                    Log.e("통신실패",t.message)
+                }
+
+            })
+    }
 }

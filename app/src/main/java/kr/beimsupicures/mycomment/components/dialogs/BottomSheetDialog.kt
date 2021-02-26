@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.FeedLoader
+import kr.beimsupicures.mycomment.api.loaders.ReportLoader
+import kr.beimsupicures.mycomment.api.models.ReportModel
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.extensions.*
 
@@ -47,8 +50,20 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
         }
 
 
-        view?.findViewById<TextView>(R.id.tvReport)?.setOnClickListener {
-            dismiss()
+        view?.findViewById<TextView>(R.id.tvReport)?.setOnClickListener { view ->
+            activity?.supportFragmentManager?.let { fragmentManager ->
+
+                ReportDialog(view.context, didSelectAt = { reason ->
+                    ReportLoader.shared.report(
+                        ReportModel.Category.feed,
+                        feedUserId,
+                        reason
+                    ) {
+                        activity?.alert("신고되었습니다.", "신고완료") { }
+                    }
+                }).show(fragmentManager, "")
+            }
+
         }
         view?.findViewById<TextView>(R.id.tvCancel)?.setOnClickListener {
             dismiss()
@@ -60,7 +75,9 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
             activity?.popup("해당 글을 삭제하시겠어요?", "삭제 후에는 글을 복구할 수 없습니다.") {
                 FeedLoader.shared.deleteFeedDetail(feedId){
                     dismiss()
-                    activity?.supportFragmentManager?.popBackStack()
+                    activity?.onBackPressed()
+//                    activity?.supportFragmentManager?.popBackStack()
+
                 }
             }
         }

@@ -5,17 +5,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.analytics.FirebaseAnalytics
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.FeedLoader
 import kr.beimsupicures.mycomment.api.models.FeedModel
 import kr.beimsupicures.mycomment.api.models.TalkModel
 import kr.beimsupicures.mycomment.components.adapters.DramaFeedAdapter
+import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
+import kr.beimsupicures.mycomment.extensions.getSharedPreferences
+import kr.beimsupicures.mycomment.extensions.getUser
+import kr.beimsupicures.mycomment.extensions.originalString
+import kr.beimsupicures.mycomment.extensions.popup
 
 
 class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
@@ -25,10 +33,11 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
     var items: MutableList<FeedModel> = mutableListOf()
     var page = 0
 
-
     lateinit var dramaFeedAdapter: DramaFeedAdapter
     lateinit var floatingButton: FloatingActionButton
+    lateinit var countLabel: TextView
     lateinit var rvDramaFeed: RecyclerView
+
 
     companion object {
 
@@ -66,6 +75,9 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
                 dramaFeedAdapter.items = this.items
                 dramaFeedAdapter.notifyDataSetChanged()
             }
+            FeedLoader.shared.getFeedCount(talk_id = talk.id){ count ->
+                countLabel.text = "${count}개의 게시물"
+            }
         }
 
     }
@@ -82,12 +94,21 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 
         view?.let { view ->
 
-
             floatingButton = view.findViewById(R.id.floating_button)
+            countLabel = view.findViewById(R.id.countLabel)
 
             floatingButton.setOnClickListener {
-                val action = NavigationDirections.actionGlobalDramaFeedWriteFragment()
-                view.findNavController().navigate(action)
+                BaseApplication.shared.getSharedPreferences().getUser()?.let {
+                    val action = NavigationDirections.actionGlobalDramaFeedWriteFragment()
+                    view.findNavController().navigate(action)
+                } ?: run {
+                    activity?.let { activity ->
+                        activity.popup("로그인하시겠습니까?", "로그인") {
+                            Navigation.findNavController(activity, R.id.nav_host_fragment)
+                                .navigate(R.id.action_global_signInFragment)
+                        }
+                    }
+                }
             }
 
             rvDramaFeed = view.findViewById(R.id.rvDramaFeed)
@@ -100,6 +121,7 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 //            rvDramaFeed.layoutManager = LinearLayoutManager(context)
 //            rvDramaFeed.layoutManager = GridLayoutManager(context,2)
             rvDramaFeed.adapter = dramaFeedAdapter
+
             rvDramaFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -116,8 +138,12 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
                                         FeedLoader.shared.getFeedList(
                                             talk_id = talk.id,reset = false,page = newPage
                                         ) { talk ->
-                                            this@DramaFeedFragment.items = talk.toMutableList()
-                                            dramaFeedAdapter.items = this@DramaFeedFragment.items
+
+                                            val newtalk = ArrayList<FeedModel>()
+                                            newtalk.addAll(talk)
+
+//                                            this@DramaFeedFragment.items = talk.toMutableList()
+                                            dramaFeedAdapter.items = newtalk
                                             dramaFeedAdapter.notifyDataSetChanged()
                                         }
                                     }

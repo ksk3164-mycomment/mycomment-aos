@@ -159,7 +159,6 @@ class TalkDetailAdapter2(
                 )
             )
             bookmarkView.setOnClickListener {
-                Log.e("tjdrnr","gld")
 
                 BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
