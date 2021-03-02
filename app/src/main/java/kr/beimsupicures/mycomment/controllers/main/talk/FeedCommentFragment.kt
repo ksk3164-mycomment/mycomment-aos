@@ -47,6 +47,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
     lateinit var btnSend: ImageView
     lateinit var detailAdapter: FeedDetailAdapter
     lateinit var rvRealtimeTalk: RecyclerView
+    var count = 0
 
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
@@ -102,6 +103,8 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
                             }
                             detailAdapter.notifyDataSetChanged()
                             isLoaded = false
+                            countLabel.text = "${count}개의 톡"
+                            count+=1
                         }
                     },1000)
                 }
@@ -182,7 +185,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
     ): View? {
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = {
-                scrollMover.moveFirstCommentIfTopPosition(rvRealtimeTalk)
+//                scrollMover.moveFirstCommentIfTopPosition(rvRealtimeTalk)
             })
         return inflater.inflate(R.layout.fragment_real_time_talk, container, false)
 
@@ -384,7 +387,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
                 this.items = items
                 detailAdapter.items = this.items
                 detailAdapter.notifyDataSetChanged()
-                scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
+//                scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
             }
 //            CommentLoader.shared.getCommentCount(talk.id) { count ->
 //                this.count = count

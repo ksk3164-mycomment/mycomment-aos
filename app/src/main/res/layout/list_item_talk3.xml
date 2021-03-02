@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:maxLines="1"
-            android:text="tv|월,화|9:00"
+            android:text="JTBC | 월,화 | 19:00"
             android:textColor="#E56242"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,16 +67,16 @@
 
             <TextView
                 android:id="@+id/titleLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="title"
+                android:text="선배 그 립스틱 바르지 마요"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/onAirView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,9 +85,10 @@
                 android:layout_width="4dp"
                 android:layout_height="4dp"
                 android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/ic_onair"
-                app:layout_constraintStart_toEndOf="@id/titleLabel"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

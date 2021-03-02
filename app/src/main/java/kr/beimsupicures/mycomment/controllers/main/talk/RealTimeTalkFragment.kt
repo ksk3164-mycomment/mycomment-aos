@@ -40,6 +40,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
     list_onClick_interface {
 
     var talk: TalkModel? = null
+    var count = 0
 
     lateinit var countLabel: TextView
     lateinit var messageField: EditText
@@ -99,6 +100,9 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                             }
                             detailAdapter.notifyDataSetChanged()
                             isLoaded = false
+                            countLabel.text = "${count}개의 톡"
+                            count+=1
+
                         }
                     } else {
                         //todo
@@ -182,7 +186,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
     ): View? {
         keyboardVisibilityUtils = KeyboardVisibilityUtils(requireActivity().window,
             onShowKeyboard = {
-                scrollMover.moveFirstCommentIfTopPosition(rvRealtimeTalk)
+//                scrollMover.moveFirstCommentIfTopPosition(rvRealtimeTalk)
             })
         return inflater.inflate(R.layout.fragment_real_time_talk, container, false)
 
@@ -239,6 +243,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
             talk?.let { values ->
 
                 CommentLoader.shared.getCommentCount(values.id) { count ->
+                    this.count = count
                     countLabel.text = "${count}개의 톡"
                 }
 
@@ -343,6 +348,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                                                 .child("${talk.id}")
                                                 .child("count").setValue(count)
                                         }
+                                        this.count = count
                                         countLabel.text = "${count}개의 톡"
                                     }
                                 }
@@ -389,7 +395,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                     this.items = items
                     detailAdapter.items = this.items
                     detailAdapter.notifyDataSetChanged()
-                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
+//                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
                 }
             }
 //            else {

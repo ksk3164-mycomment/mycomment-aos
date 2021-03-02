@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.components.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

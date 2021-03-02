@@ -76,7 +76,7 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
                 dramaFeedAdapter.notifyDataSetChanged()
             }
             FeedLoader.shared.getFeedCount(talk_id = talk.id){ count ->
-                countLabel.text = "${count}개의 게시물"
+                countLabel.text = "${count}개의 피드"
             }
         }
 

@@ -105,6 +105,11 @@ class TalkDetailFragment : BaseFragment() {
                 viewPager.adapter = CustomFragmentStateAdapter(talk!!,this )
                 TabLayoutMediator(tabLayouts, viewPager) { tab, position ->
                     tab.text = tabTextList[position]
+
+                    if (position==1){
+
+                    }
+
                 }.attach()
 
                 viewPager.isUserInputEnabled = false

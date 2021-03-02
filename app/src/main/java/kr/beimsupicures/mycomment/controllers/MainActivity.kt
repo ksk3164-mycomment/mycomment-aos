@@ -263,29 +263,6 @@ class MainActivity : BaseActivity() {
                     toolbar.ivMore.visibility = View.VISIBLE
                     toolbar.btnWrite.visibility = View.GONE
                 }
-                R.id.dramaFeedFragment -> {
-
-
-//                    val bundle = Bundle()
-//                    bundle.putString("dramaFeedFragment", "dramaFeedFragment")
-//                    firebaseAnalytics.logEvent("dramaFeedFragment", bundle)
-
-                    toolbar.btnProfile.visibility = View.VISIBLE
-                    toolbar.btnWrite.visibility = View.GONE
-                    toolbar.ivMore.visibility = View.GONE
-                }
-                R.id.RealTimeTalkFragment -> {
-
-
-//                    val bundle = Bundle()
-//                    bundle.putString("RealTimeTalkFragment", "RealTimeTalkFragment")
-//                    firebaseAnalytics.logEvent("RealTimeTalkFragment", bundle)
-
-                    toolbar.btnProfile.visibility = View.VISIBLE
-                    toolbar.btnWrite.visibility = View.GONE
-                    toolbar.ivMore.visibility = View.GONE
-                }
-
             }
         }
 

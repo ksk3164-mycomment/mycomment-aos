@@ -124,6 +124,7 @@ class TalkFragment : BaseFragment() {
 //            }
 //        }
     var talk: MutableList<TalkModel> = mutableListOf()
+    var bookmark: MutableList<TalkModel> = mutableListOf()
     var pickTop: MutableList<PickTopModel> = mutableListOf()
 //        set(newValue) {
 //            field = newValue
@@ -400,7 +401,7 @@ class TalkFragment : BaseFragment() {
 
                 bookmarkLayout.visibility = View.VISIBLE
 
-                bookMarkAdapter = TalkBookmarkAdapter(activity, this.talk)
+                bookMarkAdapter = TalkBookmarkAdapter(activity, this.bookmark)
                 bookMarkView = view.findViewById(R.id.rvBookMark)
                 bookMarkView.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -568,9 +569,9 @@ fun TalkFragment.makeMentionModel(payload: String): MentionModel? {
 }
 
 fun TalkFragment.getUserBookmarkTalk() {
-    UserLoader.shared.getUserBookmarkTalk { talk ->
-        this.talk = talk.toMutableList()
-        bookMarkAdapter.items = this.talk
+    UserLoader.shared.getUserBookmarkTalk { bookmark ->
+        this.bookmark = bookmark.toMutableList()
+        bookMarkAdapter.items = this.bookmark
         bookMarkAdapter.notifyDataSetChanged()
     }
 }
