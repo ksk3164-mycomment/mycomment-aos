@@ -51,11 +51,6 @@ interface CommentService {
     @GET("comment/{id}/talk/pick/users")
     fun getTalkPickedUsers(@Path("id") comment_id: Int): Call<APIResult<MutableList<UserModel>>>
 
-    @GET("comment/{id}/watch/pick/users")
-    fun getWatchPickedUsers(@Path("id") comment_id: Int): Call<APIResult<MutableList<UserModel>>>
-
-
-
 }
 
 class CommentLoader : BaseLoader<CommentService> {
@@ -255,23 +250,4 @@ class CommentLoader : BaseLoader<CommentService> {
             })
     }
 
-    fun getWatchPickedUsers(id: Int, completionHandler: (MutableList<UserModel>) -> Unit) {
-        api.getWatchPickedUsers(id)
-            .enqueue(object : Callback<APIResult<MutableList<UserModel>>> {
-                override fun onFailure(
-                    call: Call<APIResult<MutableList<UserModel>>>,
-                    t: Throwable
-                ) {
-                }
-
-                override fun onResponse(
-                    call: Call<APIResult<MutableList<UserModel>>>,
-                    response: Response<APIResult<MutableList<UserModel>>>
-                ) {
-                    val value = response.body()?.result
-                    value?.let { completionHandler(value) }
-                }
-
-            })
-    }
 }

@@ -18,7 +18,6 @@ import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.kakao.auth.Session
@@ -28,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_drama_feed_detail.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
+import kr.beimsupicures.mycomment.api.AmazonS3Loader
 import kr.beimsupicures.mycomment.api.loaders.FeedLoader
 import kr.beimsupicures.mycomment.api.loaders.SearchLoader
 import kr.beimsupicures.mycomment.api.models.FeedModel
@@ -37,8 +37,7 @@ import kr.beimsupicures.mycomment.components.activities.BaseActivity
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.LoadingDialog
 import kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment
-import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedDetailFragment
-import kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedWriteFragment
+import kr.beimsupicures.mycomment.controllers.main.talk.*
 import kr.beimsupicures.mycomment.controllers.signs.SignInFragment
 import kr.beimsupicures.mycomment.controllers.signs.sign
 import kr.beimsupicures.mycomment.extensions.*
@@ -49,7 +48,11 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.net.URLEncoder
+import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseActivity() {
@@ -270,7 +273,6 @@ class MainActivity : BaseActivity() {
             onBackPressed()
         }
 
-
         //드라마 검색하기
         toolbar.searchView.setOnClickListener {
             if (!isSearchFragment) {
@@ -325,20 +327,20 @@ class MainActivity : BaseActivity() {
                         when (fragment) {
                             is SearchTalkFragment -> {
 
-                                if (!keyword.isNullOrBlank()) {
+//                                if (!keyword.isNullOrBlank()) {
 
-                                    SearchLoader.shared.searchTalk(
-                                        keyword.replace(
-                                            " ",
-                                            ""
-                                        )
-                                    ) { talk ->
-                                        fragment.talk = talk
-                                        fragment.resultAdapter.items = fragment.talk
-                                        fragment.resultAdapter.notifyDataSetChanged()
-                                    }
-
+                                SearchLoader.shared.searchTalk(
+                                    keyword.replace(
+                                        " ",
+                                        ""
+                                    )
+                                ) { talk ->
+                                    fragment.talk = talk
+                                    fragment.resultAdapter.items = fragment.talk
+                                    fragment.resultAdapter.notifyDataSetChanged()
                                 }
+
+//                                }
 
                             }
                         }
@@ -358,10 +360,6 @@ class MainActivity : BaseActivity() {
                         } else {
                             //제목입력, 내용입력
                             popup("", "해당 글을 등록하시겠어요?") {
-
-                                loadingDialog = LoadingDialog()
-                                loadingDialog.show(supportFragmentManager, "")
-
                                 Log.e(
                                     "tjdrnr",
                                     "제목 = " + fragment.title.text + "내용 = " + fragment.editorText
@@ -370,8 +368,13 @@ class MainActivity : BaseActivity() {
                                     ?.let { talk_id ->
                                         var editor = fragment.editorText.toString()
 
+                                        val displayMetrics = this.resources?.displayMetrics
+                                        val dpWidth =
+                                            displayMetrics!!.widthPixels / displayMetrics.density
+
                                         var delimiter1 = """<img src=""""
-                                        var delimiter2 = """" alt="" width="320">"""
+                                        var delimiter2 =
+                                            """" alt="" width="${dpWidth.toInt() - 32}">"""
 
                                         val parts = editor.split(
                                             delimiter1,
@@ -380,98 +383,168 @@ class MainActivity : BaseActivity() {
                                         ).toMutableList()
 
                                         var editor_split =
-                                            editor.replace("""" alt="" width="320">""", "/>")
-
-                                        val subparts = parts.filter { it.startsWith("file") }
-                                        Log.e("tjdrnr", "Substring parts= " + parts)
-                                        for (i in parts.indices) {
-                                            if (i % 2 != 0 ) {
-                                                parts[i] =" "
-                                            }
-                                        }
-
-                                        Log.e("tjdrnr", "Substring parts2= " + parts)
-                                        var sendcontent = ""
-                                        for (i in parts.indices){
-                                            sendcontent += parts[i]
-                                        }
-
-                                        Log.e("tjdrnr", "editor_split= " + editor_split)
-
-                                        Log.e("tjdrnr", "sendcontent= " + sendcontent)
-
-                                        Log.e("tjdrnr", "Substring subparts= " + subparts)
-
-                                        var images = ArrayList<MultipartBody.Part>()
-
-
-
-                                        for (element in subparts) {
-                                            val file = File(element.toUri().path)
-
-                                            var newfile = getStreamByteFromImage(file)
-
-                                            val surveyBody = RequestBody.create(
-                                                MediaType.parse("image/*"),
-                                                newfile
+                                            editor.replace(
+                                                """" width="${dpWidth.toInt() - 32}">""",
+                                                """">"""
                                             )
 
-                                            images.add(
-                                                MultipartBody.Part.createFormData(
-                                                    "imgs", URLEncoder.encode(file.name, "utf-8"),
-                                                    surveyBody
-                                                )
+                                        val subparts = parts.filter {
+                                            it.startsWith("file") || it.startsWith(
+                                                "content"
                                             )
                                         }
-                                        val title =
-                                            RequestBody.create(
-                                                MediaType.parse("text/plain"),
-                                                fragment.title.text.toString()
-                                            )
-                                        val content =
-                                            RequestBody.create(
-                                                MediaType.parse("text/plain"),
-                                                sendcontent
-                                            )
 
-                                        FeedLoader.shared.postFeed(
-                                            talk_id, title, content, images
-                                        ) { feedModel ->
+                                        Log.e("tjdrnr", "subparts size= " + subparts.size)
+
+                                        if (subparts.size <= 8) {
 
 
-                                            FeedLoader.shared.getFeedList(talk_id, true, 0){ feedlist ->
+                                            Log.e("tjdrnr", "Substring parts= " + parts)
 
-                                                val feedModel: FeedModel? = feedlist.find { it.feed_seq == feedModel.feed_seq }
-
-                                                feedModel?.let { feedModel ->
-                                                    BaseApplication.shared.getSharedPreferences().setFeed(
-                                                        feedModel
-                                                    )
-                                                    BaseApplication.shared.getSharedPreferences().setFeedId(
-                                                        feedModel.feed_seq
-                                                    )
-
-                                                    Handler().postDelayed({
-
-                                                        Navigation.findNavController(fragment.requireView())
-                                                            .popBackStack(
-                                                                R.id.dramaFeedWriteFragment,
-                                                                false
-                                                            )
-                                                        Navigation.findNavController(fragment.requireView())
-                                                            .popBackStack()
-                                                        val action =
-                                                            NavigationDirections.actionGlobalDramaFeedDetailFragment()
-                                                        Navigation.findNavController(
-                                                            this,
-                                                            R.id.nav_host_fragment
-                                                        )
-                                                            .navigate(action)
-                                                        loadingDialog.dismiss()
-                                                    }, 4000)
-
+                                            var urlList = mutableListOf<String>()
+                                            for (item in parts.indices) {
+                                                if (parts[item].startsWith("file://")) {
+                                                    val name = "${UUID.randomUUID()}"
+                                                    parts[item] =
+                                                        """<img src ="""" + "https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/${name}" + """" alt="">"""
+                                                    urlList.add("https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/${name}")
                                                 }
                                             }
+                                            Log.e(
+                                                "tjdrnr",
+                                                "parts.toString = " + parts.joinToString("")
+                                            )
+                                            Log.e("tjdrnr", "urlList= " + urlList)
+
+                                            loadingDialog = LoadingDialog()
+                                            loadingDialog.show(supportFragmentManager, "")
+                                            for (item in urlList.indices) {
+                                                AmazonS3Loader.shared.uploadImage3(
+                                                    "feed",
+                                                    subparts[item].toUri(),
+                                                    urlList[item].substringAfter("https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/")
+                                                ) {
+                                                    Log.e("tjdrnr", "s3 url = " + it)
+                                                    if (item == urlList.size - 1) {
+                                                        Log.e("tjdrnr", "마지막")
+                                                        var images = ArrayList<MultipartBody.Part>()
+
+
+                                                        for (element in subparts) {
+                                                            val file = File(element.toUri().path)
+
+                                                            var newfile =
+                                                                getStreamByteFromImage(file)
+
+                                                            val surveyBody = RequestBody.create(
+                                                                MediaType.parse("image/*"),
+                                                                newfile
+                                                            )
+
+                                                            images.add(
+                                                                MultipartBody.Part.createFormData(
+                                                                    "imgs",
+                                                                    URLEncoder.encode(
+                                                                        file.name,
+                                                                        "utf-8"
+                                                                    ),
+                                                                    surveyBody
+                                                                )
+                                                            )
+                                                        }
+
+                                                        val title =
+                                                            RequestBody.create(
+                                                                MediaType.parse("text/plain"),
+                                                                fragment.title.text.toString()
+                                                            )
+                                                        val content =
+                                                            RequestBody.create(
+                                                                MediaType.parse("text/plain"),
+                                                                parts.joinToString("")
+                                                            )
+
+                                                        FeedLoader.shared.postFeed(
+                                                            talk_id, title, content, images
+                                                        ) { feedModel ->
+                                                            FeedLoader.shared.getFeedList(
+                                                                talk_id,
+                                                                true,
+                                                                0
+                                                            ) { feedlist ->
+
+                                                                val feedModel: FeedModel? =
+                                                                    feedlist.find { it.feed_seq == feedModel.feed_seq }
+
+                                                                feedModel?.let { feedModel ->
+                                                                    BaseApplication.shared.getSharedPreferences()
+                                                                        .setFeed(
+                                                                            feedModel
+                                                                        )
+                                                                    BaseApplication.shared.getSharedPreferences()
+                                                                        .setFeedId(
+                                                                            feedModel.feed_seq
+                                                                        )
+
+                                                                    Handler().postDelayed({
+
+                                                                        Navigation.findNavController(
+                                                                            fragment.requireView()
+                                                                        )
+                                                                            .popBackStack(
+                                                                                R.id.dramaFeedWriteFragment,
+                                                                                false
+                                                                            )
+                                                                        Navigation.findNavController(
+                                                                            fragment.requireView()
+                                                                        )
+                                                                            .popBackStack()
+                                                                        val action =
+                                                                            NavigationDirections.actionGlobalDramaFeedDetailFragment()
+                                                                        Navigation.findNavController(
+                                                                            this,
+                                                                            R.id.nav_host_fragment
+                                                                        )
+                                                                            .navigate(action)
+                                                                        loadingDialog.dismiss()
+                                                                    }, 4000)
+
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+//                                            var sendcontent = ""
+//                                            for (i in parts.indices) {
+//                                                sendcontent += parts[i]
+//                                            }
+                                            Log.e("tjdrnr", "editor_split= " + editor_split)
+//                                            val pattern: Pattern =
+//                                                Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>")
+//
+//                                            val matcher: Matcher = pattern.matcher(editor_split)
+//
+//                                            val replacedString = StringBuffer()
+//                                            while (matcher.find()) {
+//                                                matcher.appendReplacement(
+//                                                    replacedString,
+//                                                    """<img src ="""" + "file//" + """" alt="">"""
+//                                                )
+//                                            }
+
+//                                            matcher.appendTail(replacedString)
+//                                            val result3 = replacedString.toString()
+//                                            Log.e("tjdrnr", "newString = " + result3)
+//
+//                                            Log.e("tjdrnr", "sendcontent= " + sendcontent)
+//
+//                                            Log.e("tjdrnr", "Substring subparts= " + subparts)
+
+
+                                        } else {
+                                            alert("사진 등록은 최대 8장까지 가능합니다", "") {}
                                         }
                                     }
                             }
@@ -590,5 +663,4 @@ class MainActivity : BaseActivity() {
         matrix.preRotate(rotationDegree.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
-
 }

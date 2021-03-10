@@ -5,6 +5,7 @@ import kr.beimsupicures.mycomment.api.APIClient
 import kr.beimsupicures.mycomment.api.APIResult
 import kr.beimsupicures.mycomment.api.loaders.base.BaseLoader
 import kr.beimsupicures.mycomment.api.models.CommentModel
+import kr.beimsupicures.mycomment.api.models.UserModel
 import kr.beimsupicures.mycomment.api.models.ValueModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,6 +45,10 @@ interface FeedCommentService{
         @Header("Authorization") accessToken: String?,
         @Path("id") id: Int
     ): Call<APIResult<CommentModel>>
+
+    @GET("comment/{id}/feed/pick/users")
+    fun getFeedPickedUsers(@Path("id") comment_id: Int): Call<APIResult<MutableList<UserModel>>>
+
 }
 
 
@@ -194,6 +199,25 @@ class FeedCommentLoader :BaseLoader<FeedCommentService>{
                     }
                 })
         }
+    }
+    fun getFeedPickedUsers(id: Int, completionHandler: (MutableList<UserModel>) -> Unit) {
+        api.getFeedPickedUsers(id)
+            .enqueue(object : Callback<APIResult<MutableList<UserModel>>> {
+                override fun onFailure(
+                    call: Call<APIResult<MutableList<UserModel>>>,
+                    t: Throwable
+                ) {
+                }
+
+                override fun onResponse(
+                    call: Call<APIResult<MutableList<UserModel>>>,
+                    response: Response<APIResult<MutableList<UserModel>>>
+                ) {
+                    val value = response.body()?.result
+                    value?.let { completionHandler(value) }
+                }
+
+            })
     }
 
 

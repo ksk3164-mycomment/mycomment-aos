@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,14 +22,17 @@ fun String.timeline(): String {
     }
 
     if (time > now || time <= 0) {
-        return ""
+        Log.e("tjdrnr","tim = "+time)
+        Log.e("tjdrnr","now = "+now)
+        return "방금"
     }
 
     val diff: Long = now - time
 
     return when {
-        diff < 3 * 1000L -> "방금"
-        diff < 60 * 1000L -> "${diff / 1000L}초 전"
+//        diff < 3 * 1000L -> "방금"
+//        diff < 60 * 1000L -> "${diff / 1000L}초 전"
+        diff < 60 * 1000L -> "방금"
         diff < 2 * 60 * 1000L -> "1분 전"
         diff < 60 * 60 * 1000L -> "${diff / (60 * 1000L)} 분 전"
         diff < 2 * 60 * 60 * 1000L -> "1시간 전"

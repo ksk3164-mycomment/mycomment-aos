@@ -38,35 +38,35 @@ class WebViewFragment: BaseFragment() {
                 val talkURL = "https://mycomment.page.link/mc_talk_" + talk.id
                 val webSettings: WebSettings = wv_banner.settings
                 webSettings.javaScriptEnabled = true
-                wv_banner!!.webViewClient = object : WebViewClient() {
+                wv_banner.webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                         try {
                             val originURL = url?.split(";")?.get(4)?.split("=")?.get(1)
-                            wv_banner!!.loadUrl(originURL)
+                            wv_banner.loadUrl(originURL)
                         } catch (e: IndexOutOfBoundsException) {
                             return false
                         }
                         return true
                     }
                 }
-                wv_banner!!.loadUrl(talkURL)
+                wv_banner.loadUrl(talkURL)
             }
             watch?.let { watch ->
                 val watchURL = "https://mycomment.page.link/mc_watch_" + watch.id
                 val webSettings: WebSettings = wv_banner.settings
                 webSettings.javaScriptEnabled = true
-                wv_banner!!.webViewClient = object : WebViewClient() {
+                wv_banner.webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                         try {
                             val originURL = url?.split(";")?.get(4)?.split("=")?.get(1)
-                            wv_banner!!.loadUrl(originURL)
+                            wv_banner.loadUrl(originURL)
                         } catch (e: IndexOutOfBoundsException) {
                             return false
                         }
                         return true
                     }
                 }
-                wv_banner!!.loadUrl(watchURL)
+                wv_banner.loadUrl(watchURL)
             }
         }
     }

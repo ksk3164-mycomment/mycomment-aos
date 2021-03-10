@@ -386,6 +386,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_talkFragment_to_talkDetailFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>

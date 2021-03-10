@@ -34,7 +34,6 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
     var page = 0
 
     lateinit var dramaFeedAdapter: DramaFeedAdapter
-    lateinit var floatingButton: FloatingActionButton
     lateinit var countLabel: TextView
     lateinit var rvDramaFeed: RecyclerView
 
@@ -55,6 +54,7 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+
         fetchModel()
     }
 
@@ -94,22 +94,9 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 
         view?.let { view ->
 
-            floatingButton = view.findViewById(R.id.floating_button)
             countLabel = view.findViewById(R.id.countLabel)
 
-            floatingButton.setOnClickListener {
-                BaseApplication.shared.getSharedPreferences().getUser()?.let {
-                    val action = NavigationDirections.actionGlobalDramaFeedWriteFragment()
-                    view.findNavController().navigate(action)
-                } ?: run {
-                    activity?.let { activity ->
-                        activity.popup("로그인하시겠습니까?", "로그인") {
-                            Navigation.findNavController(activity, R.id.nav_host_fragment)
-                                .navigate(R.id.action_global_signInFragment)
-                        }
-                    }
-                }
-            }
+
 
             rvDramaFeed = view.findViewById(R.id.rvDramaFeed)
             dramaFeedAdapter = DramaFeedAdapter(activity,items)

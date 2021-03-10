@@ -32,17 +32,18 @@
             android:layout_width="50dp"
             android:layout_height="22dp"
             android:background="@drawable/bg_like_box">
+
             <TextView
                 android:id="@+id/likeCountLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="4dp"
                 android:layout_toLeftOf="@id/likeView"
                 android:gravity="center"
-                android:layout_marginRight="4dp"
                 android:text="0"
                 android:textColor="@color/colorTextContent"
-                android:textSize="14sp"
-                android:layout_centerInParent="true"/>
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/likeView"
@@ -125,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
-            android:text="timeline"
+            android:text="방금"
             android:textColor="@color/colorTextTimestamp"
             android:textSize="12sp" />
 

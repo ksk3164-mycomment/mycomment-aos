@@ -17,6 +17,10 @@ interface TalkService {
     @GET("talk")
     fun getTalkList(@Header("Authorization") accessToken: String?, @Query("weekday") weekday: String): Call<APIResult<MutableList<TalkModel>>>
 
+    @GET("talk/today")
+    fun getTalkList(@Header("Authorization") accessToken: String?): Call<APIResult<MutableList<TalkModel>>>
+
+
     @GET("talk/{id}")
     fun getTalk(@Header("Authorization") accessToken: String?, @Path("id") id: Int): Call<APIResult<TalkModel>>
 
@@ -74,6 +78,23 @@ class TalkLoader : BaseLoader<TalkService> {
 
     fun getTalkList(weekday: String , completionHandler: (MutableList<TalkModel>) -> Unit) {
         api.getTalkList(APIClient.accessToken, weekday)
+            .enqueue(object : Callback<APIResult<MutableList<TalkModel>>> {
+                override fun onFailure(call: Call<APIResult<MutableList<TalkModel>>>, t: Throwable) {
+
+                }
+
+                override fun onResponse(
+                    call: Call<APIResult<MutableList<TalkModel>>>,
+                    response: Response<APIResult<MutableList<TalkModel>>>
+                ) {
+                    val talk = response.body()?.result
+                    talk?.let { completionHandler(it) }
+                }
+
+            })
+    }
+    fun getTalkList(completionHandler: (MutableList<TalkModel>) -> Unit) {
+        api.getTalkList(APIClient.accessToken)
             .enqueue(object : Callback<APIResult<MutableList<TalkModel>>> {
                 override fun onFailure(call: Call<APIResult<MutableList<TalkModel>>>, t: Throwable) {
 

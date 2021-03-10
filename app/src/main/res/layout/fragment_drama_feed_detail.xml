@@ -10,7 +10,7 @@
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/messageWrapperView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -132,141 +132,146 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title" />
 
-                    <org.sufficientlysecure.htmltextview.HtmlTextView
-                        android:id="@+id/content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="1. 버릴 수 없는 지평, 도산의 마음\n(금전수/ 박찬호싸인야구공)\n\n지평 달미에 대한 마음 버리는 장치로 금전수 버리고
-달미 일부러 피했는데 경비아저씨가 다시 주워줌결국 3년동안 달미에 대한 마음 무럭무럭 키워놨고 ,다음회차 예고에 금전수 차에 태운 장면 나옴 (되돌려주는 걸로 예상)
-"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view" />
-
-                    <ImageView
-                        android:id="@+id/ivContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:visibility="gone"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/content" />
-
-                    <ImageView
-                        android:id="@+id/ivContent2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:visibility="gone"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent" />
-
-                    <ImageView
-                        android:id="@+id/ivContent3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:visibility="gone"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent2" />
-                    <ImageView
-                        android:id="@+id/ivContent4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent3" />
-                    <ImageView
-                        android:id="@+id/ivContent5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent4" />
-                    <ImageView
-                        android:id="@+id/ivContent6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent5" />
-                    <ImageView
-                        android:id="@+id/ivContent7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent6" />
-                    <ImageView
-                        android:id="@+id/ivContent8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/camera"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivContent7" />
-
-
-<!--                    <jp.wasabeef.richeditor.RichEditor-->
-<!--                        android:id="@+id/editor"-->
+<!--                    <org.sufficientlysecure.htmltextview.HtmlTextView-->
+<!--                        android:id="@+id/content"-->
 <!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:text="1. 버릴 수 없는 지평, 도산의 마음\n(금전수/ 박찬호싸인야구공)\n\n지평 달미에 대한 마음 버리는 장치로 금전수 버리고-->
+<!--달미 일부러 피했는데 경비아저씨가 다시 주워줌결국 3년동안 달미에 대한 마음 무럭무럭 키워놨고 ,다음회차 예고에 금전수 차에 태운 장면 나옴 (되돌려주는 걸로 예상)-->
+<!--"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="15sp"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/view" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent"-->
+<!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="wrap_content"-->
 <!--                        android:layout_marginStart="16dp"-->
 <!--                        android:layout_marginTop="16dp"-->
 <!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:layout_marginBottom="8dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
 <!--                        app:layout_constraintEnd_toEndOf="parent"-->
 <!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@+id/ivContent" />-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/content" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent2"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent3"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent2" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent4"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent3" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent5"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent4" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent6"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent5" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent7"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent6" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/ivContent8"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:src="@drawable/camera"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent7" />-->
+
+
+                    <jp.wasabeef.richeditor.RichEditor
+                        android:id="@+id/editor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -282,112 +287,61 @@
                 android:id="@+id/feedCommentFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-            <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content">-->
 
-            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                android:id="@+id/boardLayout"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent">-->
-
-            <!--                <View-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="0.5dp"-->
-            <!--                    android:background="@color/colorBorder"-->
-            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-            <!--                <TextView-->
-            <!--                    android:id="@+id/countLabel"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginStart="16dp"-->
-            <!--                    android:layout_marginTop="12dp"-->
-            <!--                    android:layout_marginBottom="12dp"-->
-            <!--                    android:text="톡"-->
-            <!--                    android:textColor="@color/colorTextSegment2"-->
-            <!--                    android:textSize="11sp"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-            <!--                <View-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="0.5dp"-->
-            <!--                    android:background="@color/colorBorder"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent" />-->
-
-            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rvComment"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="0dp"-->
-            <!--                app:layout_constraintBottom_toTopOf="@id/messageWrapperView"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/boardLayout" />-->
-
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/messageWrapperView"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@color/colorWhite"-->
-            <!--                android:orientation="vertical"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent">-->
-
-            <!--                <View-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="0.5dp"-->
-            <!--                    android:background="@color/colorBorder" />-->
-
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginLeft="16dp"-->
-            <!--                    android:layout_marginTop="8dp"-->
-            <!--                    android:layout_marginRight="16dp"-->
-            <!--                    android:layout_marginBottom="16dp"-->
-            <!--                    android:background="@drawable/bg_input_multi">-->
-
-            <!--                    <EditText-->
-            <!--                        android:id="@+id/messageField"-->
-            <!--                        android:layout_width="0dp"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_marginLeft="8dp"-->
-            <!--                        android:layout_marginTop="2dp"-->
-            <!--                        android:layout_marginRight="8dp"-->
-            <!--                        android:layout_marginBottom="2dp"-->
-            <!--                        android:layout_weight="1"-->
-            <!--                        android:background="@color/colorBorder"-->
-            <!--                        android:hint="코멘트 남기기"-->
-            <!--                        android:inputType="textCapSentences|textMultiLine"-->
-            <!--                        android:lineSpacingMultiplier="1.5"-->
-            <!--                        android:maxLength="2000"-->
-            <!--                        android:maxLines="4"-->
-            <!--                        android:scrollHorizontally="false"-->
-            <!--                        android:textSize="13sp" />-->
-
-            <!--                    <ImageView-->
-            <!--                        android:id="@+id/btnSend"-->
-            <!--                        android:layout_width="24dp"-->
-            <!--                        android:layout_height="24dp"-->
-            <!--                        android:layout_gravity="bottom"-->
-            <!--                        android:src="@drawable/send_g" />-->
-
-            <!--                </LinearLayout>-->
-            <!--            </LinearLayout>-->
-            <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:id="@+id/messageWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorBorder" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input_multi">
+
+            <EditText
+                android:id="@+id/messageField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorBorder"
+                android:hint="코멘트 남기기"
+                android:inputType="textCapSentences|textMultiLine"
+                android:lineSpacingMultiplier="1.5"
+                android:maxLength="2000"
+                android:maxLines="4"
+                android:scrollHorizontally="false"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/btnSend"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/send_g" />
+
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

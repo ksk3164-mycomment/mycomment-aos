@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,13 +22,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_drama_feed.*
+import kotlinx.android.synthetic.main.fragment_drama_feed_detail.*
 import kotlinx.android.synthetic.main.fragment_real_time_talk.*
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.AnalyticsLoader
 import kr.beimsupicures.mycomment.api.loaders.CommentLoader
 import kr.beimsupicures.mycomment.api.loaders.FeedCommentLoader
 import kr.beimsupicures.mycomment.api.models.CommentModel
+import kr.beimsupicures.mycomment.api.models.EventObserver
 import kr.beimsupicures.mycomment.api.models.FeedModel
+import kr.beimsupicures.mycomment.api.models.MyViewModel
 import kr.beimsupicures.mycomment.common.diffSec
 import kr.beimsupicures.mycomment.common.keyboard.KeyboardVisibilityUtils
 import kr.beimsupicures.mycomment.common.keyboard.showKeyboard
@@ -43,8 +48,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
     var feed: FeedModel? = null
 
     lateinit var countLabel: TextView
-    lateinit var messageField: EditText
-    lateinit var btnSend: ImageView
+
     lateinit var detailAdapter: FeedDetailAdapter
     lateinit var rvRealtimeTalk: RecyclerView
     var count = 0
@@ -56,11 +60,9 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
     private val scrollMover = ScrollMover()
 
     var isLoaded: Boolean = false
-    var validation: Boolean = false
-        get() = when {
-            messageField.text.isEmpty() -> false
-            else -> true
-        }
+
+    lateinit var viewModel2: MyViewModel
+
     var items: MutableList<CommentModel> = mutableListOf()
 
     companion object {
@@ -103,8 +105,10 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
                             }
                             detailAdapter.notifyDataSetChanged()
                             isLoaded = false
-                            countLabel.text = "${count}개의 톡"
-                            count+=1
+                            if (newValue.size!=0){
+                                countLabel.text = "${count}개의 톡"
+                                count+=1
+                            }
                         }
                     },1000)
                 }
@@ -187,7 +191,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
             onShowKeyboard = {
 //                scrollMover.moveFirstCommentIfTopPosition(rvRealtimeTalk)
             })
-        return inflater.inflate(R.layout.fragment_real_time_talk, container, false)
+        return inflater.inflate(R.layout.fragment_feed_detail_talk, container, false)
 
     }
 
@@ -226,8 +230,16 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
         }
 
         isLoaded = false
+
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel2 = activity?.let { ViewModelProviders.of(it).get(MyViewModel::class.java) }!!
+        viewModel2.getMessage2.observe(viewLifecycleOwner, EventObserver { t ->sendMessage(t)})
+
+    }
 
     override fun loadUI() {
         super.loadUI()
@@ -240,12 +252,11 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
             feed?.let { feed ->
 
                 FeedCommentLoader.shared.getFeedCommentCount(feed.feed_seq) { count ->
-                    countLabel.text = "${count}개의 댓글"
+                    countLabel.text = "${count}개의 톡"
                 }
 
                 detailAdapter = FeedDetailAdapter(activity, feed, items, { message ->
-                    messageField.setText(message)
-                    showKeyboard(requireActivity(), messageField)
+                    viewModel2.setReply2(message)
                 },this)
                 rvRealtimeTalk = view.findViewById(R.id.rvRealtimeTalk)
                 rvRealtimeTalk.layoutManager = LinearLayoutManager(context)
@@ -277,90 +288,8 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
                     }
                 })
 
-                messageField = view.findViewById(R.id.messageField)
-                messageField.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(p0: Editable?) {
-
-                    }
-
-                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                    }
-
-                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                        context?.let { context ->
-                            btnSend.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    context,
-                                    if (validation) R.drawable.send else R.drawable.send_g
-                                )
-                            )
-                        }
-                    }
-                })
-                btnSend = view.findViewById(R.id.btnSend)
-                btnSend.setOnClickListener {
-
-                    BaseApplication.shared.getSharedPreferences().getUser()?.let {
-
-                        when (validation) {
-                            true -> {
-
-                                feed?.let { feed ->
-                                    val message = messageField.text.toString()
-                                    messageField.setText("")
-                                    hideKeyboard()
-                                    isLoaded = true
-                                    FeedCommentLoader.shared.addFeedComment(
-                                        feed.feed_seq, message
-                                    ) { newValue ->
-                                        val latest_id = items.firstOrNull()?.id ?: 0
-                                        FeedCommentLoader.shared.getNewFeedComment(
-                                            feed.feed_seq,
-                                            latest_id
-                                        ) { newValue ->
-                                            Log.e("TALK", "new snapshot: ${newValue.size}")
-                                            for (item in newValue.reversed()) {
-                                                this@FeedCommentFragment.items.add(0, item)
-                                            }
-                                            detailAdapter.notifyDataSetChanged()
-                                            isLoaded = false
-                                        }
 
 
-                                    }
-
-                                    FeedCommentLoader.shared.getFeedCommentCount(feed.feed_seq) { count ->
-//                                        Write a message to the database
-                                        feed.let { feed ->
-                                            val database = FirebaseDatabase.getInstance()
-                                            database.getReference("feed")
-                                                .child("${feed.feed_seq}")
-                                                .child("total").setValue(count)
-                                            database.getReference("feed")
-                                                .child("${feed.feed_seq}")
-                                                .child("count").setValue(count)
-                                        }
-                                        countLabel.text = "${count}개의 댓글"
-                                    }
-                                }
-                            }
-
-                            false -> {
-                            }
-                        }
-
-                    } ?: run {
-
-                        activity?.let { activity ->
-                            activity.popup("로그인하시겠습니까?", "로그인") {
-                                Navigation.findNavController(activity, R.id.nav_host_fragment)
-                                    .navigate(R.id.action_global_signInFragment)
-                            }
-                        }
-                    }
-                }
 
             }
 
@@ -427,7 +356,44 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
 
     override fun onClick(count: Int) {
         var deletecount = count-1
-        countLabel.text = "${deletecount}개의 댓글"
+        countLabel.text = "${deletecount}개의 톡"
+    }
+
+    fun sendMessage(message: String) {
+
+        feed?.let { feed ->
+            hideKeyboard()
+            isLoaded = true
+            FeedCommentLoader.shared.addFeedComment(
+                feed.feed_seq, message
+            ) { newValue ->
+                val latest_id = items.firstOrNull()?.id ?: 0
+                FeedCommentLoader.shared.getNewFeedComment(
+                    feed.feed_seq,
+                    latest_id
+                ) { newValue ->
+                    Log.e("TALK", "new snapshot: ${newValue.size}")
+                    for (item in newValue.reversed()) {
+                        this@FeedCommentFragment.items.add(0, item)
+                    }
+                    detailAdapter.notifyDataSetChanged()
+                    isLoaded = false
+                }
+            }
+            FeedCommentLoader.shared.getFeedCommentCount(feed.feed_seq) { count ->
+//                                        Write a message to the database
+                feed.let { feed ->
+                    val database = FirebaseDatabase.getInstance()
+                    database.getReference("feed")
+                        .child("${feed.feed_seq}")
+                        .child("total").setValue(count)
+                    database.getReference("feed")
+                        .child("${feed.feed_seq}")
+                        .child("count").setValue(count)
+                }
+                countLabel.text = "${count}개의 톡"
+            }
+        }
     }
 
 }

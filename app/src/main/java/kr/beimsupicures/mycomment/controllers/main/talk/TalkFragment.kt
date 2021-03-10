@@ -446,13 +446,11 @@ class TalkFragment : BaseFragment() {
                 Glide.with(this).load(pickTop[0].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
                     .override(Target.SIZE_ORIGINAL)
-                    .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivFirstProfile)
 
                 Glide.with(this).load(pickTop[1].profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
                     .override(Target.SIZE_ORIGINAL)
-                    .fallback(R.drawable.bg_profile_thumbnail)
                     .into(ivSecondProfile)
 
                 tvFirstSympathyName.text = pickTop[0].nickname
@@ -479,26 +477,28 @@ class TalkFragment : BaseFragment() {
             }
         }
 
-        val instance = Calendar.getInstance()
-        val date = instance.get(Calendar.DAY_OF_WEEK).toString()
-        var weekDay = ""
-        when(date){
-            "1"-> weekDay = "일"
-            "2"-> weekDay = "월"
-            "3"-> weekDay = "화"
-            "4"-> weekDay = "수"
-            "5"-> weekDay = "목"
-            "6"-> weekDay = "금"
-            "7"-> weekDay = "토"
-        }
-        TalkLoader.shared.getTalkList(weekDay) {
+//        val instance = Calendar.getInstance()
+//        val date = instance.get(Calendar.DAY_OF_WEEK).toString()
+//        var weekDay = ""
+//        when(date){
+//            "1"-> weekDay = "일"
+//            "2"-> weekDay = "월"
+//            "3"-> weekDay = "화"
+//            "4"-> weekDay = "수"
+//            "5"-> weekDay = "목"
+//            "6"-> weekDay = "금"
+//            "7"-> weekDay = "토"
+//        }
+        TalkLoader.shared.getTalkList {
 
             this.talk = it.toMutableList()
 
-            var talkfilter = talk.filter { model-> model.live == 2  }.sortedBy { data -> data.talk_count }.reversed()
+            var talkfilter = this.talk.filter { model-> model.live == 2  }.sortedBy { data -> data.talk_count }.reversed()
             Log.e("성국",""+talkfilter)
 
-            dramaAdapter.items = talkfilter.toMutableList()
+            this.talk = talkfilter.toMutableList()
+
+            dramaAdapter.items = this.talk
             dramaAdapter.notifyDataSetChanged()
 
         }

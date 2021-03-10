@@ -82,7 +82,7 @@ class FeedDetailAdapter(
 
         private fun showLikeMeusers(viewModel: CommentModel): Boolean {
             if (viewModel.isMe) {
-                CommentLoader.shared.getTalkPickedUsers(viewModel.id) { list ->
+                FeedCommentLoader.shared.getFeedPickedUsers(viewModel.id) { list ->
                     activity?.let { activity ->
                         BubbleUserListDialog(activity, list).show()
                     }
@@ -94,7 +94,7 @@ class FeedDetailAdapter(
 
         fun bind(viewModel: CommentModel, position: Int) {
 
-            viewModel.owner?.let { userModel ->
+            viewModel.owner.let { userModel ->
                 Glide.with(itemView.context).load(userModel.profile_image_url)
                     .transform(CenterCrop(), CircleCrop())
                     .override(200, 200)

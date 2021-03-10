@@ -10,7 +10,7 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/messageWrapperView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,9 +36,9 @@
                     <ImageView
                         android:id="@+id/ivContentImage"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/profile"
-                        android:layout_height="wrap_content" />
+                        android:src="@drawable/profile" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/contentLayout"
@@ -95,9 +95,9 @@
                                 android:id="@+id/contentLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="20dp"
-                                android:gravity="center"
                                 android:layout_marginStart="16dp"
                                 android:layout_marginEnd="50dp"
+                                android:gravity="center"
                                 android:text="JTBC | 16부작 | 최고 시청률 28.4%"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
@@ -155,10 +155,7 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coordinator" />
+                android:layout_height="40dp" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -166,8 +163,76 @@
             android:id="@+id/viewPager2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:id="@+id/messageWrapperView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorBorder" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_input_multi">
+
+            <EditText
+                android:id="@+id/messageField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorBorder"
+                android:hint="코멘트 남기기"
+                android:inputType="textCapSentences|textMultiLine"
+                android:lineSpacingMultiplier="1.5"
+                android:maxLength="2000"
+                android:maxLines="4"
+                android:scrollHorizontally="false"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/btnSend"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/send_g" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"
+        android:backgroundTint="#9EDAE2"
+        android:src="@drawable/ic_baseline_add_24"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
