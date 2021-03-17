@@ -1,6 +1,5 @@
 package kr.beimsupicures.mycomment.components.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.list_item_talk3.view.*
 import kotlinx.android.synthetic.main.list_item_talk3.view.bookmarkView
 import kotlinx.android.synthetic.main.list_item_talk3.view.countLabel
@@ -28,6 +26,7 @@ import kr.beimsupicures.mycomment.components.dialogs.WaterDropDialog
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
 import kr.beimsupicures.mycomment.extensions.getUser
 import kr.beimsupicures.mycomment.extensions.popup
+import kr.beimsupicures.mycomment.extensions.weekday
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -129,7 +128,7 @@ class TalkTodayAdapter(val activity: FragmentActivity?, var items: MutableList<T
             val now: Int = SimpleDateFormat("HHmm").format(Date()).toInt()
             if (!viewModel.open_time.isNullOrBlank()) {
                 if ((viewModel.open_time.replace(":", "")
-                        .toInt() <= now) && (now <= viewModel.close_time.replace(":", "").toInt())
+                        .toInt() <= now) && (now <= viewModel.close_time.replace(":", "").toInt()) && viewModel.open_day.contains(weekday())
                 ) {
                     onAirView.visibility = View.VISIBLE
                 } else {
@@ -138,7 +137,7 @@ class TalkTodayAdapter(val activity: FragmentActivity?, var items: MutableList<T
             }
 
             Glide.with(itemView.context).load(viewModel.poster_image_url)
-                .placeholder(R.drawable.bg_profile_thumbnail)
+                .placeholder(R.color.colorGrey)
                 .transform(CenterCrop(),RoundedCorners(30))
                 .into(profileView)
             titleLabel.text = viewModel.title
@@ -155,7 +154,6 @@ class TalkTodayAdapter(val activity: FragmentActivity?, var items: MutableList<T
                 6 -> providerId = "OCN"
             }
             tvInfo.text = "$providerId | ${viewModel.open_day} | ${viewModel.open_time}"
-
 
             itemView.setOnClickListener {
                 activity?.let { activity ->

@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import kr.beimsupicures.mycomment.R
 
 class AgreeDialog(
-    val didUpdatedAt: (Boolean, Boolean, Boolean, Boolean) -> Unit,
+    val didUpdatedAt: (Boolean, Boolean, Boolean, Boolean, Boolean) -> Unit,
     val onConfirm: () -> Unit,
     val onDismiss: () -> Unit,
     val onSelected: (Int) -> Unit
@@ -19,13 +19,14 @@ class AgreeDialog(
 
     val validation: Boolean
         get() {
-            return check1View.isChecked && check2View.isChecked && check3View.isChecked
+            return check1View.isChecked && check2View.isChecked && check3View.isChecked && check4View.isChecked
         }
 
     var check1: Boolean = false
     var check2: Boolean = false
     var check3: Boolean = false
     var check4: Boolean = false
+    var check5: Boolean = false
 
     lateinit var dismissView: View
     lateinit var checkAllView: CheckBox
@@ -33,10 +34,12 @@ class AgreeDialog(
     lateinit var check2View: CheckBox
     lateinit var check3View: CheckBox
     lateinit var check4View: CheckBox
+    lateinit var check5View: CheckBox
     lateinit var check1Label: TextView
     lateinit var check2Label: TextView
     lateinit var check3Label: TextView
     lateinit var check4Label: TextView
+    lateinit var check5Label: TextView
     lateinit var btnConfirm: TextView
 
     companion object {
@@ -46,7 +49,8 @@ class AgreeDialog(
             check2: Boolean,
             check3: Boolean,
             check4: Boolean,
-            didUpdateAt: (Boolean, Boolean, Boolean, Boolean) -> Unit,
+            check5: Boolean,
+            didUpdateAt: (Boolean, Boolean, Boolean, Boolean, Boolean) -> Unit,
             onConfirm: () -> Unit,
             onDismiss: () -> Unit,
             onSelected: (Int) -> Unit
@@ -58,6 +62,7 @@ class AgreeDialog(
             args.putBoolean("check2", check2)
             args.putBoolean("check3", check3)
             args.putBoolean("check4", check4)
+            args.putBoolean("check5", check5)
             dialog.arguments = args
             return dialog
         }
@@ -73,6 +78,7 @@ class AgreeDialog(
             check2 = arguments.getBoolean("check2")
             check3 = arguments.getBoolean("check3")
             check4 = arguments.getBoolean("check4")
+            check5 = arguments.getBoolean("check5")
         }
     }
 
@@ -115,33 +121,41 @@ class AgreeDialog(
                 check2View.isChecked = checkAllView.isChecked
                 check3View.isChecked = checkAllView.isChecked
                 check4View.isChecked = checkAllView.isChecked
+                check5View.isChecked = checkAllView.isChecked
 
                 validateUI()
-                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked)
+                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked, check5View.isChecked)
             }
             check1View = view.findViewById(R.id.check1View)
             check1View.isChecked = check1
             check1View.setOnClickListener {
                 validateUI()
                 checkAllView.isChecked = validation
-                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked)
+                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked, check5View.isChecked)
             }
             check2View = view.findViewById(R.id.check2View)
             check2View.isChecked = check2
             check2View.setOnClickListener {
                 validateUI()
                 checkAllView.isChecked = validation
-                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked)
+                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked, check5View.isChecked)
             }
             check3View = view.findViewById(R.id.check3View)
             check3View.isChecked = check3
             check3View.setOnClickListener {
                 validateUI()
                 checkAllView.isChecked = validation
-                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked)
+                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked, check5View.isChecked)
             }
             check4View = view.findViewById(R.id.check4View)
             check4View.isChecked = check4
+            check4View.setOnClickListener {
+                validateUI()
+                checkAllView.isChecked = validation
+                didUpdatedAt(check1View.isChecked, check2View.isChecked, check3View.isChecked, check4View.isChecked, check5View.isChecked)
+            }
+            check5View = view.findViewById(R.id.check5View)
+            check5View.isChecked = check5
 
             check1Label = view.findViewById(R.id.check1Label)
             check1Label.setOnClickListener { view ->
@@ -159,6 +173,11 @@ class AgreeDialog(
                 onSelected(3)
             }
             check4Label = view.findViewById(R.id.check4Label)
+            check4Label.setOnClickListener { view ->
+                dialog?.dismiss()
+                onSelected(4)
+            }
+            check5Label = view.findViewById(R.id.check5Label)
             btnConfirm = view.findViewById(R.id.btnConfirm)
             btnConfirm.setOnClickListener {
                 if (validation) {
@@ -175,12 +194,12 @@ class AgreeDialog(
         when (validation) {
             true -> {
                 btnConfirm.background =
-                    ContextCompat.getDrawable(context!!, R.drawable.bg_dialog_button_enable)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_dialog_button_enable)
             }
 
             false -> {
                 btnConfirm.background =
-                    ContextCompat.getDrawable(context!!, R.drawable.bg_dialog_button_disable)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_dialog_button_disable)
             }
         }
     }

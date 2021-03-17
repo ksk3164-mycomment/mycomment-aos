@@ -118,8 +118,8 @@ class MCFirebaseMessagingService : FirebaseMessagingService() {
         val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         var notificationBuilder = NotificationCompat.Builder(this, channelInfo.channelId)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_noticon))
+            .setSmallIcon(R.mipmap.ic_noticon)
             .setContentTitle(messageInfo.title)
             .setContentText(messageInfo.body)
             .setAutoCancel(true)

@@ -13,11 +13,15 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -43,15 +47,23 @@ import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.*
 
 
-class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInterface {
+class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInterface {
 
     var feed: FeedModel? = null
 
     lateinit var countLabel: TextView
 
+    lateinit var ivScrollTop: ImageView
+    lateinit var constraintLayout2: ConstraintLayout
+    lateinit var floatingProfile: ImageView
+    lateinit var floatingUserId: TextView
+    lateinit var floatingMessage: TextView
+
     lateinit var detailAdapter: FeedDetailAdapter
     lateinit var rvRealtimeTalk: RecyclerView
     var count = 0
+
+    var isFirstVisiblePosition: Boolean = false
 
     private lateinit var keyboardVisibilityUtils: KeyboardVisibilityUtils
 
@@ -94,25 +106,39 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
                 if (!isLoaded) {
                     isLoaded = true
                     Log.e("FEED", "latest_id: $latest_id")
-                    Handler().postDelayed({
-                        FeedCommentLoader.shared.getNewFeedComment(
-                            feed.feed_seq,
-                            latest_id
-                        ) { newValue ->
-                            Log.e("FEED", "new snapshot: ${newValue.size}")
-                            for (item in newValue.reversed()) {
-                                this@FeedCommentFragment.items.add(0, item)
-                            }
-                            detailAdapter.notifyDataSetChanged()
-                            isLoaded = false
-                            if (newValue.size!=0){
-                                countLabel.text = "${count}개의 톡"
-                                count+=1
-                            }
+                    FeedCommentLoader.shared.getNewFeedComment(
+                        feed.feed_seq,
+                        latest_id
+                    ) { newValue ->
+                        Log.e("FEED", "new snapshot: ${newValue.size}")
+                        for (item in newValue.reversed()) {
+                            this@FeedCommentFragment.items.add(0, item)
                         }
-                    },1000)
-                }
+                        isLoaded = false
+                        if (newValue.size != 0) {
+                            Log.e("tjdrnr", "newValue")
+                            count += newValue.size
+                            countLabel.text = "${count}개의 톡"
 
+                            if (isFirstVisiblePosition) {
+                                detailAdapter.notifyDataSetChanged()
+                            } else {
+                                constraintLayout2.visibility = View.VISIBLE
+                                detailAdapter.notifyItemInserted(0)
+                                Glide.with(this@FeedCommentFragment)
+                                    .load(newValue[0].owner.profile_image_url)
+                                    .transform(CenterCrop(), CircleCrop())
+                                    .override(200, 200)
+                                    .thumbnail(0.1f)
+                                    .fallback(R.drawable.bg_drama_thumbnail)
+                                    .into(floatingProfile)
+                                floatingUserId.text = newValue[0].owner.nickname
+                                floatingMessage.text = newValue[0].content
+                            }
+
+                        }
+                    }
+                }
             }
         }
 
@@ -237,7 +263,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
         super.onViewCreated(view, savedInstanceState)
 
         viewModel2 = activity?.let { ViewModelProviders.of(it).get(MyViewModel::class.java) }!!
-        viewModel2.getMessage2.observe(viewLifecycleOwner, EventObserver { t ->sendMessage(t)})
+        viewModel2.getMessage2.observe(viewLifecycleOwner, EventObserver { t -> sendMessage(t) })
 
     }
 
@@ -247,17 +273,22 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
         view?.let { view ->
 
             countLabel = view.findViewById(R.id.countLabel)
-
+            ivScrollTop = view.findViewById(R.id.iv_scroll_top)
+            constraintLayout2 = view.findViewById(R.id.constraintLayout2)
+            floatingProfile = view.findViewById(R.id.floating_profile)
+            floatingUserId = view.findViewById(R.id.floating_user_id)
+            floatingMessage = view.findViewById(R.id.floating_message)
 
             feed?.let { feed ->
 
                 FeedCommentLoader.shared.getFeedCommentCount(feed.feed_seq) { count ->
+                    this.count = count
                     countLabel.text = "${count}개의 톡"
                 }
 
                 detailAdapter = FeedDetailAdapter(activity, feed, items, { message ->
                     viewModel2.setReply2(message)
-                },this)
+                }, this)
                 rvRealtimeTalk = view.findViewById(R.id.rvRealtimeTalk)
                 rvRealtimeTalk.layoutManager = LinearLayoutManager(context)
                 rvRealtimeTalk.adapter = detailAdapter
@@ -283,14 +314,21 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
                                         }
                                     }
                                 }
+                                isFirstVisiblePosition =
+                                    layoutManager.findFirstVisibleItemPosition() == 0
+                                if (isFirstVisiblePosition) {
+                                    ivScrollTop.visibility = View.GONE
+                                    constraintLayout2.visibility = View.GONE
+                                } else {
+                                    ivScrollTop.visibility = View.VISIBLE
+                                }
                             }
                         }
                     }
                 })
-
-
-
-
+                ivScrollTop.setOnClickListener {
+                    rvRealtimeTalk.smoothScrollToPosition(0)
+                }
             }
 
         }
@@ -355,7 +393,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
     }
 
     override fun onClick(count: Int) {
-        var deletecount = count-1
+        var deletecount = count - 1
         countLabel.text = "${deletecount}개의 톡"
     }
 
@@ -363,37 +401,46 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(),onClickInte
 
         feed?.let { feed ->
             hideKeyboard()
-            isLoaded = true
             FeedCommentLoader.shared.addFeedComment(
                 feed.feed_seq, message
             ) { newValue ->
                 val latest_id = items.firstOrNull()?.id ?: 0
-                FeedCommentLoader.shared.getNewFeedComment(
-                    feed.feed_seq,
-                    latest_id
-                ) { newValue ->
-                    Log.e("TALK", "new snapshot: ${newValue.size}")
-                    for (item in newValue.reversed()) {
-                        this@FeedCommentFragment.items.add(0, item)
-                    }
-                    detailAdapter.notifyDataSetChanged()
-                    isLoaded = false
-                }
-            }
-            FeedCommentLoader.shared.getFeedCommentCount(feed.feed_seq) { count ->
+//                CommentLoader.shared.getNewComment(
+//                    talk.id,
+//                    latest_id
+//                ) { newValue ->
+//                    Log.e("tjdrnr", "newvalue" + newValue)
+//                    Log.e("TALK", "new snapshot: ${newValue.size}")
+//                    for (item in newValue.reversed()) {
+//                        this@RealTimeTalkFragment.items.add(0, item)
+//                    }
+//                    detailAdapter.notifyDataSetChanged()
+//                    isLoaded = false
+
+//                    CommentLoader.shared.getCommentCount(talk.id) { count ->
 //                                        Write a message to the database
-                feed.let { feed ->
+
+//                    count+=1
+
+                val milis = System.currentTimeMillis()
+
+//                    val name = "${UUID.randomUUID()}"
+                feed?.let { feed ->
                     val database = FirebaseDatabase.getInstance()
                     database.getReference("feed")
                         .child("${feed.feed_seq}")
-                        .child("total").setValue(count)
+                        .child("total").setValue(milis)
                     database.getReference("feed")
                         .child("${feed.feed_seq}")
-                        .child("count").setValue(count)
+                        .child("count").setValue(milis)
+//                        }
+                    countLabel.text = "${count}개의 톡"
+//                    }
                 }
-                countLabel.text = "${count}개의 톡"
             }
+            rvRealtimeTalk.smoothScrollToPosition(0)
         }
+
     }
 
 }

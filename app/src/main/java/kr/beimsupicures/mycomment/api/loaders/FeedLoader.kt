@@ -42,9 +42,19 @@ interface FeedService {
 //        @PartMap map : Map<String, RequestBody>,
         @Part("title") title: RequestBody,
         @Part("content") content: RequestBody,
-        @Part imgs : ArrayList<MultipartBody.Part>
+        @Part imgs: ArrayList<MultipartBody.Part>
 //        @Field("imgs") imgs: Array<String>?
     ): Call<APIResult<FeedModel>>
+
+    @PUT("feed/new/{talk_id}")
+    @FormUrlEncoded
+    fun putFeed(
+        @Header("Authorization") accessToken: String?,
+        @Path("talk_id") talk_id: Int,
+        @Field("title") title: String,
+        @Field("content") content: String
+    ): Call<APIResult<FeedModel>>
+
 }
 
 class FeedLoader : BaseLoader<FeedService> {
@@ -164,8 +174,14 @@ class FeedLoader : BaseLoader<FeedService> {
             })
     }
 
-    fun postFeed(talk_id: Int,title : RequestBody,content :  RequestBody,imgs:  ArrayList<MultipartBody.Part>, completionHandler: (FeedModel) -> Unit) {
-        api.postFeed(APIClient.accessToken,talk_id,title,content,imgs)
+    fun postFeed(
+        talk_id: Int,
+        title: RequestBody,
+        content: RequestBody,
+        imgs: ArrayList<MultipartBody.Part>,
+        completionHandler: (FeedModel) -> Unit
+    ) {
+        api.postFeed(APIClient.accessToken, talk_id, title, content, imgs)
             .enqueue(object : Callback<APIResult<FeedModel>> {
                 override fun onResponse(
                     call: Call<APIResult<FeedModel>>,
@@ -176,7 +192,30 @@ class FeedLoader : BaseLoader<FeedService> {
                 }
 
                 override fun onFailure(call: Call<APIResult<FeedModel>>, t: Throwable) {
-                    Log.e("통신실패",t.message)
+                    Log.e("통신실패", t.message)
+                }
+
+            })
+    }
+
+    fun putFeed(
+        talk_id: Int,
+        title: String,
+        content: String,
+        completionHandler: (FeedModel) -> Unit
+    ) {
+        api.putFeed(APIClient.accessToken, talk_id, title, content)
+            .enqueue(object : Callback<APIResult<FeedModel>> {
+                override fun onResponse(
+                    call: Call<APIResult<FeedModel>>,
+                    response: Response<APIResult<FeedModel>>
+                ) {
+                    val feed_seq = response.body()?.result
+                    feed_seq?.let { completionHandler(it) }
+                }
+
+                override fun onFailure(call: Call<APIResult<FeedModel>>, t: Throwable) {
+                    Log.e("통신실패", t.message)
                 }
 
             })

@@ -3,119 +3,132 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="12dp"
     android:orientation="vertical">
-
-
-    <ImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="1dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/camera" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="2"
-        android:text="게시글 제목 길이는 최대 두줄까지. 그 이상은 중략."
-        android:textColor="@color/colorTextTitle"
-        android:textSize="15sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thumbnailCard" />
-
-    <TextView
-        android:id="@+id/title2"
-        android:layout_width="170dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_feed_text"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:paddingStart="12dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="12dp"
-        android:text="게시글 제목 길이는 최대 두줄까지. 그 이상은 중략."
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <LinearLayout
         android:layout_width="170dp"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title2">
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/profile"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_profile_thumbnail" />
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/camera" />
 
         <TextView
-            android:id="@+id/userId"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:gravity="center"
-            android:text="유저아이디"
-            android:textColor="#8e8e93"
-            android:textSize="11sp" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="@color/colorBorder" />
+            android:layout_marginBottom="2dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="게시글 제목 길이는 최대 두줄까지. 그 이상은 중략."
+            android:textColor="@color/colorTextTitle"
+            android:textSize="15sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thumbnailCard" />
 
         <TextView
-            android:id="@+id/createAt"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:gravity="center"
-            android:text="23주전"
-            android:textColor="#8e8e93"
-            android:textSize="11sp" />
+            android:id="@+id/title2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/bg_feed_text"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:text="게시글 제목 길이는 최대 두줄까지. 그 이상은 중략."
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="@color/colorBorder" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title2">
 
-        <TextView
-            android:id="@+id/view_cnt"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:gravity="center"
-            android:text="조회 50000"
-            android:textColor="#8e8e93"
-            android:textSize="11sp" />
+            <ImageView
+                android:id="@+id/profile"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_drama_thumbnail" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:ellipsize="end"
+                    android:ems="11"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="유저아이디디디디디디디"
+                    android:textColor="#8e8e93"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/createAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:text="14 시간 "
+                        android:textColor="#8e8e93"
+                        android:textSize="9sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="4dp"
+                        android:background="@color/colorGrey" />
+
+                    <TextView
+                        android:id="@+id/view_cnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:gravity="center"
+                        android:text="조회 5000000000"
+                        android:textColor="#8e8e93"
+                        android:textSize="9sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

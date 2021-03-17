@@ -31,6 +31,7 @@ class SignStep1Fragment : BaseFragment() {
     var check2: Boolean = false
     var check3: Boolean = false
     var check4: Boolean = false
+    var check5: Boolean = false
 
     lateinit var viewModel: SignStep1ViewModel
 
@@ -48,7 +49,6 @@ class SignStep1Fragment : BaseFragment() {
             if (!nicknameField.text.matches("""^[a-zA-Z0-9가-힣]+$""".toRegex())) {
                 return false
             }
-
             return true
         }
     val gender = arrayListOf("남", "여")
@@ -68,7 +68,6 @@ class SignStep1Fragment : BaseFragment() {
 
     override fun loadModel() {
         super.loadModel()
-
         viewModel = SignStep1FragmentArgs.fromBundle(requireArguments()).viewmodel
     }
 
@@ -127,7 +126,6 @@ class SignStep1Fragment : BaseFragment() {
                 true -> {
                     btnNext.background = ContextCompat.getDrawable(context, R.drawable.bg_dialog_button_enable)
                 }
-
                 false -> {
                     btnNext.background = ContextCompat.getDrawable(context, R.drawable.bg_dialog_button_disable)
                 }
@@ -149,15 +147,15 @@ class SignStep1Fragment : BaseFragment() {
             activity?.supportFragmentManager?.let { fragmentManager ->
                 showing = true
 
-                AgreeDialog.newInstance(check1, check2, check3, check4,
+                AgreeDialog.newInstance(check1, check2, check3, check4,check5,
 
                     // didUpdatedAt
-                    { check1, check2, check3, check4 ->
+                    { check1, check2, check3, check4, check5 ->
                         this@SignStep1Fragment.check1 = check1
                         this@SignStep1Fragment.check2 = check2
                         this@SignStep1Fragment.check3 = check3
                         this@SignStep1Fragment.check4 = check4
-
+                        this@SignStep1Fragment.check5 = check5
                     },
 
                     // onConfirm

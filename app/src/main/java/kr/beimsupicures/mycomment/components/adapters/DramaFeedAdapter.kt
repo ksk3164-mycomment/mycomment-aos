@@ -88,7 +88,7 @@ class DramaFeedAdapter(var activity: FragmentActivity?, var items: MutableList<F
                 profile.setImageDrawable(
                     ContextCompat.getDrawable(
                         itemView.context,
-                        R.drawable.bg_profile_thumbnail
+                        R.drawable.bg_profile_original
                     )
                 )
             } else {

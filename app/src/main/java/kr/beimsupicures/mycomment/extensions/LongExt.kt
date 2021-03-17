@@ -10,3 +10,6 @@ fun Long.toString(format: String): String {
 
     return date.format(Date(if (this  < 1000000000000L) (this * 1000L) else (this)))
 }
+fun Long.currentTimeMillis(): Long{
+    return System.currentTimeMillis()
+}

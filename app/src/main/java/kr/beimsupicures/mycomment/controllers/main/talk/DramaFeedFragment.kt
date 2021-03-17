@@ -1,29 +1,18 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.analytics.FirebaseAnalytics
-import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.FeedLoader
 import kr.beimsupicures.mycomment.api.models.FeedModel
 import kr.beimsupicures.mycomment.api.models.TalkModel
 import kr.beimsupicures.mycomment.components.adapters.DramaFeedAdapter
-import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
-import kr.beimsupicures.mycomment.extensions.getSharedPreferences
-import kr.beimsupicures.mycomment.extensions.getUser
-import kr.beimsupicures.mycomment.extensions.originalString
-import kr.beimsupicures.mycomment.extensions.popup
 
 
 class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
@@ -31,12 +20,11 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
     var talk: TalkModel? = null
     var isLoaded: Boolean = false
     var items: MutableList<FeedModel> = mutableListOf()
-    var page = 0
+    var page = 1
 
     lateinit var dramaFeedAdapter: DramaFeedAdapter
     lateinit var countLabel: TextView
     lateinit var rvDramaFeed: RecyclerView
-
 
     companion object {
 
@@ -54,8 +42,8 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
         fetchModel()
+        page= 1
     }
 
     override fun onPause() {
@@ -74,6 +62,7 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
                 this.items = items
                 dramaFeedAdapter.items = this.items
                 dramaFeedAdapter.notifyDataSetChanged()
+
             }
             FeedLoader.shared.getFeedCount(talk_id = talk.id){ count ->
                 countLabel.text = "${count}개의 피드"
@@ -120,18 +109,19 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
                                 layoutManager.findLastVisibleItemPositions(lastPositions)
                                 val lastVisibleItemPosition = findMax(lastPositions)
                                 if (lastVisibleItemPosition == adapter.itemCount - 1) {
-                                    val newPage = page+1
+
                                     talk?.let { talk ->
                                         FeedLoader.shared.getFeedList(
-                                            talk_id = talk.id,reset = false,page = newPage
+                                            talk_id = talk.id,reset = false,page=page
                                         ) { talk ->
-
-                                            val newtalk = ArrayList<FeedModel>()
-                                            newtalk.addAll(talk)
-
+                                            page+=1
+                                            if (page!=0){
+                                                val newtalk = ArrayList<FeedModel>()
+                                                newtalk.addAll(talk)
 //                                            this@DramaFeedFragment.items = talk.toMutableList()
-                                            dramaFeedAdapter.items = newtalk
-                                            dramaFeedAdapter.notifyDataSetChanged()
+                                                dramaFeedAdapter.items = newtalk
+                                                dramaFeedAdapter.notifyDataSetChanged()
+                                            }
                                         }
                                     }
                                 }

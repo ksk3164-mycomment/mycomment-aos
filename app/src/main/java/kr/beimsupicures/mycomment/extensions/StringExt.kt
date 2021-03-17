@@ -22,8 +22,6 @@ fun String.timeline(): String {
     }
 
     if (time > now || time <= 0) {
-        Log.e("tjdrnr","tim = "+time)
-        Log.e("tjdrnr","now = "+now)
         return "방금"
     }
 

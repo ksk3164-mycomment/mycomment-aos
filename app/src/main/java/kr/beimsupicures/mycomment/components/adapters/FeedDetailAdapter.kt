@@ -174,7 +174,7 @@ class FeedDetailAdapter(
                                 items[position] = newValue
 
                                 val comment = this@FeedDetailAdapter.items
-                                CommentLoader.shared.items = comment.toMutableList()
+                                FeedCommentLoader.shared.items = comment.toMutableList()
 
                                 isLoad[position] = false
                                 notifyDataSetChanged()

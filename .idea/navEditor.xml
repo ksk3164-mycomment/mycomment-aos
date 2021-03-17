@@ -142,8 +142,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="41" />
-                            <option name="y" value="169" />
+                            <option name="x" value="-216" />
+                            <option name="y" value="830" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -220,6 +220,18 @@
                           <Point>
                             <option name="x" value="500" />
                             <option name="y" value="2860" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="organizationFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="527" />
+                            <option name="y" value="3693" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -381,12 +393,12 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_talkFragment_to_searchTalkFragment">
+                            <entry key="action_talkFragment_to_organizationFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_talkFragment_to_talkDetailFragment">
+                            <entry key="action_talkFragment_to_searchTalkFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

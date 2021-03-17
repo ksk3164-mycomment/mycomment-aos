@@ -136,6 +136,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
+                android:text="만 14세 이상(필수)"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <CheckBox
+                android:id="@+id/check5View"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/check5Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
                 android:text="마케팅 수신 정보 동의(선택)"
                 android:textColor="@color/colorTextTitle"
                 android:textSize="15sp" />

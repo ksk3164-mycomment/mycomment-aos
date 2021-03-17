@@ -1,6 +1,5 @@
 package kr.beimsupicures.mycomment.components.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.target.Target
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.list_item_talk.view.*
 import kotlinx.android.synthetic.main.list_item_talk.view.profileView
@@ -100,6 +98,7 @@ class TalkDetailAdapter(
                     .transform(CenterCrop(), CircleCrop())
                     .override(200,200)
                     .thumbnail(0.1f)
+                    .fallback(R.drawable.bg_drama_thumbnail)
                     .into(profileView)
 
                 profileView.setOnClickListener { view ->
@@ -261,12 +260,14 @@ class TalkDetailAdapter(
 //                            CommentLoader.shared.getCommentCountTotal(viewModel.id) { total ->
                                 CommentLoader.shared.getCommentCount(talk.id) { count ->
 
+                                    var mils = System.currentTimeMillis()
+
                                     // Write a message to the database
                                     val database = FirebaseDatabase.getInstance()
                                     val myRef = database.getReference("talk").child("${talk.id}")
                                     myRef.setValue(HashMap<String, String>().apply {
-//                                        put("total", "${total}")
-                                        put("count", "$count")
+                                        put("total", "mils")
+                                        put("count", "mils")
                                     })
                                     listOnclickInterface.onCheckBox(count)
 

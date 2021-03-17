@@ -46,7 +46,7 @@
                             android:id="@+id/profileView"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/bg_profile_thumbnail"
+                            android:src="@drawable/bg_drama_thumbnail"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,7 +102,6 @@
 
                         </LinearLayout>
 
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
@@ -112,9 +111,10 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:text="메인럽라랑 사약럽라 사이 데칼 정리"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="17sp"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -132,133 +132,133 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title" />
 
-<!--                    <org.sufficientlysecure.htmltextview.HtmlTextView-->
-<!--                        android:id="@+id/content"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="20dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:text="1. 버릴 수 없는 지평, 도산의 마음\n(금전수/ 박찬호싸인야구공)\n\n지평 달미에 대한 마음 버리는 장치로 금전수 버리고-->
-<!--달미 일부러 피했는데 경비아저씨가 다시 주워줌결국 3년동안 달미에 대한 마음 무럭무럭 키워놨고 ,다음회차 예고에 금전수 차에 태운 장면 나옴 (되돌려주는 걸로 예상)-->
-<!--"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textSize="15sp"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/view" />-->
+                    <!--                    <org.sufficientlysecure.htmltextview.HtmlTextView-->
+                    <!--                        android:id="@+id/content"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="20dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:text="1. 버릴 수 없는 지평, 도산의 마음\n(금전수/ 박찬호싸인야구공)\n\n지평 달미에 대한 마음 버리는 장치로 금전수 버리고-->
+                    <!--달미 일부러 피했는데 경비아저씨가 다시 주워줌결국 3년동안 달미에 대한 마음 무럭무럭 키워놨고 ,다음회차 예고에 금전수 차에 태운 장면 나옴 (되돌려주는 걸로 예상)-->
+                    <!--"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        android:textSize="15sp"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/view" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/content" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/content" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent2"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent2"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent3"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent2" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent3"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent2" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent4"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent3" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent4"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent3" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent5"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent4" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent5"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent4" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent6"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent5" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent6"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent5" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent7"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent6" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent7"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent6" />-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/ivContent8"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:src="@drawable/camera"-->
-<!--                        android:visibility="gone"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/ivContent7" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/ivContent8"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginTop="16dp"-->
+                    <!--                        android:layout_marginEnd="16dp"-->
+                    <!--                        android:adjustViewBounds="true"-->
+                    <!--                        android:src="@drawable/camera"-->
+                    <!--                        android:visibility="gone"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        app:layout_constraintTop_toBottomOf="@id/ivContent7" />-->
 
 
                     <jp.wasabeef.richeditor.RichEditor
@@ -277,18 +277,12 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <FrameLayout
+            android:id="@+id/feedCommentFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <FrameLayout
-                android:id="@+id/feedCommentFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout

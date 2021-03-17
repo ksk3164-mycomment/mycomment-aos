@@ -67,7 +67,7 @@ class TalkDetailFragment : BaseFragment() {
         viewModel = activity?.let { ViewModelProviders.of(it).get(MyViewModel::class.java) }!!
         viewModel.getReply.observe(viewLifecycleOwner, EventObserver { t ->
             messageField.setText(t)
-            showKeyboard(requireActivity(),messageField)
+            showKeyboard(requireActivity(), messageField)
         })
 
     }
@@ -124,11 +124,11 @@ class TalkDetailFragment : BaseFragment() {
             viewPager = view.findViewById(R.id.viewPager2)
             talk?.let { values ->
 
-                realTimeTalkFragment = RealTimeTalkFragment(talk!!, true)
+                realTimeTalkFragment = RealTimeTalkFragment(talk!!)
                 dramaFeedFragment = DramaFeedFragment(talk!!)
                 timeLineTalkFragment = TimeLineTalkFragment()
 
-                RealTimeTalkFragment.newInstance(values, true)
+                RealTimeTalkFragment.newInstance(values)
 
                 viewPager.adapter = CustomFragmentStateAdapter(talk!!, this)
                 TabLayoutMediator(tabLayouts, viewPager) { tab, position ->
@@ -334,7 +334,7 @@ class TalkDetailFragment : BaseFragment() {
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> RealTimeTalkFragment(viewModel, true)
+                0 -> RealTimeTalkFragment(viewModel)
                 else -> DramaFeedFragment(viewModel)
             }
         }

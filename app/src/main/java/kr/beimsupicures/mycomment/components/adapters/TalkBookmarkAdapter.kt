@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.target.Target
 import kotlinx.android.synthetic.main.list_item_talk3.view.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
@@ -123,7 +122,7 @@ class TalkBookmarkAdapter(val activity: FragmentActivity?, var items: MutableLis
             }
             onAirView.visibility = if (viewModel.onAir) View.VISIBLE else View.GONE
             Glide.with(itemView.context).load(viewModel.poster_image_url)
-                .placeholder(R.drawable.bg_profile_thumbnail)
+                .placeholder(R.color.colorGrey)
                 .transform(CenterCrop(),RoundedCorners(30))
                 .into(profileView)
             titleLabel.text = viewModel.title

@@ -6,10 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -31,16 +36,23 @@ import kr.beimsupicures.mycomment.components.adapters.list_onClick_interface
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.*
+import java.util.*
 
 
-class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : BaseFragment(),
+class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment(),
     list_onClick_interface {
 
     var talk: TalkModel? = null
     var count = 0
 
     lateinit var countLabel: TextView
-//    lateinit var messageField: EditText
+    lateinit var ivScrollTop: ImageView
+    lateinit var constraintLayout2: ConstraintLayout
+    lateinit var floatingProfile: ImageView
+    lateinit var floatingUserId: TextView
+    lateinit var floatingMessage: TextView
+
+    //    lateinit var messageField: EditText
 //    lateinit var btnSend: ImageView
     lateinit var detailAdapter: TalkDetailAdapter
     lateinit var rvRealtimeTalk: RecyclerView
@@ -53,7 +65,9 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
     private val scrollMover = ScrollMover()
 
     var isLoaded: Boolean = false
-//    var validation: Boolean = false
+    var isFirstVisiblePosition: Boolean = false
+
+    //    var validation: Boolean = false
 //        get() = when {
 //            messageField.text.isEmpty() -> false
 //            else -> true
@@ -63,10 +77,9 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
     companion object {
 
         fun newInstance(
-            viewModel: TalkModel,
-            talkFeedTF: Boolean
+            viewModel: TalkModel
         ): RealTimeTalkFragment {
-            return RealTimeTalkFragment(viewModel, talkFeedTF)
+            return RealTimeTalkFragment(viewModel)
         }
     }
 
@@ -91,23 +104,36 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                 if (!isLoaded) {
                     isLoaded = true
                     Log.e("TALK", "latest_id: $latest_id")
-                    if (talkFeedTF) {
                         CommentLoader.shared.getNewComment(talk.id, latest_id) { newValue ->
                             Log.e("TALK", "new snapshot: ${newValue.size}")
                             for (item in newValue.reversed()) {
                                 this@RealTimeTalkFragment.items.add(0, item)
                             }
-                            detailAdapter.notifyDataSetChanged()
+
                             isLoaded = false
                             if (newValue.size != 0) {
+                                Log.e("tjdrnr", "newValue")
+                                count += newValue.size
                                 countLabel.text = "${count}개의 톡"
-                                count += 1
+
+                                if (isFirstVisiblePosition) {
+                                    detailAdapter.notifyDataSetChanged()
+                                } else {
+                                    constraintLayout2.visibility = View.VISIBLE
+                                    detailAdapter.notifyItemInserted(0)
+                                    Glide.with(this@RealTimeTalkFragment).load(newValue[0].owner.profile_image_url)
+                                        .transform(CenterCrop(), CircleCrop())
+                                        .override(200, 200)
+                                        .thumbnail(0.1f)
+                                        .fallback(R.drawable.bg_drama_thumbnail)
+                                        .into(floatingProfile)
+                                    floatingUserId.text = newValue[0].owner.nickname
+                                    floatingMessage.text = newValue[0].content
+                                }
+
                             }
 
                         }
-                    } else {
-                        //todo
-                    }
 
                 }
 
@@ -239,9 +265,10 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
         viewModel2 = activity?.let { ViewModelProviders.of(it).get(MyViewModel::class.java) }!!
         viewModel2.getMessage.observe(viewLifecycleOwner, EventObserver { t ->
 
-            Log.e("tjdrnr","datachange")
+            Log.e("tjdrnr", "datachange")
 
-            sendMessage(t)})
+            sendMessage(t)
+        })
 
     }
 
@@ -252,6 +279,11 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
         view?.let { view ->
 
             countLabel = view.findViewById(R.id.countLabel)
+            ivScrollTop = view.findViewById(R.id.iv_scroll_top)
+            constraintLayout2 = view.findViewById(R.id.constraintLayout2)
+            floatingProfile = view.findViewById(R.id.floating_profile)
+            floatingUserId = view.findViewById(R.id.floating_user_id)
+            floatingMessage = view.findViewById(R.id.floating_message)
 
             talk?.let { values ->
 
@@ -274,6 +306,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
 
                         rvRealtimeTalk.layoutManager?.let {
                             (it as? LinearLayoutManager)?.let { layoutManager ->
+
                                 recyclerView.adapter?.let { adapter ->
                                     if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                                         talk?.let { talk ->
@@ -289,50 +322,29 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                                             }
                                         }
                                     }
+                                    isFirstVisiblePosition =
+                                        layoutManager.findFirstVisibleItemPosition() == 0
+                                    if (isFirstVisiblePosition) {
+                                        ivScrollTop.visibility = View.GONE
+                                        constraintLayout2.visibility = View.GONE
+                                    } else {
+                                        ivScrollTop.visibility = View.VISIBLE
+                                    }
                                 }
                             }
                         }
                     }
                 })
-//
-//                messageField = view.findViewById(R.id.messageField)
-//                messageField.addTextChangedListener(object : TextWatcher {
-//                    override fun afterTextChanged(p0: Editable?) {
-//
-//                    }
-//
-//                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//                    }
-//
-//                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//
-//                        context?.let { context ->
-//                            btnSend.setImageDrawable(
-//                                ContextCompat.getDrawable(
-//                                    context,
-//                                    if (validation) R.drawable.send else R.drawable.send_g
-//                                )
-//                            )
-//                        }
-//                    }
-//                })
-//                btnSend = view.findViewById(R.id.btnSend)
-//                btnSend.setOnClickListener {
-//
-//
-//                }
-
+                ivScrollTop.setOnClickListener {
+                    rvRealtimeTalk.smoothScrollToPosition(0)
+                }
             }
-
         }
     }
 
     override fun loadModel() {
         super.loadModel()
-//        talk = arguments?.getParcelable("amount")
         talk = viewModel
-//        selectedCommentId = viewModel.selectedCommentId
     }
 
     override fun fetchModel() {
@@ -342,7 +354,6 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
             BaseApplication.shared.getSharedPreferences().setTalkTime()
             BaseApplication.shared.getSharedPreferences().setCurrentTalkId(talk.id)
 
-            if (talkFeedTF) {
                 CommentLoader.shared.getCommentList(
                     talk.id, true
                 ) { items ->
@@ -351,22 +362,6 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
                     detailAdapter.notifyDataSetChanged()
 //                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
                 }
-            }
-//            else {
-//                CommentLoader.shared.getFeedCommentList(
-//                    talk.id, true
-//                ) { items ->
-//                    this.items = items
-//                    detailAdapter.items = this.items
-//                    detailAdapter.notifyDataSetChanged()
-//                    scrollMover.moveSelectedComment(rvRealtimeTalk, items, selectedCommentId)
-//                }
-//            }
-//            CommentLoader.shared.getCommentCount(talk.id) { count ->
-//                this.count = count
-//                detailAdapter.count = this.count
-//                detailAdapter.notifyDataSetChanged()
-//            }
         }
 
     }
@@ -406,42 +401,45 @@ class RealTimeTalkFragment(val viewModel: TalkModel, val talkFeedTF: Boolean) : 
         talk?.let { talk ->
 
             hideKeyboard()
-            isLoaded = true
+//            isLoaded = true
             CommentLoader.shared.addTalkComment(
                 talk.id, message
             ) { newValue ->
                 val latest_id = items.firstOrNull()?.id ?: 0
-                CommentLoader.shared.getNewComment(
-                    talk.id,
-                    latest_id
-                ) { newValue ->
-                    Log.e("tjdrnr","newvalue"+newValue)
-                    Log.e("TALK", "new snapshot: ${newValue.size}")
-                    for (item in newValue.reversed()) {
-                        this@RealTimeTalkFragment.items.add(0, item)
-                    }
-                    detailAdapter.notifyDataSetChanged()
-                    isLoaded = false
-                }
-            }
+//                CommentLoader.shared.getNewComment(
+//                    talk.id,
+//                    latest_id
+//                ) { newValue ->
+//                    Log.e("tjdrnr", "newvalue" + newValue)
+//                    Log.e("TALK", "new snapshot: ${newValue.size}")
+//                    for (item in newValue.reversed()) {
+//                        this@RealTimeTalkFragment.items.add(0, item)
+//                    }
+//                    detailAdapter.notifyDataSetChanged()
+//                    isLoaded = false
 
-            CommentLoader.shared.getCommentCount(talk.id) { count ->
+//                    CommentLoader.shared.getCommentCount(talk.id) { count ->
 //                                        Write a message to the database
-                talk?.let { talk ->
-                    val database = FirebaseDatabase.getInstance()
-                    database.getReference("talk")
-                        .child("${talk.id}")
-                        .child("total").setValue(count)
-                    database.getReference("talk")
-                        .child("${talk.id}")
-                        .child("count").setValue(count)
+
+//                    count+=1
+
+                val milis = System.currentTimeMillis()
+
+//                    val name = "${UUID.randomUUID()}"
+                        talk?.let { talk ->
+                            val database = FirebaseDatabase.getInstance()
+                            database.getReference("talk")
+                                .child("${talk.id}")
+                                .child("total").setValue(milis)
+                            database.getReference("talk")
+                                .child("${talk.id}")
+                                .child("count").setValue(milis)
+//                        }
+                        countLabel.text = "${count}개의 톡"
+//                    }
                 }
-                this.count = count
-                countLabel.text = "${count}개의 톡"
             }
+            rvRealtimeTalk.smoothScrollToPosition(0)
         }
-
-
     }
-
 }
