@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.FeedLoader
 import kr.beimsupicures.mycomment.api.loaders.ReportLoader
@@ -70,6 +71,9 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
         }
         view?.findViewById<TextView>(R.id.tvModify)?.setOnClickListener {
             dismiss()
+            val action = NavigationDirections.actionGlobalDramaFeedModifyFragment()
+            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                .navigate(action)
         }
         view?.findViewById<TextView>(R.id.tvDelete)?.setOnClickListener {
             activity?.popup("해당 글을 삭제하시겠어요?", "삭제 후에는 글을 복구할 수 없습니다.") {

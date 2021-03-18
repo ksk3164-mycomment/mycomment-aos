@@ -22,16 +22,16 @@ interface FeedService {
         @Path("page") page: Int
     ): Call<APIResult<MutableList<FeedModel>>>
 
-    @GET("feed/detail/{talk_id}")
-    fun getFeedDetail(@Path("talk_id") talk_id: Int): Call<APIResult<FeedDetailModel>>
-
     @GET("/feed/count/{talk_id}")
     fun getFeedCount(@Path("talk_id") talk_id: Int): Call<APIResult<ValueModel>>
 
-    @DELETE("feed/delete/{talk_id}")
+    @GET("feed/detail/{feed_seq}")
+    fun getFeedDetail(@Path("feed_seq") feed_seq: Int): Call<APIResult<FeedDetailModel>>
+
+    @DELETE("feed/delete/{feed_seq}")
     fun deleteFeedDetail(
         @Header("Authorization") accessToken: String?,
-        @Path("talk_id") talk_id: Int
+        @Path("feed_seq") feed_seq: Int
     ): Call<APIResult<UpdatedModel>>
 
     //현재는 사용안함(putfeed로 대체)
@@ -47,14 +47,23 @@ interface FeedService {
 //        @Field("imgs") imgs: Array<String>?
     ): Call<APIResult<FeedModel>>
 
-    @PUT("feed/new/{talk_id}")
+    @PUT("feed/new/{feed_seq}")
     @FormUrlEncoded
     fun putFeed(
         @Header("Authorization") accessToken: String?,
-        @Path("talk_id") talk_id: Int,
+        @Path("feed_seq") feed_seq: Int,
         @Field("title") title: String,
         @Field("content") content: String
     ): Call<APIResult<FeedModel>>
+
+    @PUT("feed/edit/{feed_seq}")
+    @FormUrlEncoded
+    fun editFeed(
+        @Header("Authorization") accessToken: String?,
+        @Path("feed_seq") feed_seq: Int,
+        @Field("title") title: String,
+        @Field("content") content: String
+    ): Call<APIResult<UpdatedModel>>
 
 }
 
@@ -115,10 +124,10 @@ class FeedLoader : BaseLoader<FeedService> {
 
     //피드 상세
     fun getFeedDetail(
-        talk_id: Int,
+        feed_seq: Int,
         completionHandler: (FeedDetailModel) -> Unit
     ) {
-        api.getFeedDetail(talk_id)
+        api.getFeedDetail(feed_seq)
             .enqueue(object : Callback<APIResult<FeedDetailModel>> {
                 override fun onFailure(
                     call: Call<APIResult<FeedDetailModel>>,
@@ -138,8 +147,8 @@ class FeedLoader : BaseLoader<FeedService> {
             })
     }
 
-    fun deleteFeedDetail(talk_id: Int, completionHandler: (UpdatedModel) -> Unit) {
-        api.deleteFeedDetail(APIClient.accessToken, talk_id)
+    fun deleteFeedDetail(feed_seq: Int, completionHandler: (UpdatedModel) -> Unit) {
+        api.deleteFeedDetail(APIClient.accessToken, feed_seq)
             .enqueue(object : Callback<APIResult<UpdatedModel>> {
                 override fun onResponse(
                     call: Call<APIResult<UpdatedModel>>,
@@ -200,12 +209,12 @@ class FeedLoader : BaseLoader<FeedService> {
     }
 
     fun putFeed(
-        talk_id: Int,
+        feed_seq: Int,
         title: String,
         content: String,
         completionHandler: (FeedModel) -> Unit
     ) {
-        api.putFeed(APIClient.accessToken, talk_id, title, content)
+        api.putFeed(APIClient.accessToken, feed_seq, title, content)
             .enqueue(object : Callback<APIResult<FeedModel>> {
                 override fun onResponse(
                     call: Call<APIResult<FeedModel>>,
@@ -216,6 +225,28 @@ class FeedLoader : BaseLoader<FeedService> {
                 }
 
                 override fun onFailure(call: Call<APIResult<FeedModel>>, t: Throwable) {
+                    Log.e("통신실패", t.message)
+                }
+
+            })
+    }
+    fun editFeed(
+        feed_seq: Int,
+        title: String,
+        content: String,
+        completionHandler: (UpdatedModel) -> Unit
+    ) {
+        api.editFeed(APIClient.accessToken, feed_seq, title, content)
+            .enqueue(object : Callback<APIResult<UpdatedModel>> {
+                override fun onResponse(
+                    call: Call<APIResult<UpdatedModel>>,
+                    response: Response<APIResult<UpdatedModel>>
+                ) {
+                    val feed_seq = response.body()?.result
+                    feed_seq?.let { completionHandler(it) }
+                }
+
+                override fun onFailure(call: Call<APIResult<UpdatedModel>>, t: Throwable) {
                     Log.e("통신실패", t.message)
                 }
 

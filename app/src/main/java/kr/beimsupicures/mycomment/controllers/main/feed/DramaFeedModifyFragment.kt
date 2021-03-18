@@ -11,7 +11,13 @@ import android.widget.LinearLayout
 import gun0912.tedimagepicker.builder.TedImagePicker
 import jp.wasabeef.richeditor.RichEditor
 import kr.beimsupicures.mycomment.R
+import kr.beimsupicures.mycomment.api.loaders.FeedLoader
+import kr.beimsupicures.mycomment.api.models.FeedDetailModel
+import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
+import kr.beimsupicures.mycomment.extensions.getFeedId
+import kr.beimsupicures.mycomment.extensions.getSharedPreferences
+import kr.beimsupicures.mycomment.extensions.setFeedId
 
 class DramaFeedModifyFragment : BaseFragment() {
 
@@ -20,6 +26,9 @@ class DramaFeedModifyFragment : BaseFragment() {
     lateinit var title: EditText
     var editorEmpty : Boolean= false
     var editorText :String?=null
+    var feed_seq = 0
+
+    var feedDetail: FeedDetailModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,5 +74,24 @@ class DramaFeedModifyFragment : BaseFragment() {
             }
         }
     }
+
+    override fun loadModel() {
+        super.loadModel()
+
+        feed_seq = BaseApplication.shared.getSharedPreferences().getFeedId()
+        FeedLoader.shared.getFeedDetail(feed_seq) { values ->
+
+            val displayMetrics = this.resources.displayMetrics
+            val dpWidth =
+                displayMetrics!!.widthPixels / displayMetrics.density
+
+            title.setText(values.title)
+            editor.html = values.content?.replace(
+                """" alt=""""",
+                """" alt="" width="${dpWidth.toInt() - 32}""""
+            )
+        }
+    }
+
 
 }

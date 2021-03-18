@@ -37,6 +37,7 @@ import kr.beimsupicures.mycomment.components.activities.BaseActivity
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.LoadingDialog
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment
+import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedModifyFragment
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedWriteFragment
 import kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment
 import kr.beimsupicures.mycomment.controllers.main.talk.*
@@ -107,8 +108,6 @@ class MainActivity : BaseActivity() {
             toolbar.circleView.visibility = View.GONE
             toolbar.btnExit.visibility = View.GONE
             toolbar.btnSetting.visibility = View.GONE
-
-
 
             when (destination.id) {
                 R.id.splashFragment -> {
@@ -224,6 +223,15 @@ class MainActivity : BaseActivity() {
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.ivMore.visibility = View.VISIBLE
                     toolbar.btnWrite.visibility = View.GONE
+                    toolbar.btnModify.visibility = View.GONE
+
+                }
+                R.id.dramaFeedModifyFragment -> {
+
+                    toolbar.btnProfile.visibility = View.GONE
+                    toolbar.btnModify.visibility = View.VISIBLE
+                    toolbar.ivMore.visibility = View.GONE
+
                 }
             }
         }
@@ -575,6 +583,72 @@ class MainActivity : BaseActivity() {
             }
 
         }
+        toolbar.btnModify.setOnClickListener {
+            (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedModifyFragment).let { fragment ->
+                //제목 미입력
+                if (!fragment.title.text.isNotEmpty()) {
+                    alert("제목을 입력하세요", "") { }
+                } else {
+                    //제목입력 , 내용 미입력
+                    if (!fragment.editorEmpty) {
+                        alert("내용을 입력하세요", "") { }
+                    } else {
+                        //제목입력, 내용입력
+                        popup("", "해당 글을 등록하시겠어요?") {
+                            val editor = fragment.editorText.toString()
+                            val title = fragment.title.text.toString()
+
+                            val displayMetrics = this.resources?.displayMetrics
+                            val dpWidth =
+                                displayMetrics!!.widthPixels / displayMetrics.density
+
+                            val delimiter1 = """<img src=""""
+                            val delimiter2 =
+                                """" alt="" width="${dpWidth.toInt() - 32}">"""
+
+                            val parts = editor.split(
+                                delimiter1,
+                                delimiter2,
+                                ignoreCase = true
+                            ).toMutableList()
+
+                            val subparts = parts.filter {
+                                it.startsWith("file") || it.startsWith(
+                                    "content"
+                                )
+                            }
+
+                            Log.e("tjdrnr", "title = " + title)
+                            Log.e("tjdrnr", "content = " + editor)
+                            Log.e("tjdrnr", "parts = " + parts)
+                            Log.e("tjdrnr", "subparts = " + subparts)
+
+                            if (subparts.isEmpty()) {
+                                var feed_seq =
+                                    BaseApplication.shared.getSharedPreferences().getFeedId()
+                                FeedLoader.shared.editFeed(feed_seq, title, editor) {
+                                    Navigation.findNavController(
+                                        fragment.requireView()
+                                    )
+                                        .popBackStack(
+                                            R.id.dramaFeedModifyFragment,
+                                            false
+                                        )
+                                    Navigation.findNavController(
+                                        fragment.requireView()
+                                    )
+                                        .popBackStack()
+                                }
+                            } else {
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
         toolbar.ivMore.setOnClickListener {
             BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
                 (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
@@ -600,7 +674,7 @@ class MainActivity : BaseActivity() {
                     moveTaskToBack(true)
                     finishAffinity()
                 }
-                R.id.dramaFeedWriteFragment -> {
+                R.id.dramaFeedWriteFragment, R.id.dramaFeedModifyFragment -> {
                     popup("페이지를 벗어나면 작성하신 내용이\n저장되지 않습니다.", "작성을 그만하시겠어요?") {
                         super.onBackPressed()
                     }

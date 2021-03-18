@@ -45,6 +45,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="action_global_organizationFragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="action_global_profileFragment">
                     <value>
                       <LayoutPositions />
@@ -132,6 +137,18 @@
                           <Point>
                             <option name="x" value="1964" />
                             <option name="y" value="1393" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dra">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

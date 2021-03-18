@@ -104,9 +104,13 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/organizationFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.organization.OrganizationFragment" />
+    <fragment
+        android:id="@+id/dramaFeedModifyFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedModifyFragment" />
     <action
         android:id="@+id/action_global_bookmarkFragment"
         app:destination="@id/bookmarkFragment"
@@ -335,10 +339,16 @@
         app:exitAnim="@anim/fade_out"
         app:popEnterAnim="@anim/fade_in"
         app:popExitAnim="@anim/slide_out_right" />
-
     <action
         android:id="@+id/action_global_organizationFragment"
         app:destination="@id/organizationFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_dramaFeedModifyFragment"
+        app:destination="@id/dramaFeedModifyFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/fade_out"
         app:popEnterAnim="@anim/fade_in"
