@@ -25,7 +25,8 @@ data class TalkModel(
     var pick: Boolean?,
     val created_at: String,
     val updated_at: String?,
-    val deleted_at: String?
+    val deleted_at: String?,
+    var banner_url : String?
 
 ) : Parcelable {
     enum class Weekday(val value: String) {

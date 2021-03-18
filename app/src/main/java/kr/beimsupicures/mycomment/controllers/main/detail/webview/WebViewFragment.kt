@@ -35,7 +35,8 @@ class WebViewFragment: BaseFragment() {
         view?.let { view ->
             wv_banner = view.findViewById(R.id.wv_banner)
             talk?.let { talk ->
-                val talkURL = "https://mycomment.page.link/mc_talk_" + talk.id
+//                val talkURL = "https://mycomment.page.link/mc_talk_" + talk.id
+                val talkURL = talk.banner_url
                 val webSettings: WebSettings = wv_banner.settings
                 webSettings.javaScriptEnabled = true
                 wv_banner.webViewClient = object : WebViewClient() {

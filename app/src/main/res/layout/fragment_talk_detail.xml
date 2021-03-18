@@ -206,8 +206,8 @@
                 android:hint="코멘트 남기기"
                 android:inputType="textCapSentences|textMultiLine"
                 android:lineSpacingMultiplier="1.5"
-                android:maxLength="2000"
-                android:maxLines="4"
+                android:maxLength="250"
+                android:maxLines="2"
                 android:scrollHorizontally="false"
                 android:textSize="13sp" />
 

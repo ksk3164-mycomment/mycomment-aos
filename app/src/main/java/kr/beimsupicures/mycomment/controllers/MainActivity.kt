@@ -36,23 +36,18 @@ import kr.beimsupicures.mycomment.api.models.UserModel
 import kr.beimsupicures.mycomment.components.activities.BaseActivity
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.LoadingDialog
+import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment
+import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedWriteFragment
 import kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment
 import kr.beimsupicures.mycomment.controllers.main.talk.*
 import kr.beimsupicures.mycomment.controllers.signs.SignInFragment
 import kr.beimsupicures.mycomment.controllers.signs.sign
 import kr.beimsupicures.mycomment.extensions.*
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.net.URLEncoder
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseActivity() {

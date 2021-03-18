@@ -290,7 +290,7 @@
 
     <fragment
         android:id="@+id/dramaFeedFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedFragment"
         android:label=""
         tools:layout="@layout/fragment_drama_feed">
         <argument
@@ -307,7 +307,7 @@
 
     <fragment
         android:id="@+id/dramaFeedWriteFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedWriteFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedWriteFragment"
         android:label=""
         tools:layout="@layout/fragment_drama_feed_write">
         <action
@@ -319,7 +319,7 @@
     </fragment>
     <fragment
         android:id="@+id/dramaFeedDetailFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.talk.DramaFeedDetailFragment"
+        android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment"
         android:label="DramaFeedDetailFragment" />
     <action
         android:id="@+id/action_global_dramaFeedWriteFragment"

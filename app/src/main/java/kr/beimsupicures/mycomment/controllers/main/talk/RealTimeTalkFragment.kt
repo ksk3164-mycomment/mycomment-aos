@@ -336,7 +336,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment(),
                     }
                 })
                 ivScrollTop.setOnClickListener {
-                    rvRealtimeTalk.smoothScrollToPosition(0)
+                    rvRealtimeTalk.scrollToPosition(0)
                 }
             }
         }
@@ -439,7 +439,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment(),
 //                    }
                 }
             }
-            rvRealtimeTalk.smoothScrollToPosition(0)
+            rvRealtimeTalk.scrollToPosition(0)
         }
     }
 }

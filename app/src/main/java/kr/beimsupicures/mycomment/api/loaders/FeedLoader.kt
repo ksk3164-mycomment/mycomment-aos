@@ -34,6 +34,7 @@ interface FeedService {
         @Path("talk_id") talk_id: Int
     ): Call<APIResult<UpdatedModel>>
 
+    //현재는 사용안함(putfeed로 대체)
     @Multipart
     @POST("feed/post/{talk_id}")
     fun postFeed(

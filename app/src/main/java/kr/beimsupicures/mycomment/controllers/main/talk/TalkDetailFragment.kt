@@ -23,7 +23,6 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_drama_feed_detail.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.PickLoader
@@ -33,6 +32,7 @@ import kr.beimsupicures.mycomment.common.keyboard.showKeyboard
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.WaterDropDialog
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
+import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedFragment
 import kr.beimsupicures.mycomment.extensions.*
 
 
@@ -176,7 +176,6 @@ class TalkDetailFragment : BaseFragment() {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
                         context?.let { context ->
                             btnSend.setImageDrawable(
                                 ContextCompat.getDrawable(
@@ -224,9 +223,11 @@ class TalkDetailFragment : BaseFragment() {
                     .override(Target.SIZE_ORIGINAL)
                     .into(ivContentImage)
                 ivContentImage.setOnClickListener { view ->
-                    val action =
-                        NavigationDirections.actionGlobalWebViewFragment(values, null)
-                    view.findNavController().navigate(action)
+                    if (!values.banner_url.isNullOrBlank()){
+                        val action =
+                            NavigationDirections.actionGlobalWebViewFragment(values, null)
+                        view.findNavController().navigate(action)
+                    }
                 }
                 titleLabel.text = values.title
                 contentLabel.text = values.content
