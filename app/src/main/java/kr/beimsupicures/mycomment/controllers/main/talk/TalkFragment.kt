@@ -126,7 +126,6 @@ class TalkFragment : BaseFragment() {
 
         view?.let { view ->
 
-
             layoutSecondSympathy = view.findViewById(R.id.layout_second_sympathy)
 
             bannerView = view.findViewById(R.id.bannerView)
@@ -171,7 +170,6 @@ class TalkFragment : BaseFragment() {
                 bookMarkView.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 bookMarkView.adapter = bookMarkAdapter
-
 
             } ?: run {
 

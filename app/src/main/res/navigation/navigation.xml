@@ -47,9 +47,10 @@
     </fragment>
     <action
         android:id="@+id/action_global_signInFragment"
-        app:destination="@id/signInFragment"
-        app:enterAnim="@anim/slide_in_bottom"
-        app:popExitAnim="@anim/slide_out_bottom" />
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/certificationFragment"
         android:name="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment"
@@ -62,8 +63,8 @@
             android:id="@+id/action_certificationFragment_to_forgotNicknameFragment"
             app:destination="@id/forgotNicknameFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="nickname"
@@ -73,8 +74,8 @@
             android:id="@+id/action_certificationFragment_to_signUpFragment"
             app:destination="@id/signUpFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
@@ -100,8 +101,8 @@
             android:id="@+id/action_profileFragment_to_changePasswordFragment"
             app:destination="@id/changePasswordFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
@@ -115,21 +116,23 @@
         android:id="@+id/action_global_bookmarkFragment"
         app:destination="@id/bookmarkFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_splashFragment"
         app:destination="@id/splashFragment"
-        app:enterAnim="@anim/fade_in"
-        app:exitAnim="@anim/fade_out" />
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.profile.password.ChangePasswordFragment">
@@ -154,15 +157,15 @@
         android:id="@+id/action_global_termFragment"
         app:destination="@id/termFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_certificationFragment"
         app:destination="@id/certificationFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/forgotNicknameFragment"
@@ -176,8 +179,8 @@
         android:id="@+id/action_global_changePasswordFragment"
         app:destination="@id/changePasswordFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/signUpFragment"
@@ -206,22 +209,22 @@
             android:id="@+id/action_talkFragment_to_searchTalkFragment"
             app:destination="@id/searchTalkFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_talkFragment_to_bookMarkFragment"
             app:destination="@+id/bookmarkFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_talkFragment_to_organizationFragment"
             app:destination="@+id/organizationFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
@@ -250,16 +253,16 @@
             android:name="talk"
             app:argType="kr.beimsupicures.mycomment.api.models.TalkModel"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <action
         android:id="@+id/action_global_talkDetailFragment"
         app:destination="@id/talkDetailFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/signStep1Fragment"
@@ -288,8 +291,8 @@
         android:id="@+id/action_global_webViewFragment"
         app:destination="@id/webViewFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
 
     <fragment
@@ -329,29 +332,29 @@
         android:id="@+id/action_global_dramaFeedWriteFragment"
         app:destination="@id/dramaFeedWriteFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_dramaFeedDetailFragment"
         app:destination="@id/dramaFeedDetailFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_organizationFragment"
         app:destination="@id/organizationFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_dramaFeedModifyFragment"
         app:destination="@id/dramaFeedModifyFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
 
 </navigation>

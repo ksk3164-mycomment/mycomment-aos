@@ -24,8 +24,8 @@ class DramaFeedModifyFragment : BaseFragment() {
     lateinit var editor: RichEditor
     lateinit var insertImageLayout: LinearLayout
     lateinit var title: EditText
-    var editorEmpty : Boolean= false
-    var editorText :String?=null
+    var editorEmpty: Boolean = false
+    var editorText: String? = null
     var feed_seq = 0
 
     var feedDetail: FeedDetailModel? = null
@@ -47,7 +47,7 @@ class DramaFeedModifyFragment : BaseFragment() {
             editor = view.findViewById(R.id.editor)
             editor.setEditorFontSize(15)
             editor.setEditorFontColor(Color.BLACK)
-
+            editor.setPadding(16, 16, 16, 16)
             val displayMetrics = context?.resources?.displayMetrics
 //            val dpHeight = displayMetrics!!.heightPixels / displayMetrics.density
             val dpWidth = displayMetrics!!.widthPixels / displayMetrics.density
@@ -59,16 +59,19 @@ class DramaFeedModifyFragment : BaseFragment() {
 //                        AmazonS3Loader.shared.uploadImage("feed", uri) { url ->
 //                            Log.e("tjdrnr", "" + uri)
 //                            stopLoadingUI()
-                        editor.insertImage(uri.toString(), "", dpWidth.toInt()-32)
+                        editor.insertImage(uri.toString(), "", dpWidth.toInt() - 32)
 //                        }
                     }
                 }
             }
 
+
+            Log.e("tjdrnr", "TF = $editorEmpty")
             editor.setOnTextChangeListener { text -> // Do Something
                 Log.e("tjdrnr", "Editor = $text")
 
-                editorEmpty = text.isNotEmpty()
+                editorEmpty = text.isNullOrEmpty()
+                Log.e("tjdrnr", "TF2 = $editorEmpty")
                 editorText = text
 
             }
@@ -90,6 +93,8 @@ class DramaFeedModifyFragment : BaseFragment() {
                 """" alt=""""",
                 """" alt="" width="${dpWidth.toInt() - 32}""""
             )
+
+            editorText = editor.html.toString()
         }
     }
 

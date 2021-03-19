@@ -60,6 +60,8 @@ class MainActivity : BaseActivity() {
         )
     }
 
+    var s3Url = "https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/"
+
     lateinit var loadingDialog: LoadingDialog
 
     val toolbar: Toolbar by lazy {
@@ -318,12 +320,12 @@ class MainActivity : BaseActivity() {
             BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
                 (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedWriteFragment).let { fragment ->
                     //제목 미입력
-                    if (!fragment.title.text.isNotEmpty()) {
-                        alert("제목을 입력하세요", "") {}
+                    if (fragment.title.text.isNullOrBlank()) {
+                        alert("제목을 입력하세요", "") { }
                     } else {
                         //제목입력 , 내용 미입력
-                        if (!fragment.editorEmpty) {
-                            alert("내용을 입력하세요", "") {}
+                        if (fragment.editorEmpty) {
+                            alert("내용을 입력하세요", "") { }
                         } else {
                             //제목입력, 내용입력
                             popup("", "해당 글을 등록하시겠어요?") {
@@ -408,8 +410,8 @@ class MainActivity : BaseActivity() {
                                                     if (parts[item].startsWith("file://")) {
                                                         val name = "${UUID.randomUUID()}"
                                                         parts[item] =
-                                                            """<img src ="""" + "https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/${name}" + """" alt="">"""
-                                                        urlList.add("https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/${name}")
+                                                            "<img src =\"$s3Url$name\" alt=\"\">"
+                                                        urlList.add("$s3Url$name")
                                                     }
                                                 }
                                                 Log.e(
@@ -424,7 +426,7 @@ class MainActivity : BaseActivity() {
                                                     AmazonS3Loader.shared.uploadImage3(
                                                         "feed",
                                                         subparts[item].toUri(),
-                                                        urlList[item].substringAfter("https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/")
+                                                        urlList[item].substringAfter(s3Url)
                                                     ) {
                                                         Log.e("tjdrnr", "s3 url = " + it)
                                                         if (item == urlList.size - 1) {
@@ -586,11 +588,12 @@ class MainActivity : BaseActivity() {
         toolbar.btnModify.setOnClickListener {
             (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedModifyFragment).let { fragment ->
                 //제목 미입력
-                if (!fragment.title.text.isNotEmpty()) {
+                if (fragment.title.text.isNullOrBlank()) {
                     alert("제목을 입력하세요", "") { }
                 } else {
                     //제목입력 , 내용 미입력
-                    if (!fragment.editorEmpty) {
+                    Log.e("tjdrnr", "TF" + fragment.editorEmpty)
+                    if (fragment.editorEmpty) {
                         alert("내용을 입력하세요", "") { }
                     } else {
                         //제목입력, 내용입력
@@ -617,13 +620,12 @@ class MainActivity : BaseActivity() {
                                     "content"
                                 )
                             }
-
-                            Log.e("tjdrnr", "title = " + title)
-                            Log.e("tjdrnr", "content = " + editor)
-                            Log.e("tjdrnr", "parts = " + parts)
-                            Log.e("tjdrnr", "subparts = " + subparts)
+                            val imgparts = parts.filter {
+                                it.startsWith("http") || it.startsWith("file") || it.startsWith("content")
+                            }
 
                             if (subparts.isEmpty()) {
+                                //새로 넣은 이미지 없음
                                 var feed_seq =
                                     BaseApplication.shared.getSharedPreferences().getFeedId()
                                 FeedLoader.shared.editFeed(feed_seq, title, editor) {
@@ -640,9 +642,73 @@ class MainActivity : BaseActivity() {
                                         .popBackStack()
                                 }
                             } else {
+                                //이미지 있음
+                                if (imgparts.size <= 8) {
+                                    //8장 이하
+                                    val fileList = mutableListOf<String>()
+                                    for (item in parts.indices) {
+                                        if (parts[item].startsWith("file://")) {
+                                            val name = "${UUID.randomUUID()}"
+                                            parts[item] =
+                                                "<img src =\"$s3Url$name\" alt=\"\">"
+                                            fileList.add("$s3Url$name")
+                                        }
+                                        if (parts[item].startsWith("http")) {
+                                            parts[item] =
+                                                "<img src =\"${parts[item]}\" alt=\"\">"
+                                        }
+                                    }
 
+                                    Log.e(
+                                        "tjdrnr",
+                                        "parts.toString = " + parts.joinToString("")
+                                    )
+                                    Log.e("tjdrnr", "filelst= " + fileList)
+
+                                    loadingDialog = LoadingDialog()
+                                    loadingDialog.show(supportFragmentManager, "")
+                                    for (item in subparts.indices) {
+                                        AmazonS3Loader.shared.uploadImage3(
+                                            "feed",
+                                            subparts[item].toUri(),
+                                            fileList[item].substringAfter(s3Url)
+                                        ) {
+                                            Log.e("tjdrnr", "s3 url = " + it)
+                                            if (item == fileList.size - 1) {
+                                                Log.e("tjdrnr", "마지막")
+                                                val feed_seq =
+                                                    BaseApplication.shared.getSharedPreferences()
+                                                        .getFeedId()
+                                                FeedLoader.shared.editFeed(
+                                                    feed_seq,
+                                                    title,
+                                                    parts.joinToString("")
+                                                ) {
+                                                    Handler().postDelayed({
+                                                        Navigation.findNavController(
+                                                            fragment.requireView()
+                                                        )
+                                                            .popBackStack(
+                                                                R.id.dramaFeedModifyFragment,
+                                                                false
+                                                            )
+                                                        Navigation.findNavController(
+                                                            fragment.requireView()
+                                                        )
+                                                            .popBackStack()
+
+                                                        loadingDialog.dismiss()
+
+                                                    }, 4000)
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    //9장 이상
+                                    alert("사진 등록은 최대 8장까지 가능합니다", "") {}
+                                }
                             }
-
                         }
                     }
                 }

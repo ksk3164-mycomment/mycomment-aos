@@ -19,8 +19,8 @@ android {
         applicationId "kr.beimsupicures.mycomment"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 27
-        versionName "1.6.4"
+        versionCode 28
+        versionName "1.6.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

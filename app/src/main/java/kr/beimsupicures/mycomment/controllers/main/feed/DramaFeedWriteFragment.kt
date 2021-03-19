@@ -19,8 +19,8 @@ class DramaFeedWriteFragment : BaseFragment() {
     lateinit var editor: RichEditor
     lateinit var insertImageLayout: LinearLayout
     lateinit var title: EditText
-    var editorEmpty : Boolean= false
-    var editorText :String?=null
+    var editorEmpty: Boolean = false
+    var editorText: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +40,7 @@ class DramaFeedWriteFragment : BaseFragment() {
             editor.setEditorFontSize(15)
             editor.setEditorFontColor(Color.BLACK)
             editor.setPlaceholder("내용 (드라마와 관련된 내용이 있어야하며, 비방, 욕설, 음란물 등을 등록할 시에는 삭제 및 차단 조치됩니다. 사진은 8장까지 등록 가능합니다.)")
+            editor.setPadding(16, 16, 16, 16)
 
             val displayMetrics = context?.resources?.displayMetrics
 //            val dpHeight = displayMetrics!!.heightPixels / displayMetrics.density
@@ -52,19 +53,22 @@ class DramaFeedWriteFragment : BaseFragment() {
 //                        AmazonS3Loader.shared.uploadImage("feed", uri) { url ->
 //                            Log.e("tjdrnr", "" + uri)
 //                            stopLoadingUI()
-                            editor.insertImage(uri.toString(), "", dpWidth.toInt()-32)
+                        editor.insertImage(uri.toString(), "", dpWidth.toInt() - 32)
 //                        }
                     }
+
                 }
             }
 
             editor.setOnTextChangeListener { text -> // Do Something
                 Log.e("tjdrnr", "Editor = $text")
 
-                editorEmpty = text.isNotEmpty()
+                editorEmpty = text.isNullOrEmpty()
+                Log.e("tjdrnr", "TF2 = $editorEmpty")
                 editorText = text
 
             }
+
         }
 
     }

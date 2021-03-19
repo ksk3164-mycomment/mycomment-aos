@@ -425,7 +425,6 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment(),
 
                 val milis = System.currentTimeMillis()
 
-//                    val name = "${UUID.randomUUID()}"
                         talk?.let { talk ->
                             val database = FirebaseDatabase.getInstance()
                             database.getReference("talk")
