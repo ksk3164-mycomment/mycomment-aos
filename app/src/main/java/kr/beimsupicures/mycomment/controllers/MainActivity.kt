@@ -729,7 +729,6 @@ class MainActivity : BaseActivity() {
                         .navigate(R.id.action_global_signInFragment)
                 }
             }
-
         }
     }
 
