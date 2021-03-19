@@ -106,19 +106,65 @@ class TalkFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
-        val day = Calendar.getInstance()
-        day.add(Calendar.DATE, -1)
-        val beforeDate: String = SimpleDateFormat("yyMMdd").format(day.time)
-
-        ymd_date = beforeDate
-
         fetchModel()
     }
 
     override fun loadModel() {
         super.loadModel()
+        val day = Calendar.getInstance()
+        day.add(Calendar.DATE, -1)
+        var beforeDate: String = SimpleDateFormat("yyMMdd").format(day.time)
 
+        ymd_date = beforeDate
+
+        PickTopLoader.shared.getPickTop(ymd_date) { values ->
+
+            pickTop = values.toMutableList()
+            if (pickTop.size > 0) {
+
+                Glide.with(this).load(pickTop[0].profile_image_url)
+                    .transform(CenterCrop(), CircleCrop())
+                    .override(Target.SIZE_ORIGINAL)
+                    .fallback(R.drawable.bg_profile_original)
+                    .into(ivFirstProfile)
+                tvFirstSympathyName.text = pickTop[0].nickname
+
+                if (pickTop.size >= 2) {
+                    layoutSecondSympathy.visibility = View.VISIBLE
+                    Glide.with(this).load(pickTop[1].profile_image_url)
+                        .transform(CenterCrop(), CircleCrop())
+                        .override(Target.SIZE_ORIGINAL)
+                        .fallback(R.drawable.bg_profile_original)
+                        .into(ivSecondProfile)
+                    tvSecondSympathyName.text = pickTop[1].nickname
+                }
+
+            } else {
+                day.add(Calendar.DATE, -1)
+                beforeDate = SimpleDateFormat("yyMMdd").format(day.time)
+
+                ymd_date = beforeDate
+                PickTopLoader.shared.getPickTop(ymd_date) { values ->
+                    pickTop = values.toMutableList()
+                    Glide.with(this).load(pickTop[0].profile_image_url)
+                        .transform(CenterCrop(), CircleCrop())
+                        .override(Target.SIZE_ORIGINAL)
+                        .fallback(R.drawable.bg_profile_original)
+                        .into(ivFirstProfile)
+                    tvFirstSympathyName.text = pickTop[0].nickname
+
+                    if (pickTop.size >= 2) {
+                        layoutSecondSympathy.visibility = View.VISIBLE
+                        Glide.with(this).load(pickTop[1].profile_image_url)
+                            .transform(CenterCrop(), CircleCrop())
+                            .override(Target.SIZE_ORIGINAL)
+                            .fallback(R.drawable.bg_profile_original)
+                            .into(ivSecondProfile)
+                        tvSecondSympathyName.text = pickTop[1].nickname
+                    }
+                }
+            }
+        }
     }
 
     override fun loadUI() {
@@ -202,51 +248,6 @@ class TalkFragment : BaseFragment() {
 
     override fun fetchModel() {
         super.fetchModel()
-
-        PickTopLoader.shared.getPickTop(ymd_date) { values ->
-            pickTop = values.toMutableList()
-
-            if (pickTop.size > 0) {
-
-                Glide.with(this).load(pickTop[0].profile_image_url)
-                    .transform(CenterCrop(), CircleCrop())
-                    .override(Target.SIZE_ORIGINAL)
-                    .fallback(R.drawable.bg_profile_original)
-                    .into(ivFirstProfile)
-                tvFirstSympathyName.text = pickTop[0].nickname
-
-                if (pickTop.size >= 2) {
-                    layoutSecondSympathy.visibility = View.VISIBLE
-                    Glide.with(this).load(pickTop[1].profile_image_url)
-                        .transform(CenterCrop(), CircleCrop())
-                        .override(Target.SIZE_ORIGINAL)
-                        .fallback(R.drawable.bg_profile_original)
-                        .into(ivSecondProfile)
-                    tvSecondSympathyName.text = pickTop[1].nickname
-                }
-
-            } else {
-                PickTopLoader.shared.getPickTop("210201") { values ->
-                    this.pickTop = values
-                    pickTop[0].profile_image_url?.let { profile_image_url ->
-                        Glide.with(this).load(profile_image_url)
-                            .transform(CenterCrop(), CircleCrop())
-                            .override(Target.SIZE_ORIGINAL)
-                            .fallback(R.drawable.bg_drama_thumbnail)
-                            .into(ivFirstProfile)
-
-                        Glide.with(this).load(profile_image_url)
-                            .transform(CenterCrop(), CircleCrop())
-                            .override(Target.SIZE_ORIGINAL)
-                            .fallback(R.drawable.bg_drama_thumbnail)
-                            .into(ivSecondProfile)
-
-                        tvFirstSympathyName.text = pickTop[0].nickname
-                        tvSecondSympathyName.text = pickTop[1].nickname
-                    }
-                }
-            }
-        }
 
         TalkLoader.shared.getTalkList {
             this.talk = it.toMutableList()
