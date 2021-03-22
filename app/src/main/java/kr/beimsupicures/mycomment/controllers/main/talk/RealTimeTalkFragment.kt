@@ -256,7 +256,6 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment(),
         }
         isLoaded = false
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

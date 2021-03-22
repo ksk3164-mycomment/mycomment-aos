@@ -1,6 +1,8 @@
 package kr.beimsupicures.mycomment.api
 
+import android.content.Context
 import android.util.Log
+import kr.beimsupicures.mycomment.BuildConfig
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.extensions.getAccessToken
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
@@ -10,6 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.HTTP
+import java.lang.Exception
 
 data class APIResult<T>(
     val success: Boolean,
@@ -27,6 +30,12 @@ class APIClient {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             builder.addInterceptor(interceptor)
+            builder.addNetworkInterceptor { chain ->
+                chain.proceed(
+                    chain.request()
+                        .newBuilder().header("User-Agent", "android/${BuildConfig.VERSION_NAME}").build()
+                )
+            }
             return builder.build()
         }
 
@@ -49,5 +58,6 @@ class APIClient {
         fun <T> create(service: Class<T>): T {
             return retrofit.create(service)
         }
+
     }
 }

@@ -29,7 +29,7 @@ class MCFirebaseMessagingService : FirebaseMessagingService() {
     enum class Redirection(val value: String) {
         TalkDetail("TalkDetailFragment"),
         TalkComment("TalkComment"),
-        WatchComment("WatchComment"),
+        FeedComment("FeedComment"),
     }
 
     override fun onNewToken(token: String) {
@@ -72,7 +72,16 @@ class MCFirebaseMessagingService : FirebaseMessagingService() {
                     }
                     sendNotification(makeCommentChannel(), MessageInfo(title, body, redirection, payload))
                 }
-                Redirection.WatchComment.value -> {
+                Redirection.FeedComment.value -> {
+                    val mentionModel = makeMentionModel(payload)
+                    mentionModel?.let {
+                        val currentTalkId = BaseApplication.shared.getSharedPreferences().getCurrentTalkId()
+                        if (it.talk.id == currentTalkId) {
+                            AnalyticsLoader.shared.reportMentionReceiveDisable(mentionModel.mention.id)
+                            return
+                        }
+                        AnalyticsLoader.shared.reportMentionReceive(mentionModel.mention.id)
+                    }
                     sendNotification(makeCommentChannel(), MessageInfo(title, body, redirection, payload))
                 }
             }
@@ -102,7 +111,7 @@ class MCFirebaseMessagingService : FirebaseMessagingService() {
             putExtra("Payload", messageInfo.payload)
         }
 
-        var notificationManager: NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if( android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelInfo.channelId, channelInfo.channelName, channelInfo.importance)
@@ -114,10 +123,10 @@ class MCFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        var pendingIntent = PendingIntent.getActivity(this, (System.currentTimeMillis()/1000).toInt(), intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(this, (System.currentTimeMillis()/1000).toInt(), intent, PendingIntent.FLAG_ONE_SHOT)
         val notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        var notificationBuilder = NotificationCompat.Builder(this, channelInfo.channelId)
+        val notificationBuilder = NotificationCompat.Builder(this, channelInfo.channelId)
             .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_noticon))
             .setSmallIcon(R.mipmap.ic_noticon)
             .setContentTitle(messageInfo.title)

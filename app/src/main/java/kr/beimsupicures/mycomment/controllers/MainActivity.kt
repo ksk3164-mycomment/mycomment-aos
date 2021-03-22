@@ -720,7 +720,9 @@ class MainActivity : BaseActivity() {
                 (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
                     val bottomSheet =
                         kr.beimsupicures.mycomment.components.dialogs.BottomSheetDialog()
+                    if (!bottomSheet.isVisible){
                     bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+                    }
                 }
 
             } ?: run {

@@ -327,7 +327,16 @@
     <fragment
         android:id="@+id/dramaFeedDetailFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment"
-        android:label="DramaFeedDetailFragment" />
+        android:label="DramaFeedDetailFragment">
+        <argument
+            android:name="feed_seq"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="selectedCommentId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
     <action
         android:id="@+id/action_global_dramaFeedWriteFragment"
         app:destination="@id/dramaFeedWriteFragment"

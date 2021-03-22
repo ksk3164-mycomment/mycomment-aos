@@ -36,6 +36,7 @@ import kr.beimsupicures.mycomment.services.MCFirebaseMessagingService
 import kr.beimsupicures.mycomment.viewmodels.signs.SignStep1ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.security.auth.login.LoginException
 
 class TalkFragment : BaseFragment() {
 
@@ -60,8 +61,6 @@ class TalkFragment : BaseFragment() {
     lateinit var ivFirstProfile: ImageView
     lateinit var ivSecondProfile: ImageView
     lateinit var tvOrganization: TextView
-
-    lateinit var how: TextView
 
     lateinit var firstProfileWrapper: ConstraintLayout
     lateinit var secondProfileWrapper: ConstraintLayout
@@ -90,6 +89,18 @@ class TalkFragment : BaseFragment() {
                         AnalyticsLoader.shared.reportMentionConfirm(mentionModel.mention.id)
                         val action =
                             NavigationDirections.actionGlobalTalkDetailFragment(mentionModel.talk)
+                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                            .navigate(action)
+                    }
+                }
+            }
+            MCFirebaseMessagingService.Redirection.FeedComment.value -> {
+                activity?.intent?.getStringExtra("Payload")?.let { payload ->
+                    val mentionModel = makeMentionModel(payload)
+                    if (mentionModel != null) {
+                        AnalyticsLoader.shared.reportMentionConfirm(mentionModel.mention.id)
+                        val action =
+                            NavigationDirections.actionGlobalDramaFeedDetailFragment()
                         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                             .navigate(action)
                     }
@@ -176,7 +187,7 @@ class TalkFragment : BaseFragment() {
 
             bannerView = view.findViewById(R.id.bannerView)
             bannerIndicator = view.findViewById(R.id.bannerIndicator)
-            var selectedIndicator: Drawable? =
+            val selectedIndicator: Drawable? =
                 ContextCompat.getDrawable(requireContext(), R.drawable.select_dot)
             bannerIndicator.selectedIndicator = selectedIndicator
 
