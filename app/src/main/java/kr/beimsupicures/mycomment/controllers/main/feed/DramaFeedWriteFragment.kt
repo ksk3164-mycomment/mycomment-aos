@@ -19,7 +19,7 @@ class DramaFeedWriteFragment : BaseFragment() {
     lateinit var editor: RichEditor
     lateinit var insertImageLayout: LinearLayout
     lateinit var title: EditText
-    var editorEmpty: Boolean = false
+    var editorEmpty: Boolean = true
     var editorText: String? = null
 
     override fun onCreateView(

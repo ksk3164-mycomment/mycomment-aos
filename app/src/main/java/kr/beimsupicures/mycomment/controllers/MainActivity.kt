@@ -1,6 +1,7 @@
 package kr.beimsupicures.mycomment.controllers
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -328,7 +330,7 @@ class MainActivity : BaseActivity() {
                             alert("내용을 입력하세요", "") { }
                         } else {
                             //제목입력, 내용입력
-                            popup("", "해당 글을 등록하시겠어요?") {
+                            popup("작성 후에도 수정이 가능합니다", "해당 글을 등록하시겠어요?") {
                                 BaseApplication.shared.getSharedPreferences().getPostTalkId()
                                     ?.let { talk_id ->
                                         var editor = fragment.editorText.toString()
@@ -597,7 +599,7 @@ class MainActivity : BaseActivity() {
                         alert("내용을 입력하세요", "") { }
                     } else {
                         //제목입력, 내용입력
-                        popup("", "해당 글을 등록하시겠어요?") {
+                        popup("작성 후에도 수정이 가능합니다", "해당 글을 등록하시겠어요?") {
                             val editor = fragment.editorText.toString()
                             val title = fragment.title.text.toString()
 

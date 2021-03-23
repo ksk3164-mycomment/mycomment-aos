@@ -1,5 +1,6 @@
 package kr.beimsupicures.mycomment.components.dialogs
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
@@ -7,9 +8,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.StringRes
 import kotlinx.android.synthetic.main.dialog_popup.view.*
 import kr.beimsupicures.mycomment.R
+
 
 class CustomDialog(private val context: Context) {
 
@@ -24,6 +27,7 @@ class CustomDialog(private val context: Context) {
     private var dialog: AlertDialog? = null
 
     // 터치 리스너 구현
+    @SuppressLint("ClickableViewAccessibility")
     private val onTouchListener = View.OnTouchListener { _, motionEvent ->
         if (motionEvent.action == MotionEvent.ACTION_UP) {
             Handler().postDelayed({
@@ -85,6 +89,10 @@ class CustomDialog(private val context: Context) {
     }
 
     fun setNegativeButton(text: CharSequence, listener: (view: View) -> (Unit)): CustomDialog {
+        view.negativeButton.visibility = View.VISIBLE
+        view.titleTextView.visibility = View.VISIBLE
+        view.view.visibility = View.VISIBLE
+        view.view3.visibility = View.VISIBLE
         view.negativeButton.apply {
             this.text = text
             setOnClickListener(listener)
@@ -106,7 +114,18 @@ class CustomDialog(private val context: Context) {
     fun dismiss() {
         dialog?.dismiss()
     }
+
     fun setBackground() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val params: WindowManager.LayoutParams? = dialog?.window?.attributes
+        params?.width = 800
+        params?.height = 600
+        dialog?.window?.attributes = params
+
     }
+
+    fun setLayout(width: Int, height: Int) {
+        dialog?.window?.setLayout(width, height)
+    }
+
 }
