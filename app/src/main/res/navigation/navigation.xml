@@ -7,7 +7,6 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        tools:layout="@layout/fragment_splash"
         android:name="kr.beimsupicures.mycomment.controllers.splash.SplashFragment"
         android:label="">
         <action
@@ -24,8 +23,8 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="kr.beimsupicures.mycomment.controllers.signs.SignInFragment"
-        tools:layout="@layout/fragment_sign_in"
-        android:label="">
+        android:label=""
+        tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_signInFragment_to_termFragment"
             app:destination="@id/termFragment"
@@ -45,13 +44,13 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
-        tools:layout="@layout/fragment_bookmark"
         android:id="@+id/bookmarkFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.bookmark.BookmarkFragment" />
+        android:name="kr.beimsupicures.mycomment.controllers.main.bookmark.BookmarkFragment"
+        tools:layout="@layout/fragment_bookmark" />
     <fragment
         android:id="@+id/profileFragment"
-        tools:layout="@layout/fragment_profile"
-        android:name="kr.beimsupicures.mycomment.controllers.main.profile.ProfileFragment">
+        android:name="kr.beimsupicures.mycomment.controllers.main.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
         <argument
             android:name="userId"
             android:defaultValue="1"
@@ -59,13 +58,13 @@
     </fragment>
 
     <fragment
-        tools:layout="@layout/fragment_organization"
         android:id="@+id/organizationFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.organization.OrganizationFragment" />
+        android:name="kr.beimsupicures.mycomment.controllers.main.organization.OrganizationFragment"
+        tools:layout="@layout/fragment_organization" />
     <fragment
-        tools:layout="@layout/fragment_drama_feed_modify"
         android:id="@+id/dramaFeedModifyFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedModifyFragment" />
+        android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedModifyFragment"
+        tools:layout="@layout/fragment_drama_feed_modify" />
     <action
         android:id="@+id/action_global_bookmarkFragment"
         app:destination="@id/bookmarkFragment"
@@ -88,9 +87,9 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
-        tools:layout="@layout/fragment_term"
         android:id="@+id/termFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.general.TermFragment">
+        android:name="kr.beimsupicures.mycomment.controllers.general.TermFragment"
+        tools:layout="@layout/fragment_term">
         <argument
             android:name="category"
             android:defaultValue="guide"
@@ -105,8 +104,8 @@
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/talkFragment"
-        tools:layout="@layout/fragment_talk"
-        android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkFragment">
+        android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkFragment"
+        tools:layout="@layout/fragment_talk">
         <action
             android:id="@+id/action_talkFragment_to_searchTalkFragment"
             app:destination="@id/searchTalkFragment"
@@ -130,14 +129,14 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_search_talk"
         android:id="@+id/searchTalkFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment" />
+        android:name="kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment"
+        tools:layout="@layout/fragment_search_talk" />
     <fragment
         android:id="@+id/talkDetailFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkDetailFragment"
-        tools:layout="@layout/fragment_talk_detail"
-        android:label="TalkDetailFragment">
+        android:label="TalkDetailFragment"
+        tools:layout="@layout/fragment_talk_detail">
         <argument
             android:name="talk"
             app:argType="kr.beimsupicures.mycomment.api.models.TalkModel" />
@@ -150,10 +149,10 @@
             app:destination="@id/dramaFeedDetailFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_real_time_talk"
         android:id="@+id/RealTimeTalkFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.talk.RealTimeTalkFragment"
-        android:label="RealTimeTalkFragment">
+        android:label="RealTimeTalkFragment"
+        tools:layout="@layout/fragment_real_time_talk">
         <argument
             android:name="talk"
             app:argType="kr.beimsupicures.mycomment.api.models.TalkModel"
@@ -170,9 +169,9 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
-        tools:layout="@layout/fragment_sign_step1"
         android:id="@+id/signStep1Fragment"
-        android:name="kr.beimsupicures.mycomment.controllers.signs.SignStep1Fragment">
+        android:name="kr.beimsupicures.mycomment.controllers.signs.SignStep1Fragment"
+        tools:layout="@layout/fragment_sign_step1">
         <argument
             android:name="viewmodel"
             app:argType="kr.beimsupicures.mycomment.viewmodels.signs.SignStep1ViewModel" />
@@ -182,10 +181,10 @@
         android:name="kr.beimsupicures.mycomment.components.dialogs.AgreeDialog"
         tools:layout="@layout/dialog_agree" />
     <fragment
-        tools:layout="@layout/fragment_webview"
         android:id="@+id/webViewFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.detail.webview.WebViewFragment"
-        android:label="WebViewFragment">
+        android:label="WebViewFragment"
+        tools:layout="@layout/fragment_webview">
         <argument
             android:name="talk"
             app:argType="kr.beimsupicures.mycomment.api.models.TalkModel"
@@ -233,10 +232,10 @@
             app:destination="@id/dramaFeedDetailFragment" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_feed_detail_talk"
         android:id="@+id/dramaFeedDetailFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment"
-        android:label="DramaFeedDetailFragment">
+        android:label="DramaFeedDetailFragment"
+        tools:layout="@layout/fragment_feed_detail_talk">
         <argument
             android:name="feed_seq"
             android:defaultValue="-1"

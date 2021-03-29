@@ -1,7 +1,7 @@
 package kr.beimsupicures.mycomment.controllers
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -21,6 +20,8 @@ import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.ktx.Firebase
@@ -43,6 +44,8 @@ import kr.beimsupicures.mycomment.api.models.UserModel
 import kr.beimsupicures.mycomment.components.activities.BaseActivity
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.LoadingDialog
+import kr.beimsupicures.mycomment.components.fragments.startLoadingUI
+import kr.beimsupicures.mycomment.components.fragments.stopLoadingUI
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedModifyFragment
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedWriteFragment
@@ -178,6 +181,8 @@ class MainActivity : BaseActivity() {
                     toolbar.searchView.visibility = View.VISIBLE
                     toolbar.searchCancel.visibility = View.GONE
                     toolbar.searchField.visibility = View.GONE
+                    toolbar.ivMore.visibility = View.GONE
+                    toolbar.ivShare.visibility = View.GONE
                     if (deepLink != null) {
                         val homeLink = "https://mycomment.kr/"
                         val category =
@@ -185,7 +190,10 @@ class MainActivity : BaseActivity() {
 
                         when (category) {
                             "talk" -> {
-                                val id = deepLink.toString().substringAfter(homeLink).substringAfter("/")
+                                val id =
+                                    deepLink.toString().substringAfter(homeLink).substringAfter(
+                                        "/"
+                                    )
                                 TalkLoader.shared.getTalk(id.toInt()) {
                                     val action =
                                         NavigationDirections.actionGlobalTalkDetailFragment(it)
@@ -194,19 +202,17 @@ class MainActivity : BaseActivity() {
                                 }
                             }
                             "feed" -> {
-                                val talkId = deepLink.toString().substringAfter(homeLink).substringAfter("/")
-                                val feedSeq = deepLink.toString().substringAfter(homeLink).substringAfter("/").substringAfter("/")
-//                                FeedLoader.shared.getFeedList(talkId.toInt(),) {
-//                                    BaseApplication.shared.getSharedPreferences()
-//                                        .setFeedId(model.feed_seq)
-//                                    BaseApplication.shared.getSharedPreferences().setFeed(model)
-//
-//                                    val action =
-//                                        NavigationDirections.actionGlobalDramaFeedDetailFragment()
-//                                    Navigation.findNavController(this, R.id.nav_host_fragment)
-//                                        .navigate(action)
-//
-//                                }
+                                val feedSeq =
+                                    deepLink.toString().substringAfter(homeLink).substringAfter(
+                                        "/"
+                                    )
+                                BaseApplication.shared.getSharedPreferences().setFeedId(feedSeq.toInt())
+
+                                val action =
+                                    NavigationDirections.actionGlobalDramaFeedDetailFragment()
+                                Navigation.findNavController(this, R.id.nav_host_fragment)
+                                    .navigate(action)
+
 
                             }
                         }
@@ -226,6 +232,7 @@ class MainActivity : BaseActivity() {
                     toolbar.searchField.visibility = View.GONE
                     toolbar.btnWrite.visibility = View.GONE
                     toolbar.ivMore.visibility = View.GONE
+                    toolbar.ivShare.visibility = View.GONE
 
                 }
                 //검색하기
@@ -256,8 +263,9 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.dramaFeedDetailFragment -> {
 
-                    toolbar.btnProfile.visibility = View.GONE
                     toolbar.ivMore.visibility = View.VISIBLE
+                    toolbar.ivShare.visibility = View.VISIBLE
+                    toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnWrite.visibility = View.GONE
                     toolbar.btnModify.visibility = View.GONE
 
@@ -267,6 +275,7 @@ class MainActivity : BaseActivity() {
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnModify.visibility = View.VISIBLE
                     toolbar.ivMore.visibility = View.GONE
+                    toolbar.ivShare.visibility = View.GONE
 
                 }
             }
@@ -766,8 +775,58 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+        toolbar.ivShare.setOnClickListener {
+            BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
+                (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
+                    loadingDialog = LoadingDialog()
+                    loadingDialog.show(supportFragmentManager, "")
+                    val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                        .setLink("https://mycomment.kr/feed/${fragment.feedDetail?.feed_seq}".toUri()) //정보를 담는 json 사이트를 넣자!!
+                        .setDomainUriPrefix("https://mycomment.page.link/")
+                        .setAndroidParameters(
+                            DynamicLink.AndroidParameters.Builder(this.packageName.toString()).build()
+                        )
+                        .buildDynamicLink()
+                    val dylinkuri = dynamicLink.uri //긴 URI
+                    Log.e("tjdrnr", "long uri : $dylinkuri")
+                    //짧은 URI사용
+                    FirebaseDynamicLinks.getInstance().createDynamicLink()
+                        .setLongLink(dylinkuri)
+                        .buildShortDynamicLink()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                loadingDialog.dismiss()
+                                val shortLink: Uri? = task.result?.shortLink
+                                val flowchartLink: Uri? = task.result?.previewLink
+                                Log.e("tjdrnr", "short uri : $shortLink") //짧은 URI
+                                Log.e("tjdrnr", "flowchartLink uri : $flowchartLink") //짧은 URI
+                                try {
+                                    val intent = Intent(Intent.ACTION_SEND)
+                                    intent.type = "text/plain"
+                                    intent.putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        shortLink.toString()
+                                    ) // text는 공유하고 싶은 글자
 
+                                    val chooser = Intent.createChooser(intent, "공유하기")
+                                    startActivity(chooser)
+                                } catch (e: ActivityNotFoundException) {
 
+                                }
+
+                            } else {
+                                Log.e("tjdrnr", "exception" + task.exception.toString())
+                            }
+                        }
+                }
+
+            } ?: run {
+                popup("로그인하시겠습니까?", "로그인") {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(R.id.action_global_signInFragment)
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -835,11 +894,6 @@ class MainActivity : BaseActivity() {
             getBitmapRotatedByDegree(photoBitmap, imageRotation)
         photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream)
         return stream.toByteArray()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
     }
 
     private fun getImageRotation(imageFile: File): Int {

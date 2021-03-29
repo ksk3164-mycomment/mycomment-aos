@@ -26,10 +26,7 @@ import kotlinx.android.synthetic.main.fragment_real_time_talk.*
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.AnalyticsLoader
 import kr.beimsupicures.mycomment.api.loaders.FeedCommentLoader
-import kr.beimsupicures.mycomment.api.models.CommentModel
-import kr.beimsupicures.mycomment.api.models.EventObserver
-import kr.beimsupicures.mycomment.api.models.FeedModel
-import kr.beimsupicures.mycomment.api.models.MyViewModel
+import kr.beimsupicures.mycomment.api.models.*
 import kr.beimsupicures.mycomment.common.diffSec
 import kr.beimsupicures.mycomment.common.keyboard.KeyboardVisibilityUtils
 import kr.beimsupicures.mycomment.components.adapters.FeedDetailAdapter
@@ -39,9 +36,9 @@ import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.*
 
 
-class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInterface {
+class FeedCommentFragment(val viewModel: FeedDetailModel) : BaseFragment(), onClickInterface {
 
-    var feed: FeedModel? = null
+    var feedDetailModel: FeedDetailModel? = null
 
     lateinit var countLabel: TextView
 
@@ -72,7 +69,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
     companion object {
 
         fun newInstance(
-            viewModel: FeedModel
+            viewModel: FeedDetailModel
         ): FeedCommentFragment {
             return FeedCommentFragment(viewModel)
         }
@@ -90,7 +87,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
                 Log.e("FEED", "String snapshot: $value")
             }
 
-            feed?.let { feed ->
+            feedDetailModel?.let { feed ->
                 val latest_id = items.firstOrNull()?.id ?: 0
 
                 Log.e("isLoaded", "${isLoaded}")
@@ -217,7 +214,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
         super.onResume()
         fetchModel()
 
-        feed?.let { feed ->
+        feedDetailModel?.let { feed ->
 
             val database = FirebaseDatabase.getInstance()
             database.getReference("feed").child("${feed.feed_seq}").child("total")
@@ -233,7 +230,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
     override fun onPause() {
         super.onPause()
 
-        feed?.let { feed ->
+        feedDetailModel?.let { feed ->
             val database = FirebaseDatabase.getInstance()
             database.getReference("feed").child("${feed.feed_seq}").child("total")
                 .removeEventListener(totalEventListener)
@@ -271,14 +268,14 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
             floatingUserId = view.findViewById(R.id.floating_user_id)
             floatingMessage = view.findViewById(R.id.floating_message)
 
-            feed?.let { feed ->
+            feedDetailModel?.let { feedDetail ->
 
-                FeedCommentLoader.shared.getFeedCommentCount(feed.feed_seq) { count ->
+                FeedCommentLoader.shared.getFeedCommentCount(feedDetail.feed_seq) { count ->
                     this.count = count
                     countLabel.text = "${count}개의 톡"
                 }
 
-                detailAdapter = FeedDetailAdapter(activity, feed, items, { message ->
+                detailAdapter = FeedDetailAdapter(activity, feedDetail, items, { message ->
                     viewModel2.setReply2(message)
                 }, this)
                 rvRealtimeTalk = view.findViewById(R.id.rvRealtimeTalk)
@@ -292,9 +289,9 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
                             (it as? LinearLayoutManager)?.let { layoutManager ->
                                 recyclerView.adapter?.let { adapter ->
                                     if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
-                                        feed?.let { feed ->
+                                        feedDetail?.let { feedDetail ->
                                             FeedCommentLoader.shared.getFeedCommentList(
-                                                feed.feed_seq,
+                                                feedDetail.feed_seq,
                                                 reset = false
                                             ) { feed ->
                                                 this@FeedCommentFragment.items =
@@ -329,14 +326,14 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
     override fun loadModel() {
         super.loadModel()
 //        talk = arguments?.getParcelable("amount")
-        feed = viewModel
+        feedDetailModel = viewModel
 //        selectedCommentId = viewModel.selectedCommentId
     }
 
     override fun fetchModel() {
         super.fetchModel()
 
-        feed?.let { feed ->
+        feedDetailModel?.let { feed ->
             BaseApplication.shared.getSharedPreferences().setTalkTime()
             BaseApplication.shared.getSharedPreferences().setCurrentTalkId(feed.feed_seq)
 
@@ -391,7 +388,7 @@ class FeedCommentFragment(val viewModel: FeedModel) : BaseFragment(), onClickInt
 
     fun sendMessage(message: String) {
 
-        feed?.let { feed ->
+        feedDetailModel?.let { feed ->
             hideKeyboard()
             FeedCommentLoader.shared.addFeedComment(
                 feed.feed_seq, message

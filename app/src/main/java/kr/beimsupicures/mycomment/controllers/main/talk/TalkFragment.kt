@@ -69,7 +69,6 @@ class TalkFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.e("tjdrnr", "onCreateView")
         when (activity?.intent?.getStringExtra("Redirection") ?: null) {
             MCFirebaseMessagingService.Redirection.TalkDetail.value -> {
                 activity?.intent?.getStringExtra("Payload")?.let { payload ->
@@ -119,13 +118,11 @@ class TalkFragment : BaseFragment() {
     }
 
     override fun onResume() {
-        Log.e("tjdrnr", "onResume")
         super.onResume()
         fetchModel()
     }
 
     override fun loadModel() {
-        Log.e("tjdrnr", "loadModel")
         super.loadModel()
         val day = Calendar.getInstance()
         day.add(Calendar.DATE, -1)
@@ -186,7 +183,6 @@ class TalkFragment : BaseFragment() {
 
     override fun loadUI() {
         super.loadUI()
-        Log.e("tjdrnr", "loadUI")
 
         view?.let { view ->
 
@@ -266,7 +262,6 @@ class TalkFragment : BaseFragment() {
     }
 
     override fun fetchModel() {
-        Log.e("tjdrnr", "fetchModel")
         super.fetchModel()
 
         TalkLoader.shared.getTalkList {
@@ -315,4 +310,3 @@ fun TalkFragment.makeMentionModel(payload: String): MentionModel? {
     val gson = GsonBuilder().create()
     return gson.fromJson(payload, MentionModel::class.java)
 }
-

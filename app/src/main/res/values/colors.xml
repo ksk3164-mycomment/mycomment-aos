@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0D4043</color>
-    <color name="colorPrimaryDark">#0D4043</color>
-    <color name="colorAccent">#0D4043</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorPrimary">#cfe4f0</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#cfe4f0</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorBorder">#F0F0F0</color>
     <color name="colorGrey">#E0E0E0</color>
     <color name="colorSnsEmail">#C1CFD2</color>
@@ -28,4 +28,5 @@
     <color name="lightBlueGrey">#cfe4f0</color>
     <color name="dullTeal">#5ba2a8</color>
     <color name="lightGreyBlue">#a1bfd1</color>
+    <color name="colorGreen">#225256</color>
 </resources>

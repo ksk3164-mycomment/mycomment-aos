@@ -53,18 +53,11 @@ class BookmarkFragment : BaseFragment() {
         super.fetchModel()
 
         BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
-
-            val user_id = user.id
-
-            getUserBookmarkTalk()
+            UserLoader.shared.getUserBookmarkTalk { talk ->
+                this.talk = talk.toMutableList()
+                talkAdapter.items = this.talk
+                talkAdapter.notifyDataSetChanged()
+            }
         }
-    }
-}
-
-fun BookmarkFragment.getUserBookmarkTalk() {
-    UserLoader.shared.getUserBookmarkTalk { talk ->
-        this.talk = talk.toMutableList()
-        talkAdapter.items = this.talk
-        talkAdapter.notifyDataSetChanged()
     }
 }

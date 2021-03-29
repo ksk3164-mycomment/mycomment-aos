@@ -32,7 +32,7 @@ import kr.beimsupicures.mycomment.extensions.*
 
 class FeedDetailAdapter(
     val activity: FragmentActivity?,
-    var feed: FeedModel,
+    var feed: FeedDetailModel,
     var items: MutableList<CommentModel>,
     val onReplied: (String) -> Unit,
     var onclickInterface: onClickInterface

@@ -58,7 +58,7 @@ class DramaFeedDetailFragment : BaseFragment() {
             else -> true
         }
 
-    var feed: FeedModel? = null
+    //    var feed: FeedModel? = null
     var feedDetail: FeedDetailModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,102 +103,62 @@ class DramaFeedDetailFragment : BaseFragment() {
             messageField = view.findViewById(R.id.messageField)
             btnSend = view.findViewById(R.id.btnSend)
 
-            feed?.let { values ->
+            messageField.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
 
-                nicknameLabel.text = values.nickname
+                }
 
-                if (values.profile_image_url.isNullOrEmpty()) {
-                    profileView.setImageDrawable(
-                        context?.let {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                    context?.let { context ->
+                        btnSend.setImageDrawable(
                             ContextCompat.getDrawable(
-                                it,
-                                R.drawable.bg_profile_original
+                                context,
+                                if (validation) R.drawable.send else R.drawable.send_g
                             )
-                        })
-                } else {
-                    Glide.with(this)
-                        .load(values.profile_image_url)
-                        .transform(CircleCrop(), CenterCrop())
-                        .into(profileView)
-                }
-
-                createAt.text = values.c_ts.timeline()
-
-                view_cnt.text = "조회 ${values.view_cnt}"
-
-                editor.setInputEnabled(false)
-                constraintLayout.setOnClickListener {
-                    val action =
-                        NavigationDirections.actionGlobalProfileFragment(userId)
-                    it.findNavController().navigate(action)
-                }
-
-                feedCommentFragment = FeedCommentFragment(values)
-
-                activity?.let {
-                    it.supportFragmentManager.beginTransaction()
-                        .replace(R.id.feedCommentFragment, feedCommentFragment).commit()
-                }
-
-
-                messageField.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(p0: Editable?) {
-
+                        )
                     }
+                }
+            })
 
-                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            btnSend.setOnClickListener {
 
-                    }
+                BaseApplication.shared.getSharedPreferences().getUser()?.let {
 
-                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    when (validation) {
+                        true -> {
 
-                        context?.let { context ->
-                            btnSend.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    context,
-                                    if (validation) R.drawable.send else R.drawable.send_g
-                                )
-                            )
-                        }
-                    }
-                })
+                            viewModel.setMessage2(messageField.text.toString())
+                            messageField.setText("")
+                            hideKeyboard()
 
-
-                btnSend.setOnClickListener {
-
-                    BaseApplication.shared.getSharedPreferences().getUser()?.let {
-
-                        when (validation) {
-                            true -> {
-
-                                viewModel.setMessage2(messageField.text.toString())
-                                messageField.setText("")
-                                hideKeyboard()
-
-                            }
-
-                            false -> {
-                            }
                         }
 
-                    } ?: run {
-
-                        activity?.let { activity ->
-                            activity.popup("로그인하시겠습니까?", "로그인") {
-                                Navigation.findNavController(activity, R.id.nav_host_fragment)
-                                    .navigate(R.id.action_global_signInFragment)
-                            }
+                        false -> {
                         }
                     }
 
+                } ?: run {
+
+                    activity?.let { activity ->
+                        activity.popup("로그인하시겠습니까?", "로그인") {
+                            Navigation.findNavController(activity, R.id.nav_host_fragment)
+                                .navigate(R.id.action_global_signInFragment)
+                        }
+                    }
                 }
+
             }
         }
     }
 
     override fun loadModel() {
         super.loadModel()
-        feed = BaseApplication.shared.getSharedPreferences().getFeed()
+//        feed = BaseApplication.shared.getSharedPreferences().getFeed()
     }
 
     override fun fetchModel() {
@@ -223,6 +183,40 @@ class DramaFeedDetailFragment : BaseFragment() {
                     """" alt="" width="${dpWidth.toInt() - 32}""""
                 )
 
+            }
+            nicknameLabel.text = values.nickname
+
+            if (values.profile_image_url.isNullOrEmpty()) {
+                profileView.setImageDrawable(
+                    context?.let {
+                        ContextCompat.getDrawable(
+                            it,
+                            R.drawable.bg_profile_original
+                        )
+                    })
+            } else {
+                Glide.with(this)
+                    .load(values.profile_image_url)
+                    .transform(CircleCrop(), CenterCrop())
+                    .into(profileView)
+            }
+
+            createAt.text = values.c_ts?.timeline()
+
+            view_cnt.text = "조회 ${values.view_cnt}"
+
+            editor.setInputEnabled(false)
+            constraintLayout.setOnClickListener {
+                val action =
+                    NavigationDirections.actionGlobalProfileFragment(userId)
+                it.findNavController().navigate(action)
+            }
+
+            feedCommentFragment = FeedCommentFragment(values)
+
+            activity?.let {
+                it.supportFragmentManager.beginTransaction()
+                    .replace(R.id.feedCommentFragment, feedCommentFragment).commit()
             }
         }
     }

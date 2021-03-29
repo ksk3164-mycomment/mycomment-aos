@@ -1,26 +1,18 @@
 package kr.beimsupicures.mycomment.controllers.main.organization
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.SearchLoader
 import kr.beimsupicures.mycomment.api.models.TalkModel
-import kr.beimsupicures.mycomment.components.adapters.TalkGridAdapter
 import kr.beimsupicures.mycomment.components.adapters.TalkTodayAdapter
-import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.components.fragments.startLoadingUI
 import kr.beimsupicures.mycomment.components.fragments.stopLoadingUI
-import kr.beimsupicures.mycomment.controllers.main.bookmark.getUserBookmarkTalk
-import kr.beimsupicures.mycomment.extensions.getSharedPreferences
-import kr.beimsupicures.mycomment.extensions.getUser
 
 class OrganizationFragment : BaseFragment() {
 
