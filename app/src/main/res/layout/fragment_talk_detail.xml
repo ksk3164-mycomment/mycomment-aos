@@ -60,6 +60,16 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
+                            android:id="@+id/ivShare"
+                            android:layout_width="23dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="19dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_share"
+                            app:layout_constraintEnd_toStartOf="@id/bookmarkView"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
                             android:id="@+id/bookmarkView"
                             android:layout_width="16dp"
                             android:layout_height="20dp"
@@ -172,9 +182,9 @@
         android:id="@+id/messageWrapperView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
         android:background="@color/colorWhite"
         android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -228,9 +238,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:visibility="gone"
         android:backgroundTint="#9EDAE2"
         android:src="@drawable/ic_baseline_add_24"
+        android:visibility="gone"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -1,10 +1,12 @@
 package kr.beimsupicures.mycomment.controllers.main.feed
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kr.beimsupicures.mycomment.R
@@ -18,12 +20,13 @@ import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
 
     var talk: TalkModel? = null
-    var isLoaded: Boolean = false
     var items: MutableList<FeedModel> = mutableListOf()
     var page = 1
 
     lateinit var dramaFeedAdapter: DramaFeedAdapter
     lateinit var countLabel: TextView
+    lateinit var tvOderbyViewcount: TextView
+    lateinit var tvOderbyCreate: TextView
     lateinit var rvDramaFeed: RecyclerView
 
     companion object {
@@ -49,6 +52,10 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
     override fun onPause() {
         super.onPause()
         items.clear()
+        tvOderbyCreate.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+        tvOderbyCreate.setTypeface(tvOderbyCreate.typeface, Typeface.BOLD)
+        tvOderbyViewcount.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorTextSegment2))
+        tvOderbyViewcount.setTypeface(null, Typeface.NORMAL)
     }
 
     override fun fetchModel() {
@@ -84,8 +91,8 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
         view?.let { view ->
 
             countLabel = view.findViewById(R.id.countLabel)
-
-
+            tvOderbyViewcount = view.findViewById(R.id.tvOderbyViewcount)
+            tvOderbyCreate = view.findViewById(R.id.tvOderbyCreate)
 
             rvDramaFeed = view.findViewById(R.id.rvDramaFeed)
             dramaFeedAdapter = DramaFeedAdapter(activity,items)
@@ -131,6 +138,28 @@ class DramaFeedFragment(val viewModel: TalkModel) : BaseFragment() {
                 }
             })
 
+            tvOderbyCreate.setOnClickListener {
+                tvOderbyCreate.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+                tvOderbyCreate.setTypeface(tvOderbyCreate.typeface, Typeface.BOLD)
+                tvOderbyViewcount.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorTextSegment2))
+                tvOderbyViewcount.setTypeface(null, Typeface.NORMAL)
+
+                items.sortByDescending { it.c_ts }
+                dramaFeedAdapter.items = this.items
+                dramaFeedAdapter.notifyDataSetChanged()
+
+            }
+
+            tvOderbyViewcount.setOnClickListener {
+                tvOderbyViewcount.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+                tvOderbyViewcount.setTypeface(tvOderbyViewcount.typeface, Typeface.BOLD)
+                tvOderbyCreate.setTextColor(ContextCompat.getColor(requireContext(),R.color.colorTextSegment2))
+                tvOderbyCreate.setTypeface(null, Typeface.NORMAL)
+
+                items.sortByDescending { it.view_cnt }
+                dramaFeedAdapter.items = this.items
+                dramaFeedAdapter.notifyDataSetChanged()
+            }
         }
     }
 

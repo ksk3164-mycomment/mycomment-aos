@@ -2,12 +2,10 @@ package kr.beimsupicures.mycomment.controllers.main.profile
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,12 +31,9 @@ import kr.beimsupicures.mycomment.components.dialogs.NicknameDialog
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.components.fragments.startLoadingUI
 import kr.beimsupicures.mycomment.components.fragments.stopLoadingUI
-import kr.beimsupicures.mycomment.controllers.main.profile.password.ChangePasswordFragment
-import kr.beimsupicures.mycomment.extensions.getRealPathFromURI
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
 import kr.beimsupicures.mycomment.extensions.popup
 import kr.beimsupicures.mycomment.extensions.reset
-import java.io.File
 
 
 class ProfileFragment : BaseFragment() {
@@ -168,13 +163,7 @@ class ProfileFragment : BaseFragment() {
                 BaseApplication.shared.getSharedPreferences().reset()
                 view.findNavController().navigate(R.id.action_global_splashFragment)
             }
-            btnChangePassword = view.findViewById(R.id.btnChangePassword)
-            btnChangePassword.setOnClickListener {
-                val action = NavigationDirections.actionGlobalChangePasswordFragment(
-                    ChangePasswordFragment.Category.change.toString()
-                )
-                view.findNavController().navigate(action)
-            }
+
             btnGuide = view.findViewById(R.id.btnGuide)
             btnGuide.setOnClickListener {
                 val action =

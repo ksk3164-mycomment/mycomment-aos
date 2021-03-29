@@ -35,12 +35,20 @@
             android:value="@string/kakao_app_key" />
 
         <activity android:name=".controllers.MainActivity">
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+<!--                <data-->
+<!--                    android:host="mycomment.page.link"-->
+<!--                    android:scheme="https"/>-->
+<!--                <data-->
+<!--                    android:host="mycomment.page.link"-->
+<!--                    android:scheme="http"/>-->
+
             </intent-filter>
-            <!-- This is added to handle a deep link -->
+
             <nav-graph android:value="@navigation/navigation" />
         </activity>
 
@@ -55,7 +63,8 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_noticon" />
     </application>
 

@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -20,18 +21,22 @@ import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.ktx.Firebase
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.kakao.auth.Session
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.fragment_bottom_sheet_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_drama_feed_detail.*
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.AmazonS3Loader
 import kr.beimsupicures.mycomment.api.loaders.FeedLoader
 import kr.beimsupicures.mycomment.api.loaders.SearchLoader
+import kr.beimsupicures.mycomment.api.loaders.TalkLoader
 import kr.beimsupicures.mycomment.api.models.FeedModel
 import kr.beimsupicures.mycomment.api.models.TermModel
 import kr.beimsupicures.mycomment.api.models.UserModel
@@ -61,6 +66,7 @@ class MainActivity : BaseActivity() {
             R.id.nav_host_fragment
         )
     }
+    var deepLink: Uri? = null
 
     var s3Url = "https://s3.ap-northeast-2.amazonaws.com/kr.beimsupicures.mycomment/feed/"
 
@@ -80,6 +86,7 @@ class MainActivity : BaseActivity() {
 
     var isSearchFragment = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -97,6 +104,18 @@ class MainActivity : BaseActivity() {
                 }
             })
 
+        Firebase.dynamicLinks
+            .getDynamicLink(intent)
+            .addOnSuccessListener { pendingDynamicLinkData ->
+                // Get deep link from result (may be null if no link is found)
+
+                if (pendingDynamicLinkData != null) {
+                    deepLink = pendingDynamicLinkData.link
+                }
+                Log.e("tjdrnr", "deeplink = " + deepLink)
+
+            }
+            .addOnFailureListener { e -> Log.e("tjdrnr", "getDynamicLink:onFailure", e) }
     }
 
     @SuppressLint("CheckResult")
@@ -115,7 +134,6 @@ class MainActivity : BaseActivity() {
 
             when (destination.id) {
                 R.id.splashFragment -> {
-
                     toolbar.visibility = View.GONE
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
@@ -130,11 +148,7 @@ class MainActivity : BaseActivity() {
                     toolbar.btnBack.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.VISIBLE
-                }
-                R.id.changePasswordFragment -> {
-                    toolbar.titleLabel.text = "비밀번호 변경"
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
+                    toolbar.searchCancel.visibility = View.GONE
                 }
                 R.id.termFragment -> {
                     arguments?.let { arguments ->
@@ -153,26 +167,6 @@ class MainActivity : BaseActivity() {
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
                 }
-                R.id.certificationFragment -> {
-                    toolbar.titleLabel.text = "본인인증"
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
-                }
-                R.id.forgotNicknameFragment -> {
-                    toolbar.titleLabel.text = "아이디 찾기"
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
-                }
-                R.id.forgotPasswordFragment -> {
-                    toolbar.titleLabel.text = "비밀번호 찾기"
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
-                }
-                R.id.signUpFragment -> {
-                    toolbar.titleLabel.text = "회원가입"
-                    toolbar.btnProfile.visibility = View.GONE
-                    toolbar.btnClose.visibility = View.GONE
-                }
                 //메인 화면
                 R.id.talkFragment -> {
                     isSearchFragment = false
@@ -184,6 +178,43 @@ class MainActivity : BaseActivity() {
                     toolbar.searchView.visibility = View.VISIBLE
                     toolbar.searchCancel.visibility = View.GONE
                     toolbar.searchField.visibility = View.GONE
+                    if (deepLink != null) {
+                        val homeLink = "https://mycomment.kr/"
+                        val category =
+                            deepLink.toString().substringAfter(homeLink).substringBefore("/")
+
+                        when (category) {
+                            "talk" -> {
+                                val id = deepLink.toString().substringAfter(homeLink).substringAfter("/")
+                                TalkLoader.shared.getTalk(id.toInt()) {
+                                    val action =
+                                        NavigationDirections.actionGlobalTalkDetailFragment(it)
+                                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                                        .navigate(action)
+                                }
+                            }
+                            "feed" -> {
+                                val talkId = deepLink.toString().substringAfter(homeLink).substringAfter("/")
+                                val feedSeq = deepLink.toString().substringAfter(homeLink).substringAfter("/").substringAfter("/")
+//                                FeedLoader.shared.getFeedList(talkId.toInt(),) {
+//                                    BaseApplication.shared.getSharedPreferences()
+//                                        .setFeedId(model.feed_seq)
+//                                    BaseApplication.shared.getSharedPreferences().setFeed(model)
+//
+//                                    val action =
+//                                        NavigationDirections.actionGlobalDramaFeedDetailFragment()
+//                                    Navigation.findNavController(this, R.id.nav_host_fragment)
+//                                        .navigate(action)
+//
+//                                }
+
+                            }
+                        }
+//                        if (category == "talk") {
+//
+//                        }
+                        deepLink = null
+                    }
                 }
                 R.id.talkDetailFragment -> {
 
@@ -216,6 +247,7 @@ class MainActivity : BaseActivity() {
                     toolbar.btnBookmark.visibility = View.GONE
                     toolbar.btnProfile.visibility = View.GONE
                     toolbar.btnClose.visibility = View.GONE
+
                 }
                 R.id.dramaFeedWriteFragment -> {
 
@@ -722,8 +754,8 @@ class MainActivity : BaseActivity() {
                 (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as DramaFeedDetailFragment).let { fragment ->
                     val bottomSheet =
                         kr.beimsupicures.mycomment.components.dialogs.BottomSheetDialog()
-                    if (!bottomSheet.isVisible){
-                    bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+                    if (!bottomSheet.isVisible) {
+                        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
                     }
                 }
 
@@ -734,6 +766,8 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+
+
     }
 
     override fun onBackPressed() {
@@ -803,6 +837,10 @@ class MainActivity : BaseActivity() {
         return stream.toByteArray()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
 
     private fun getImageRotation(imageFile: File): Int {
         var exif: ExifInterface? = null

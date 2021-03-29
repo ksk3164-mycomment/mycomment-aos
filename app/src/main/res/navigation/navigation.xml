@@ -7,6 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
+        tools:layout="@layout/fragment_splash"
         android:name="kr.beimsupicures.mycomment.controllers.splash.SplashFragment"
         android:label="">
         <action
@@ -14,26 +15,17 @@
             app:destination="@id/signInFragment" />
         <action
             android:id="@+id/action_splashFragment_to_talkFragment"
-            app:destination="@id/talkFragment" />
+            app:destination="@id/talkFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
         android:name="kr.beimsupicures.mycomment.controllers.signs.SignInFragment"
+        tools:layout="@layout/fragment_sign_in"
         android:label="">
-        <action
-            android:id="@+id/action_signInFragment_to_certificationFragment"
-            app:destination="@id/certificationFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_signInFragment_to_forgotPasswordFragment"
-            app:destination="@id/forgotPasswordFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_signInFragment_to_termFragment"
             app:destination="@id/termFragment"
@@ -53,64 +45,25 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
-        android:id="@+id/certificationFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment"
-        android:label="">
-        <argument
-            android:name="category"
-            android:defaultValue="signup"
-            app:argType="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment$Category" />
-        <action
-            android:id="@+id/action_certificationFragment_to_forgotNicknameFragment"
-            app:destination="@id/forgotNicknameFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="nickname"
-            android:defaultValue='""'
-            app:argType="string" />
-        <action
-            android:id="@+id/action_certificationFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/forgotPasswordFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.signs.forgot.ForgotPasswordFragment"
-        android:label="">
-        <argument
-            android:name="category"
-            android:defaultValue="password"
-            app:argType="kr.beimsupicures.mycomment.controllers.signs.CertificationFragment$Category" />
-    </fragment>
-    <fragment
+        tools:layout="@layout/fragment_bookmark"
         android:id="@+id/bookmarkFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.bookmark.BookmarkFragment" />
     <fragment
         android:id="@+id/profileFragment"
+        tools:layout="@layout/fragment_profile"
         android:name="kr.beimsupicures.mycomment.controllers.main.profile.ProfileFragment">
         <argument
             android:name="userId"
             android:defaultValue="1"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_profileFragment_to_changePasswordFragment"
-            app:destination="@id/changePasswordFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
+        tools:layout="@layout/fragment_organization"
         android:id="@+id/organizationFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.organization.OrganizationFragment" />
     <fragment
+        tools:layout="@layout/fragment_drama_feed_modify"
         android:id="@+id/dramaFeedModifyFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedModifyFragment" />
     <action
@@ -135,18 +88,7 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
-        android:id="@+id/changePasswordFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.main.profile.password.ChangePasswordFragment">
-        <argument
-            android:name="nickname"
-            android:defaultValue='""'
-            app:argType="string" />
-        <argument
-            android:name="category"
-            android:defaultValue="change"
-            app:argType="kr.beimsupicures.mycomment.controllers.main.profile.password.ChangePasswordFragment$Category" />
-    </fragment>
-    <fragment
+        tools:layout="@layout/fragment_term"
         android:id="@+id/termFragment"
         android:name="kr.beimsupicures.mycomment.controllers.general.TermFragment">
         <argument
@@ -161,50 +103,9 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
-    <action
-        android:id="@+id/action_global_certificationFragment"
-        app:destination="@id/certificationFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right" />
-    <fragment
-        android:id="@+id/forgotNicknameFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.signs.forgot.ForgotNicknameFragment">
-        <argument
-            android:name="uniqueKey"
-            android:defaultValue='""'
-            app:argType="string" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_changePasswordFragment"
-        app:destination="@id/changePasswordFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right" />
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="kr.beimsupicures.mycomment.controllers.signs.SignUpFragment">
-        <argument
-            android:name="uniqueKey"
-            android:defaultValue='""'
-            app:argType="string" />
-        <argument
-            android:name="name"
-            android:defaultValue='""'
-            app:argType="string" />
-        <argument
-            android:name="birth"
-            android:defaultValue='""'
-            app:argType="string" />
-        <argument
-            android:name="gender"
-            android:defaultValue="male"
-            app:argType="kr.beimsupicures.mycomment.common.iamport.IAMPortCertificationResult$Gender" />
-    </fragment>
     <fragment
         android:id="@+id/talkFragment"
+        tools:layout="@layout/fragment_talk"
         android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkFragment">
         <action
             android:id="@+id/action_talkFragment_to_searchTalkFragment"
@@ -229,11 +130,13 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_search_talk"
         android:id="@+id/searchTalkFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.search.SearchTalkFragment" />
     <fragment
         android:id="@+id/talkDetailFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.talk.TalkDetailFragment"
+        tools:layout="@layout/fragment_talk_detail"
         android:label="TalkDetailFragment">
         <argument
             android:name="talk"
@@ -247,6 +150,7 @@
             app:destination="@id/dramaFeedDetailFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_real_time_talk"
         android:id="@+id/RealTimeTalkFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.talk.RealTimeTalkFragment"
         android:label="RealTimeTalkFragment">
@@ -266,6 +170,7 @@
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
+        tools:layout="@layout/fragment_sign_step1"
         android:id="@+id/signStep1Fragment"
         android:name="kr.beimsupicures.mycomment.controllers.signs.SignStep1Fragment">
         <argument
@@ -274,8 +179,10 @@
     </fragment>
     <fragment
         android:id="@+id/agreeDialog"
-        android:name="kr.beimsupicures.mycomment.components.dialogs.AgreeDialog" />
+        android:name="kr.beimsupicures.mycomment.components.dialogs.AgreeDialog"
+        tools:layout="@layout/dialog_agree" />
     <fragment
+        tools:layout="@layout/fragment_webview"
         android:id="@+id/webViewFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.detail.webview.WebViewFragment"
         android:label="WebViewFragment">
@@ -326,6 +233,7 @@
             app:destination="@id/dramaFeedDetailFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_feed_detail_talk"
         android:id="@+id/dramaFeedDetailFragment"
         android:name="kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedDetailFragment"
         android:label="DramaFeedDetailFragment">

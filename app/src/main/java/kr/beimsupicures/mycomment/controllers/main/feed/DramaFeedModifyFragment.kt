@@ -17,7 +17,6 @@ import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
 import kr.beimsupicures.mycomment.extensions.getFeedId
 import kr.beimsupicures.mycomment.extensions.getSharedPreferences
-import kr.beimsupicures.mycomment.extensions.setFeedId
 
 class DramaFeedModifyFragment : BaseFragment() {
 

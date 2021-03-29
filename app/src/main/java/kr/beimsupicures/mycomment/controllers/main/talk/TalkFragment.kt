@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -27,16 +26,15 @@ import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.*
 import kr.beimsupicures.mycomment.api.models.*
-import kr.beimsupicures.mycomment.components.adapters.*
+import kr.beimsupicures.mycomment.components.adapters.BannerAdapter
+import kr.beimsupicures.mycomment.components.adapters.TalkBookmarkAdapter
+import kr.beimsupicures.mycomment.components.adapters.TalkTodayAdapter
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
-import kr.beimsupicures.mycomment.controllers.signs.SignInFragmentDirections
 import kr.beimsupicures.mycomment.extensions.*
 import kr.beimsupicures.mycomment.services.MCFirebaseMessagingService
-import kr.beimsupicures.mycomment.viewmodels.signs.SignStep1ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.security.auth.login.LoginException
 
 class TalkFragment : BaseFragment() {
 
@@ -71,6 +69,7 @@ class TalkFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.e("tjdrnr", "onCreateView")
         when (activity?.intent?.getStringExtra("Redirection") ?: null) {
             MCFirebaseMessagingService.Redirection.TalkDetail.value -> {
                 activity?.intent?.getStringExtra("Payload")?.let { payload ->
@@ -108,19 +107,25 @@ class TalkFragment : BaseFragment() {
             }
             else -> {
             }
+
         }
+
         BaseApplication.shared.getSharedPreferences().setCurrentTalkId(-1)
         activity?.intent?.removeExtra("Redirection")
+        activity?.intent?.removeExtra("deepLink")
         activity?.intent?.removeExtra("Payload")
         return inflater.inflate(R.layout.fragment_talk, container, false)
+
     }
 
     override fun onResume() {
+        Log.e("tjdrnr", "onResume")
         super.onResume()
         fetchModel()
     }
 
     override fun loadModel() {
+        Log.e("tjdrnr", "loadModel")
         super.loadModel()
         val day = Calendar.getInstance()
         day.add(Calendar.DATE, -1)
@@ -176,10 +181,12 @@ class TalkFragment : BaseFragment() {
                 }
             }
         }
+
     }
 
     override fun loadUI() {
         super.loadUI()
+        Log.e("tjdrnr", "loadUI")
 
         view?.let { view ->
 
@@ -254,15 +261,17 @@ class TalkFragment : BaseFragment() {
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             rvDrama.adapter = dramaAdapter
 
+
         }
     }
 
     override fun fetchModel() {
+        Log.e("tjdrnr", "fetchModel")
         super.fetchModel()
 
         TalkLoader.shared.getTalkList {
             this.talk = it.toMutableList()
-            var talkfilter =
+            val talkfilter =
                 this.talk.filter { model -> model.live == 2 }.sortedBy { data -> data.talk_count }
                     .reversed()
             this.talk = talkfilter.toMutableList()
@@ -276,9 +285,14 @@ class TalkFragment : BaseFragment() {
             this.ad = ad
             bannerAdapter.items = this.ad
             bannerAdapter.notifyDataSetChanged()
+
         }
 
-        getUserBookmarkTalk()
+        UserLoader.shared.getUserBookmarkTalk { bookmark ->
+            this.bookmark = bookmark.toMutableList()
+            bookMarkAdapter.items = this.bookmark
+            bookMarkAdapter.notifyDataSetChanged()
+        }
     }
 
     fun sort(talk: MutableList<TalkModel>): MutableList<TalkModel> {
@@ -302,10 +316,3 @@ fun TalkFragment.makeMentionModel(payload: String): MentionModel? {
     return gson.fromJson(payload, MentionModel::class.java)
 }
 
-fun TalkFragment.getUserBookmarkTalk() {
-    UserLoader.shared.getUserBookmarkTalk { bookmark ->
-        this.bookmark = bookmark.toMutableList()
-        bookMarkAdapter.items = this.bookmark
-        bookMarkAdapter.notifyDataSetChanged()
-    }
-}

@@ -1,8 +1,12 @@
 package kr.beimsupicures.mycomment.controllers.main.talk
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -23,6 +28,9 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.dynamiclinks.ShortDynamicLink
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.PickLoader
@@ -32,8 +40,11 @@ import kr.beimsupicures.mycomment.common.keyboard.showKeyboard
 import kr.beimsupicures.mycomment.components.application.BaseApplication
 import kr.beimsupicures.mycomment.components.dialogs.WaterDropDialog
 import kr.beimsupicures.mycomment.components.fragments.BaseFragment
+import kr.beimsupicures.mycomment.components.fragments.startLoadingUI
+import kr.beimsupicures.mycomment.components.fragments.stopLoadingUI
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedFragment
 import kr.beimsupicures.mycomment.extensions.*
+import java.lang.Exception
 
 
 class TalkDetailFragment : BaseFragment() {
@@ -43,6 +54,7 @@ class TalkDetailFragment : BaseFragment() {
     lateinit var titleLabel: TextView
     lateinit var contentLabel: TextView
     lateinit var bookmarkView: ImageView
+    lateinit var ivShare: ImageView
     lateinit var ivNetflix: ImageView
     lateinit var ivTving: ImageView
     lateinit var ivWave: ImageView
@@ -56,7 +68,7 @@ class TalkDetailFragment : BaseFragment() {
 
     lateinit var viewModel: MyViewModel
 
-    var validation: Boolean = false
+    val validation: Boolean
         get() = when {
             messageField.text.isEmpty() -> false
             else -> true
@@ -69,7 +81,6 @@ class TalkDetailFragment : BaseFragment() {
             messageField.setText(t)
             showKeyboard(requireActivity(), messageField)
         })
-
     }
 
     private lateinit var viewPager: ViewPager2
@@ -105,7 +116,6 @@ class TalkDetailFragment : BaseFragment() {
 
         view?.let { view ->
 
-
             ivContentImage = view.findViewById(R.id.ivContentImage)
 
             ivNetflix = view.findViewById(R.id.ivNetflix)
@@ -116,6 +126,7 @@ class TalkDetailFragment : BaseFragment() {
             titleLabel = view.findViewById(R.id.titleLabel)
             contentLabel = view.findViewById(R.id.contentLabel)
             bookmarkView = view.findViewById(R.id.bookmarkView)
+            ivShare = view.findViewById(R.id.ivShare)
 
             messageWrapperView = view.findViewById(R.id.messageWrapperView)
             floatingButton = view.findViewById(R.id.floating_button)
@@ -134,8 +145,11 @@ class TalkDetailFragment : BaseFragment() {
                 TabLayoutMediator(tabLayouts, viewPager) { tab, position ->
                     tab.text = tabTextList[position]
                 }.attach()
-                viewPager.isUserInputEnabled = false
+//                viewPager.isUserInputEnabled = false
 
+                viewPager.apply {
+                    (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                }
                 viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
@@ -223,7 +237,7 @@ class TalkDetailFragment : BaseFragment() {
                     .override(Target.SIZE_ORIGINAL)
                     .into(ivContentImage)
                 ivContentImage.setOnClickListener { view ->
-                    if (!values.banner_url.isNullOrBlank()){
+                    if (!values.banner_url.isNullOrBlank()) {
                         val action =
                             NavigationDirections.actionGlobalWebViewFragment(values, null)
                         view.findNavController().navigate(action)
@@ -251,7 +265,7 @@ class TalkDetailFragment : BaseFragment() {
                                     PickModel.Category.talk,
                                     values.id
                                 ) { pickModel ->
-                                    var newValue = talk
+                                    val newValue = talk
                                     if (newValue != null) {
                                         newValue.pick = pickModel.pick()
                                     }
@@ -306,8 +320,47 @@ class TalkDetailFragment : BaseFragment() {
                         }
                     }
                 }
+                ivShare.setOnClickListener {
+                    startLoadingUI()
+                    val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                        .setLink(getCheckDeepLink()) //정보를 담는 json 사이트를 넣자!!
+                        .setDomainUriPrefix("https://mycomment.page.link/")
+                        .setAndroidParameters(
+                            AndroidParameters.Builder(activity?.packageName.toString()).build()
+                        )
+                        .buildDynamicLink()
+                    val dylinkuri = dynamicLink.uri //긴 URI
+                    Log.e("tjdrnr", "long uri : $dylinkuri")
+                    //짧은 URI사용
+                    FirebaseDynamicLinks.getInstance().createDynamicLink()
+                        .setLongLink(dylinkuri)
+                        .buildShortDynamicLink()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                stopLoadingUI()
+                                val shortLink: Uri? = task.result?.shortLink
+                                val flowchartLink: Uri? = task.result?.previewLink
+                                Log.e("tjdrnr", "short uri : $shortLink") //짧은 URI
+                                Log.e("tjdrnr", "flowchartLink uri : $flowchartLink") //짧은 URI
+                                try {
+                                    val intent = Intent(Intent.ACTION_SEND)
+                                    intent.type = "text/plain"
+                                    intent.putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        shortLink.toString()
+                                    ) // text는 공유하고 싶은 글자
 
+                                    val chooser = Intent.createChooser(intent, "공유하기")
+                                    startActivity(chooser)
+                                } catch (e: ActivityNotFoundException) {
 
+                                }
+
+                            } else {
+                                Log.e("tjdrnr", "exception" + task.exception.toString())
+                            }
+                        }
+                }
             }
         }
     }
@@ -341,5 +394,36 @@ class TalkDetailFragment : BaseFragment() {
         }
     }
 
+    //deeplink uri만들기
+    private fun getCheckDeepLink(): Uri {
+        // 인증 할 key값 생성 후 넣기
+        return Uri.parse("https://mycomment.kr/talk/${this.talk?.id}")
+    }
+//    private val DEEPLINK_URL = "https://mycomment.kr/"
+//    private val SHORT_DYNAMIC_LINK = "https://mycomment.page.link/"
+//    private val PACKAGE_NAME = "kr.beimsupicures.mycomment.controllers.main.talk"
+//
+//    private fun createDynamicLink(): String {
+//        return FirebaseDynamicLinks.getInstance()
+//            .createDynamicLink()
+//            .setLink(Uri.parse(DEEPLINK_URL))
+//            .setDomainUriPrefix(SHORT_DYNAMIC_LINK )
+//            .setAndroidParameters(
+//                AndroidParameters.Builder(PACKAGE_NAME)
+//                    .build()
+//            )
+//            .buildDynamicLink()
+//            .uri.toString() + "talk/${this.talk?.id}"
+//    }
+//
+//    //deeplink uri만들기
+//    private fun getCheckDeepLink(): Uri {
+//        // 인증 할 key값 생성 후 넣기
+//        var talk = "talk"
+//        var talkId = this.talk?.id
+//        return Uri.parse("https://mycomment.kr/$talk/$talkId")
+//    }
 
 }
+
+

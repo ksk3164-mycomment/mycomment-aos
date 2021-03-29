@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-invites:17.0.0'
     def nav_version = "2.3.3"
     def android_x_version = "1.1.0"
     def retrofit_version = "2.6.0"
@@ -102,6 +103,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-database:19.1.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
 
     // Carousel
     implementation 'com.github.IslamKhSh:CardSlider:1.0.1'

@@ -107,16 +107,11 @@ class DramaFeedAdapter(var activity: FragmentActivity?, var items: MutableList<F
             itemView.setOnClickListener {
                 BaseApplication.shared.getSharedPreferences().setFeedId(model.feed_seq)
                 BaseApplication.shared.getSharedPreferences().setFeed(model)
-
                 activity?.let { it
-
                     val action = NavigationDirections.actionGlobalDramaFeedDetailFragment()
                     Navigation.findNavController(it, R.id.nav_host_fragment)
                         .navigate(action)
-
                 }
-
-
             }
         }
     }
