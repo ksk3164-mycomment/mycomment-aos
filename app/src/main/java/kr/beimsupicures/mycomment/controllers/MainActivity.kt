@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -20,6 +21,7 @@ import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -78,16 +80,13 @@ class MainActivity : BaseActivity() {
     val toolbar: Toolbar by lazy {
         findViewById<Toolbar>(R.id.toolbar)
     }
-
-//    val searchViewConst: ConstraintLayout by lazy {
-//        findViewById<ConstraintLayout>(R.id.searchViewConst)
-//    }
-
 //    val navView: BottomNavigationView by lazy {
 //        findViewById<BottomNavigationView>(R.id.nav_view)
 //    }
 
     var isSearchFragment = false
+    //뒤로가기 연속 클릭 대기 시간
+    var mBackWait:Long = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -216,9 +215,6 @@ class MainActivity : BaseActivity() {
 
                             }
                         }
-//                        if (category == "talk") {
-//
-//                        }
                         deepLink = null
                     }
                 }
@@ -830,11 +826,18 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
+        // 뒤로가기 버튼 클릭
+
         navController.currentDestination?.id.let { id ->
             when (id) {
                 R.id.splashFragment, R.id.talkFragment -> {
-                    moveTaskToBack(true)
-                    finishAffinity()
+                    if(System.currentTimeMillis() - mBackWait >=2000 ) {
+                        mBackWait = System.currentTimeMillis()
+                        Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        moveTaskToBack(true)
+                        finishAffinity()
+                    }
                 }
                 R.id.dramaFeedWriteFragment, R.id.dramaFeedModifyFragment -> {
                     popup("페이지를 벗어나면 작성하신 내용이\n저장되지 않습니다.", "작성을 그만하시겠어요?") {

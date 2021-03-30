@@ -1,6 +1,7 @@
 package kr.beimsupicures.mycomment.api
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import kr.beimsupicures.mycomment.BuildConfig
 import kr.beimsupicures.mycomment.components.application.BaseApplication
@@ -33,7 +34,7 @@ class APIClient {
             builder.addNetworkInterceptor { chain ->
                 chain.proceed(
                     chain.request()
-                        .newBuilder().header("User-Agent", "android/${BuildConfig.VERSION_NAME}").build()
+                        .newBuilder().header("User-Agent", "${Build.MODEL}/${BuildConfig.VERSION_NAME}").build()
                 )
             }
             return builder.build()
