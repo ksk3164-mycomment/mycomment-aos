@@ -28,6 +28,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ShortDynamicLink
@@ -327,6 +328,9 @@ class TalkDetailFragment : BaseFragment() {
                         .setDomainUriPrefix("https://mycomment.page.link/")
                         .setAndroidParameters(
                             AndroidParameters.Builder(activity?.packageName.toString()).build()
+                        )
+                        .setIosParameters(
+                            DynamicLink.IosParameters.Builder("kr.beimsupicures.mycomment").build()
                         )
                         .buildDynamicLink()
                     val dylinkuri = dynamicLink.uri //긴 URI

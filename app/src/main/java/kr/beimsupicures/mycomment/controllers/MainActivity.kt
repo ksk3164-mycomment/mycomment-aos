@@ -782,6 +782,9 @@ class MainActivity : BaseActivity() {
                         .setAndroidParameters(
                             DynamicLink.AndroidParameters.Builder(this.packageName.toString()).build()
                         )
+                        .setIosParameters(
+                            DynamicLink.IosParameters.Builder("kr.beimsupicures.mycomment").build()
+                        )
                         .buildDynamicLink()
                     val dylinkuri = dynamicLink.uri //긴 URI
                     Log.e("tjdrnr", "long uri : $dylinkuri")
