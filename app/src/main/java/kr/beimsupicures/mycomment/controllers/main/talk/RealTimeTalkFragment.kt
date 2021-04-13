@@ -53,7 +53,7 @@ class RealTimeTalkFragment(val viewModel: TalkModel) : BaseFragment(),
     lateinit var floatingMessage: TextView
 
     //    lateinit var messageField: EditText
-//    lateinit var btnSend: ImageView
+    //    lateinit var btnSend: ImageView
     lateinit var detailAdapter: TalkDetailAdapter
     lateinit var rvRealtimeTalk: RecyclerView
     lateinit var viewModel2: MyViewModel

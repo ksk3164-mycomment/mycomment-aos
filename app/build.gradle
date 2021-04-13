@@ -142,7 +142,11 @@ dependencies {
     //editor
     implementation 'jp.wasabeef:richeditor-android:2.0.0'
 
-    //html textview
-    implementation 'org.sufficientlysecure:html-textview:4.0'
+    //exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.8'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.5'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.5'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.11.5'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.8'
 
 }

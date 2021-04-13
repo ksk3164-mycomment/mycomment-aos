@@ -28,10 +28,8 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.dynamiclinks.DynamicLink
-import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
+import com.google.firebase.dynamiclinks.DynamicLink.*
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.google.firebase.dynamiclinks.ShortDynamicLink
 import kr.beimsupicures.mycomment.NavigationDirections
 import kr.beimsupicures.mycomment.R
 import kr.beimsupicures.mycomment.api.loaders.PickLoader
@@ -45,7 +43,6 @@ import kr.beimsupicures.mycomment.components.fragments.startLoadingUI
 import kr.beimsupicures.mycomment.components.fragments.stopLoadingUI
 import kr.beimsupicures.mycomment.controllers.main.feed.DramaFeedFragment
 import kr.beimsupicures.mycomment.extensions.*
-import java.lang.Exception
 
 
 class TalkDetailFragment : BaseFragment() {
@@ -86,7 +83,7 @@ class TalkDetailFragment : BaseFragment() {
 
     private lateinit var viewPager: ViewPager2
     lateinit var tabLayouts: TabLayout
-    private val tabTextList = arrayListOf("실시간톡", "드라마피드")
+    private val tabTextList = arrayListOf("실시간톡", "드라마피드","하")
 
     lateinit var realTimeTalkFragment: RealTimeTalkFragment
     lateinit var dramaFeedFragment: DramaFeedFragment
@@ -322,48 +319,63 @@ class TalkDetailFragment : BaseFragment() {
                     }
                 }
                 ivShare.setOnClickListener {
-                    startLoadingUI()
-                    val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                        .setLink(getCheckDeepLink()) //정보를 담는 json 사이트를 넣자!!
-                        .setDomainUriPrefix("https://mycomment.page.link/")
-                        .setAndroidParameters(
-                            AndroidParameters.Builder(activity?.packageName.toString()).build()
-                        )
-                        .setIosParameters(
-                            DynamicLink.IosParameters.Builder("kr.beimsupicures.mycomment").build()
-                        )
-                        .buildDynamicLink()
-                    val dylinkuri = dynamicLink.uri //긴 URI
-                    Log.e("tjdrnr", "long uri : $dylinkuri")
-                    //짧은 URI사용
-                    FirebaseDynamicLinks.getInstance().createDynamicLink()
-                        .setLongLink(dylinkuri)
-                        .buildShortDynamicLink()
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                stopLoadingUI()
-                                val shortLink: Uri? = task.result?.shortLink
-                                val flowchartLink: Uri? = task.result?.previewLink
-                                Log.e("tjdrnr", "short uri : $shortLink") //짧은 URI
-                                Log.e("tjdrnr", "flowchartLink uri : $flowchartLink") //짧은 URI
-                                try {
-                                    val intent = Intent(Intent.ACTION_SEND)
-                                    intent.type = "text/plain"
-                                    intent.putExtra(
-                                        Intent.EXTRA_TEXT,
-                                        shortLink.toString()
-                                    ) // text는 공유하고 싶은 글자
+                    BaseApplication.shared.getSharedPreferences().getUser()?.let { user ->
+                        startLoadingUI()
+                        val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                            .setLink(getCheckDeepLink()) //정보를 담는 json 사이트를 넣자!!
+                            .setDomainUriPrefix("https://mycomment.page.link/")
+                            .setAndroidParameters(
+                                AndroidParameters.Builder(activity?.packageName.toString()).build()
+                            )
+                            .setIosParameters(
+                                IosParameters.Builder("kr.beimsupicures.mycomment")
+                                    .setAppStoreId("1492390423")
+                                    .build()
+                            )
+                            .setNavigationInfoParameters(
+                                NavigationInfoParameters.Builder().setForcedRedirectEnabled(true)
+                                    .build()
+                            )
+                            .buildDynamicLink()
+                        val dylinkuri = dynamicLink.uri //긴 URI
+                        Log.e("tjdrnr", "long uri : $dylinkuri")
+                        //짧은 URI사용
+                        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                            .setLongLink(dylinkuri)
+                            .buildShortDynamicLink()
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    stopLoadingUI()
+                                    val shortLink: Uri? = task.result?.shortLink
+                                    val flowchartLink: Uri? = task.result?.previewLink
+                                    Log.e("tjdrnr", "short uri : $shortLink") //짧은 URI
+                                    Log.e("tjdrnr", "flowchartLink uri : $flowchartLink") //짧은 URI
+                                    try {
+                                        val intent = Intent(Intent.ACTION_SEND)
+                                        intent.type = "text/plain"
+                                        intent.putExtra(
+                                            Intent.EXTRA_TEXT,
+                                            shortLink.toString()
+                                        ) // text는 공유하고 싶은 글자
 
-                                    val chooser = Intent.createChooser(intent, "공유하기")
-                                    startActivity(chooser)
-                                } catch (e: ActivityNotFoundException) {
+                                        val chooser = Intent.createChooser(intent, "공유하기")
+                                        startActivity(chooser)
+                                    } catch (e: ActivityNotFoundException) {
 
+                                    }
+
+                                } else {
+                                    Log.e("tjdrnr", "exception" + task.exception.toString())
                                 }
-
-                            } else {
-                                Log.e("tjdrnr", "exception" + task.exception.toString())
+                            }
+                    } ?: run {
+                        activity?.let { activity ->
+                            activity.popup("로그인하시겠습니까?", "로그인") {
+                                Navigation.findNavController(activity, R.id.nav_host_fragment)
+                                    .navigate(R.id.action_global_signInFragment)
                             }
                         }
+                    }
                 }
             }
         }
@@ -387,13 +399,14 @@ class TalkDetailFragment : BaseFragment() {
     ) :
         FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int {
-            return 2
+            return 3
         }
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> RealTimeTalkFragment(viewModel)
-                else -> DramaFeedFragment(viewModel)
+                1 -> DramaFeedFragment(viewModel)
+                else -> TimeLineTalkFragment()
             }
         }
     }

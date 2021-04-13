@@ -85,8 +85,9 @@ class MainActivity : BaseActivity() {
 //    }
 
     var isSearchFragment = false
+
     //뒤로가기 연속 클릭 대기 시간
-    var mBackWait:Long = 0
+    var mBackWait: Long = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -205,7 +206,8 @@ class MainActivity : BaseActivity() {
                                     deepLink.toString().substringAfter(homeLink).substringAfter(
                                         "/"
                                     )
-                                BaseApplication.shared.getSharedPreferences().setFeedId(feedSeq.toInt())
+                                BaseApplication.shared.getSharedPreferences()
+                                    .setFeedId(feedSeq.toInt())
 
                                 val action =
                                     NavigationDirections.actionGlobalDramaFeedDetailFragment()
@@ -780,10 +782,18 @@ class MainActivity : BaseActivity() {
                         .setLink("https://mycomment.kr/feed/${fragment.feedDetail?.feed_seq}".toUri()) //정보를 담는 json 사이트를 넣자!!
                         .setDomainUriPrefix("https://mycomment.page.link/")
                         .setAndroidParameters(
-                            DynamicLink.AndroidParameters.Builder(this.packageName.toString()).build()
+                            DynamicLink.AndroidParameters.Builder(this.packageName.toString())
+                                .build()
                         )
                         .setIosParameters(
-                            DynamicLink.IosParameters.Builder("kr.beimsupicures.mycomment").build()
+                            DynamicLink.IosParameters.Builder("kr.beimsupicures.mycomment")
+                                .setAppStoreId("1492390423")
+                                .build()
+                        )
+                        .setNavigationInfoParameters(
+                            DynamicLink.NavigationInfoParameters.Builder()
+                                .setForcedRedirectEnabled(true)
+                                .build()
                         )
                         .buildDynamicLink()
                     val dylinkuri = dynamicLink.uri //긴 URI
@@ -834,9 +844,9 @@ class MainActivity : BaseActivity() {
         navController.currentDestination?.id.let { id ->
             when (id) {
                 R.id.splashFragment, R.id.talkFragment -> {
-                    if(System.currentTimeMillis() - mBackWait >=2000 ) {
+                    if (System.currentTimeMillis() - mBackWait >= 2000) {
                         mBackWait = System.currentTimeMillis()
-                        Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
                     } else {
                         moveTaskToBack(true)
                         finishAffinity()
